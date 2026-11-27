@@ -1,0 +1,58 @@
+# OS & Filesystem
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors & IDEs
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
+
+# Secrets & Certificates
+*.env
+*.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.pfx
+*.p12
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Binaries & Drivers
+*.exe
+*.dll
+*.sys
+*.pdb
+*.lib
+*.obj
+
+# IDA Pro Databases & Temp Files
+*.i64
+*.idb
+*.id0
+*.id1
+*.id2
+*.nam
+*.til
+
+# Logs & Temporary Files
+*.log
+*.tmp
+*.bak
+.cache/
