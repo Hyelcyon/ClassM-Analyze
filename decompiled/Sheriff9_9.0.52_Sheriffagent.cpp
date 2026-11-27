@@ -1,5 +1,4 @@
-// Decompiled from Sheriffagent.exe (Sheriff9 9.0.52)
-// Imports: ['KERNEL32', 'USER32', 'ADVAPI32', 'IPHLPAPI', 'WS2_32', 'WINMM', 'SHLWAPI', 'dbghelp']
+// Decompiled from Sheriffagent.exe (Sheriff9 9.0.52) - Native C/C++
 
 // Address: 0x401000
 _DWORD *__thiscall sub_401000(_DWORD *this, char a2)
@@ -2144,6 +2143,37 @@ void __thiscall sub_404000(_DWORD *this, char a2, rsize_t SourceSize)
   *((_BYTE *)this + SourceSize + 4) = 0;
 }
 
+// Address: 0x404050
+void __usercall sub_404050(_WORD *a1@<ebx>, unsigned int a2@<edi>, _DWORD *a3@<esi>)
+{
+  _WORD *v3; // eax
+  unsigned int v4; // ecx
+  _WORD *v5; // edx
+
+  a3[3] = 0;
+  a3[4] = 0;
+  a3[5] = 0;
+  if ( a2 != 0 )
+  {
+    if ( a2 > 0x7FFFFFFF )
+      sub_404410();
+    v3 = sub_4043B0(a2);
+    a3[5] = &v3[a2];
+    a3[3] = v3;
+    a3[4] = v3;
+    v4 = a2;
+    v5 = v3;
+    do
+    {
+      *v5 = *a1;
+      --v4;
+      ++v5;
+    }
+    while ( v4 != 0 );
+    a3[4] = &v3[a2];
+  }
+}
+
 // Address: 0x4040A0
 int __fastcall sub_4040A0(int a1, int a2, _BYTE *Source, rsize_t SourceSize)
 {
@@ -2357,19 +2387,20 @@ void *__fastcall sub_4043B0(unsigned int a1)
 }
 
 // Address: 0x404410
-void __fastcall __noreturn sub_404410(int a1, int a2, int a3, int a4)
+void __cdecl __noreturn sub_404410()
 {
-  _BYTE v4[20]; // [esp+4h] [ebp-50h] BYREF
-  int v5; // [esp+18h] [ebp-3Ch]
-  int v6; // [esp+1Ch] [ebp-38h]
+  int v0; // edx
+  _BYTE v1[20]; // [esp+4h] [ebp-50h] BYREF
+  int v2; // [esp+18h] [ebp-3Ch]
+  int v3; // [esp+1Ch] [ebp-38h]
   _DWORD pExceptionObject[13]; // [esp+20h] [ebp-34h] BYREF
 
-  v6 = 15;
-  v5 = 0;
-  v4[4] = 0;
-  sub_4040A0((int)v4, a2, "vector<T> too long", 0x12u);
+  v3 = 15;
+  v2 = 0;
+  v1[4] = 0;
+  sub_4040A0((int)v1, v0, "vector<T> too long", 0x12u);
   pExceptionObject[12] = 0;
-  sub_401BD0(pExceptionObject, (int)v4);
+  sub_401BD0(pExceptionObject, (int)v1);
   pExceptionObject[0] = &std::length_error::`vftable';
   _CxxThrowException(pExceptionObject, (_ThrowInfo *)&_TI3_AVlength_error_std__);
 }
@@ -2748,6 +2779,15 @@ _DWORD *__thiscall sub_404BC0(_DWORD *this, struct std::exception *a2)
 {
   sub_401CB0((int)this, a2);
   *this = &std::out_of_range::`vftable';
+  return this;
+}
+
+// Address: 0x404BE0
+_DWORD *__thiscall sub_404BE0(_DWORD *this, char a2)
+{
+  sub_404C00(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
   return this;
 }
 
@@ -3751,7 +3791,7 @@ void __usercall sub_406130(int a1@<eax>, int a2@<ecx>)
   else if ( v4 == 2 && *(int *)(a2 + 160) >= 3 )
   {
     v14 = sub_406080((int)v22);
-    v15 = sub_408300(&unk_42F118, v14);
+    v15 = sub_408300(&dword_42F118, v14);
     v16 = sub_408570(v15, "  ");
     v17 = sub_408570(v16, a1);
     sub_4062D0(10);
@@ -6373,12 +6413,12 @@ BOOL __usercall sub_408EF0@<eax>(int a1@<eax>, int a2@<edx>, int a3@<ecx>)
   v9[2] = a3;
   v9[4] = 0;
   v9[5] = 0;
-  if ( dword_42FE00(&v6, 1, v9) < 0 || v6 == 0 )
+  if ( NtOpenSymbolicLinkObject(&v6, 1, v9) < 0 || v6 == 0 )
     return false;
   v7[0] = 258;
   v8 = a2;
   v7[1] = 260;
-  v4 = dword_42FDFC(v6, v7, 0);
+  v4 = NtQuerySymbolicLinkObject(v6, v7, 0);
   dword_42FDF4(v6);
   return v4 >= 0;
 }
@@ -6454,22 +6494,21 @@ int sub_4091A0()
   HANDLE hFile; // [esp+28h] [ebp-A74h]
   int v11; // [esp+2Ch] [ebp-A70h]
   int Buffer; // [esp+30h] [ebp-A6Ch] BYREF
-  int v13; // [esp+34h] [ebp-A68h] BYREF
-  char Args[4]; // [esp+38h] [ebp-A64h]
-  _DWORD v15[6]; // [esp+3Ch] [ebp-A60h] BYREF
-  _BYTE v16[8]; // [esp+54h] [ebp-A48h] BYREF
-  _DWORD v17[134]; // [esp+5Ch] [ebp-A40h] BYREF
-  char v18[4]; // [esp+274h] [ebp-828h] BYREF
-  int v19; // [esp+278h] [ebp-824h]
-  int v20; // [esp+27Ch] [ebp-820h]
-  wchar_t v21[254]; // [esp+280h] [ebp-81Ch] BYREF
+  UNICODE_STRING v13; // [esp+34h] [ebp-A68h] BYREF
+  _DWORD v14[6]; // [esp+3Ch] [ebp-A60h] BYREF
+  UNICODE_STRING v15; // [esp+54h] [ebp-A48h] BYREF
+  _DWORD v16[134]; // [esp+5Ch] [ebp-A40h] BYREF
+  char v17[4]; // [esp+274h] [ebp-828h] BYREF
+  int v18; // [esp+278h] [ebp-824h]
+  int v19; // [esp+27Ch] [ebp-820h]
+  wchar_t v20[254]; // [esp+280h] [ebp-81Ch] BYREF
   wchar_t Destination[260]; // [esp+47Ch] [ebp-620h] BYREF
   WCHAR FileName[260]; // [esp+684h] [ebp-418h] BYREF
   wchar_t Source[262]; // [esp+88Ch] [ebp-210h] BYREF
 
   memset(FileName, 0, sizeof(FileName));
   Buffer = 0;
-  memset(v17, 0, sizeof(v17));
+  memset(v16, 0, sizeof(v16));
   NumberOfBytesRead = 0;
   v11 = 0;
   sub_4053E0((wchar_t *)L"UpDateReparseVolumeLetter start.");
@@ -6489,16 +6528,16 @@ int sub_4091A0()
       memset(Source, 0, 520);
       qmemcpy(Destination, L"SheriffVDisk1", 0x1Cu);
       memset(&Destination[14], 0, 0x1ECu);
-      dword_42FDF8(&v13, Destination);
+      RtlInitUnicodeString(&v13, Destination);
       v9 = 0;
-      dword_42FDF8(v16, L"\\Global??");
-      v15[0] = 24;
-      v15[1] = 0;
-      v15[3] = 64;
-      v15[2] = v16;
-      v15[4] = 0;
-      v15[5] = 0;
-      v2 = dword_42FE08(&v9, 1, v15);
+      RtlInitUnicodeString(&v15, L"\\Global??");
+      v14[0] = 24;
+      v14[1] = 0;
+      v14[3] = 64;
+      v14[2] = &v15;
+      v14[4] = 0;
+      v14[5] = 0;
+      v2 = NtOpenDirectoryObject(&v9, 1, v14);
       if ( v2 < 0 )
       {
         sub_4053E0((wchar_t *)L"Failed NtOpenDirectoryObject with 0x%08X", v2);
@@ -6507,7 +6546,7 @@ int sub_4091A0()
       {
         v3 = v9;
         if ( !sub_408EF0(v9, (int)Source, (int)&v13) )
-          sub_4053E0((wchar_t *)L"Failed QuerySymbolicLinkName (%ls)", *(_DWORD *)Args);
+          sub_4053E0((wchar_t *)L"Failed QuerySymbolicLinkName (%ls)", v13.Buffer);
         dword_42FDF4(v3);
         wcscpy_s(Destination, 0x104u, Source);
         wcscat_s(Destination, 0x104u, L"\\Partition0");
@@ -6519,33 +6558,33 @@ int sub_4091A0()
           v5 = wcslen(Destination);
           v6 = operator new(0x4000u);
           v7 = operator new(0x4000u);
-          v19 = 6029375;
-          *(_DWORD *)v18 = 4128860;
+          v18 = 6029375;
+          *(_DWORD *)v17 = 4128860;
           v11 = 1;
-          v20 = 3801155;
-          memset(v21, 0, sizeof(v21));
-          memset(v17, 0, sizeof(v17));
+          v19 = 3801155;
+          memset(v20, 0, sizeof(v20));
+          memset(v16, 0, sizeof(v16));
           memset(v6, 0, 0x4000u);
           memset(v7, 0, 0x4000u);
-          while ( ReadFile(hFile, v17, 0x218u, &NumberOfBytesRead, nullptr) )
+          while ( ReadFile(hFile, v16, 0x218u, &NumberOfBytesRead, nullptr) )
           {
             if ( NumberOfBytesRead != 536 )
               break;
-            if ( (GetFileAttributesW((LPCWSTR)&v17[3]) & 0x400) != 0 )
+            if ( (GetFileAttributesW((LPCWSTR)&v16[3]) & 0x400) != 0 )
             {
-              sub_4053E0((wchar_t *)L"Reparse Point : %ls", &v17[3]);
-              if ( sub_408DF0(v6, (const WCHAR *)&v17[3]) != 0 )
+              sub_4053E0((wchar_t *)L"Reparse Point : %ls", &v16[3]);
+              if ( sub_408DF0(v6, (const WCHAR *)&v16[3]) != 0 )
               {
                 sub_4053E0((wchar_t *)L"    PrintName : (%ls)", v6);
-                if ( sub_409070((wchar_t *)&v17[3], (wchar_t *)v7) != 0 )
+                if ( sub_409070((wchar_t *)&v16[3], (wchar_t *)v7) != 0 )
                 {
                   sub_4053E0((wchar_t *)L"    SubstituteName : (%ls)", v7);
                   if ( wcsncmp((const wchar_t *)v7, Destination, v5) == 0 )
                   {
-                    LOWORD(v20) = v9;
-                    wcscpy_s(v21, 0x104u, (const wchar_t *)v7 + v5);
-                    sub_4053E0((wchar_t *)L"NewSubstituteName : %ls", v18);
-                    if ( sub_408C20((const WCHAR *)&v17[3], (const unsigned __int16 *)v6, (const unsigned __int16 *)v18) != 0 )
+                    LOWORD(v19) = v9;
+                    wcscpy_s(v20, 0x104u, (const wchar_t *)v7 + v5);
+                    sub_4053E0((wchar_t *)L"NewSubstituteName : %ls", v17);
+                    if ( sub_408C20((const WCHAR *)&v16[3], (const unsigned __int16 *)v6, (const unsigned __int16 *)v17) != 0 )
                       sub_4053E0(L"CreateSymlink success.");
                     else
                       sub_4053E0((wchar_t *)L"CreateSymlink failed.");
@@ -6553,11 +6592,11 @@ int sub_4091A0()
                 }
               }
             }
-            v19 = 6029375;
-            *(_DWORD *)v18 = 4128860;
-            v20 = 3801155;
-            memset(v21, 0, sizeof(v21));
-            memset(v17, 0, sizeof(v17));
+            v18 = 6029375;
+            *(_DWORD *)v17 = 4128860;
+            v19 = 3801155;
+            memset(v20, 0, sizeof(v20));
+            memset(v16, 0, sizeof(v16));
             memset(v6, 0, 0x4000u);
             memset(v7, 0, 0x4000u);
           }
@@ -10870,6 +10909,26 @@ _DWORD *__cdecl __FrameUnwindToState(int a1, int a2, int a3, int a4)
   return result;
 }
 
+// Address: 0x40DAD2
+int __usercall ExFilterRethrow@<eax>(_DWORD **a1@<eax>)
+{
+  _DWORD *v1; // eax
+  int v2; // ecx
+
+  v1 = *a1;
+  if ( *v1 != -529697949 )
+    return 0;
+  if ( v1[4] != 3 )
+    return 0;
+  v2 = v1[5];
+  if ( v2 != 429065504 && v2 != 429065505 && v2 != 429065506 )
+    return 0;
+  if ( v1[7] != 0 )
+    return 0;
+  _getptd()[131] = 1;
+  return 1;
+}
+
 // Address: 0x40DB17
 void __cdecl __DestructExceptionObject(_DWORD *a1)
 {
@@ -10897,6 +10956,12 @@ int __cdecl __AdjustPointer(int a1, _DWORD *a2)
   if ( (int)a2[1] >= 0 )
     result += a2[1] + *(_DWORD *)(*(_DWORD *)(a2[1] + a1) + a2[2]);
   return result;
+}
+
+// Address: 0x40DB95
+bool __cdecl __uncaught_exception()
+{
+  return _getptd()[36] != 0;
 }
 
 // Address: 0x40DBA8
@@ -13250,7 +13315,7 @@ void *__set_flsgetvalue()
   Value = TlsGetValue(dwTlsIndex);
   if ( Value == nullptr )
   {
-    Value = _decode_pointer(lpTlsValue);
+    Value = _decode_pointer(FlsGetValue);
     TlsSetValue(dwTlsIndex, Value);
   }
   return Value;
@@ -13338,7 +13403,7 @@ DWORD *_getptd_noexit()
     {
       v10 = v4;
       v8 = dword_42C560;
-      v5 = (int (__stdcall *)(int, int))_decode_pointer((void *)dword_42F598);
+      v5 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
       if ( v5(v8, v10) != 0 )
       {
         _initptd((int)v3, 0);

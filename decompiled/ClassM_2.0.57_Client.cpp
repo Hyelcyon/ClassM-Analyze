@@ -594,6 +594,15 @@ CWnd *__stdcall sub_401A20(CWnd *a1)
   return a1;
 }
 
+// Address: 0x401A90
+_DWORD *__thiscall sub_401A90(_DWORD *this, char a2)
+{
+  sub_401AB0(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x401AB0
 int __thiscall sub_401AB0(_DWORD *this)
 {
@@ -862,6 +871,15 @@ int sub_401F50()
     return 0;
 }
 
+// Address: 0x401F70
+CGdiObject *__thiscall sub_401F70(CGdiObject *this, char a2)
+{
+  sub_401F90(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x401F90
 // bad sp value at call has been detected, the output may be wrong!
 int __thiscall sub_401F90(CGdiObject *this)
@@ -1093,6 +1111,15 @@ CDialog *__stdcall sub_402410(CDialog *a1)
   SolidBrush = CreateSolidBrush(0xFFFFFFu);
   CGdiObject::Attach((CDialog *)((char *)a1 + 128), SolidBrush);
   return a1;
+}
+
+// Address: 0x402540
+_DWORD *__thiscall sub_402540(_DWORD *this, char a2)
+{
+  sub_402560(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
 }
 
 // Address: 0x402560
@@ -2767,6 +2794,15 @@ CDialog *__stdcall sub_405110(CDialog *a1)
   return a1;
 }
 
+// Address: 0x4051F0
+_DWORD *__thiscall sub_4051F0(_DWORD *this, char a2)
+{
+  sub_405210(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x405210
 int __thiscall sub_405210(_DWORD *this)
 {
@@ -3876,6 +3912,16 @@ int (**sub_407190())()
   return &off_48D9C0;
 }
 
+// Address: 0x4071A0
+HWND__ *__thiscall sub_4071A0(HWND__ *this, char a2)
+{
+  *(_DWORD *)this = &CHddSheriffSmart_ClientView::`vftable';
+  sub_43E0F5(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x4071D0
 // attributes: thunk
 int __stdcall sub_4071D0(int a1)
@@ -4477,6 +4523,15 @@ CDialog *__stdcall sub_407E20(CDialog *a1)
   SolidBrush = CreateSolidBrush(0xFFFFFFu);
   CGdiObject::Attach((CDialog *)((char *)a1 + 324), SolidBrush);
   return a1;
+}
+
+// Address: 0x407EE0
+_DWORD *__thiscall sub_407EE0(_DWORD *this, char a2)
+{
+  sub_407F00(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
 }
 
 // Address: 0x407F00
@@ -5247,6 +5302,15 @@ HKEY __stdcall sub_409150(HKEY phkResult)
   return v1;
 }
 
+// Address: 0x409560
+HANDLE *__thiscall sub_409560(HANDLE *this, char a2)
+{
+  sub_409580(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x409580
 void __thiscall sub_409580(HANDLE *this)
 {
@@ -5957,6 +6021,25 @@ BOOL __usercall sub_40A7F0@<eax>(char Args@<cl>, int a2@<esi>)
     SetTimer(*(HWND *)(a2 + 32), 2u, 0x3E8u, nullptr);
   }
   return InvalidateRect(*(HWND *)(a2 + 2988), nullptr, true);
+}
+
+// Address: 0x40A860
+int __usercall sub_40A860@<eax>(_DWORD *a1@<esi>, int a2)
+{
+  int result; // eax
+  HWND v3; // ecx
+
+  sub_4278E0((wchar_t *)L"MTYPE_SUPER_SCREEN_UNLOCK\n");
+  result = a2;
+  if ( *(_DWORD *)(a2 + 8) == 8 )
+  {
+    sub_4278E0((wchar_t *)L"MTYPE_SUPER_SCREEN_UNLOCK KillTimer\n");
+    v3 = (HWND)a1[8];
+    a1[1577] &= ~1u;
+    KillTimer(v3, 2u);
+    return CWnd::ShowWindow((CWnd *)(a1 + 739), 0);
+  }
+  return result;
 }
 
 // Address: 0x40A8B0
@@ -9165,7 +9248,7 @@ LABEL_33:
           v29 = 260;
           while ( v29 != -2147483386 )
           {
-            v30 = *(_WORD *)((char *)v22 + &unk_48F660 - (_UNKNOWN *)v61);
+            v30 = *(_WORD *)((char *)v22 + &byte_48F660 - (_UNKNOWN *)v61);
             if ( v30 == 0 )
               break;
             *v22++ = v30;
@@ -9180,7 +9263,7 @@ LABEL_33:
           v32 = 260;
           while ( v32 != -2147483386 )
           {
-            v33 = *(_WORD *)((char *)v22 + &unk_48F66C - (_UNKNOWN *)v61);
+            v33 = *(_WORD *)((char *)v22 + &byte_48F66C - (_UNKNOWN *)v61);
             if ( v33 == 0 )
               break;
             *v22++ = v33;
@@ -10799,7 +10882,7 @@ LABEL_35:
           v33 = 260;
           while ( v33 != -2147483386 )
           {
-            v34 = *(_WORD *)((char *)v26 + &unk_48F660 - (_UNKNOWN *)v65);
+            v34 = *(_WORD *)((char *)v26 + &byte_48F660 - (_UNKNOWN *)v65);
             if ( v34 == 0 )
               break;
             *v26++ = v34;
@@ -10814,7 +10897,7 @@ LABEL_35:
           v36 = 260;
           while ( v36 != -2147483386 )
           {
-            v37 = *(_WORD *)((char *)v26 + &unk_48F66C - (_UNKNOWN *)v65);
+            v37 = *(_WORD *)((char *)v26 + &byte_48F66C - (_UNKNOWN *)v65);
             if ( v37 == 0 )
               break;
             *v26++ = v37;
@@ -13611,6 +13694,15 @@ LABEL_6:
   v40[0] = &CFont::`vftable';
   sub_401F90((CGdiObject *)v40);
   return GdipDeleteGraphics(v18);
+}
+
+// Address: 0x417BF0
+void **__thiscall sub_417BF0(void **this, char a2)
+{
+  sub_443D90(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
 }
 
 // Address: 0x417C10
@@ -17413,6 +17505,15 @@ CDialog *__stdcall sub_41E070(CDialog *a1)
     sub_401090(-2147467259);
   *((_DWORD *)a1 + 230) = (*(int (__thiscall **)(int))(*(_DWORD *)v2 + 12))(v2) + 16;
   return a1;
+}
+
+// Address: 0x41E1B0
+_DWORD *__thiscall sub_41E1B0(_DWORD *this, char a2)
+{
+  sub_41E1D0(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
 }
 
 // Address: 0x41E1D0
@@ -22351,6 +22452,15 @@ CDialog *__stdcall sub_425B70(CDialog *a1)
   return a1;
 }
 
+// Address: 0x425C80
+char *__thiscall sub_425C80(char *this, char a2)
+{
+  sub_425CA0(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x425CA0
 int __thiscall sub_425CA0(char *this)
 {
@@ -23931,7 +24041,7 @@ void __usercall sub_4285E0(int a1@<eax>, int a2@<edi>)
   else if ( v3 == 2 && *(int *)(a2 + 160) >= 3 )
   {
     v8 = sub_428530((int)v12);
-    v9 = sub_42A6D0(&unk_4A85B0, v8);
+    v9 = sub_42A6D0(&dword_4A85B0, v8);
     v10 = sub_42A940(v9, "  ");
     v11 = sub_42A940(v10, a1);
     sub_4286F0(10);
@@ -37273,7 +37383,7 @@ LABEL_24:
   }
   else
   {
-    v17 = (const wchar_t *)*sub_427510(&v18, (void **)&v19, (unsigned __int16 *)&word_493258);
+    v17 = (const wchar_t *)*sub_427510(&v18, (void **)&v19, &asc_493258);
     LOBYTE(v28) = 4;
     v14 = _wsplitpath_s(v17, Drive, 3u, Dir, 0x100u, nullptr, 0, nullptr, 0);
     sub_401000(v14);
@@ -42962,7 +43072,7 @@ int __thiscall CWinApp::Unregister(wchar_t **this)
     v6 = *(this + 21);
     v14 = 0;
     sub_404E70(v6);
-    v3 = (void **)sub_427510(&v7, (void **)&lpSubKey, (unsigned __int16 *)&word_493258);
+    v3 = (void **)sub_427510(&v7, (void **)&lpSubKey, &asc_493258);
     v5 = *(this + 26);
     LOBYTE(v14) = 1;
     sub_427510(&v10, v3, v5);
@@ -61589,7 +61699,7 @@ int __thiscall COleControlSite::ConnectSink(COleControlSite *this, const struct 
   int v6; // [esp+8h] [ebp-4h] BYREF
 
   if ( *((_DWORD *)this + 20) == 0
-    || (***((int (__stdcall ****)(_DWORD, void *, int *))this + 20))(*((_DWORD *)this + 20), &unk_48BCC4, &v5) < 0 )
+    || (***((int (__stdcall ****)(_DWORD, void *, int *))this + 20))(*((_DWORD *)this + 20), &stru_48BCC4, &v5) < 0 )
   {
     return 0;
   }
@@ -61612,7 +61722,7 @@ void __thiscall COleControlSite::DisconnectSink(COleControlSite *this, const str
 
   if ( a3 != 0
     && *((_DWORD *)this + 20) != 0
-    && (***((int (__stdcall ****)(_DWORD, void *, int *))this + 20))(*((_DWORD *)this + 20), &unk_48BCC4, &v3) >= 0 )
+    && (***((int (__stdcall ****)(_DWORD, void *, int *))this + 20))(*((_DWORD *)this + 20), &stru_48BCC4, &v3) >= 0 )
   {
     v4 = 0;
     if ( (*(int (__stdcall **)(int, const struct _GUID *, int *))(*(_DWORD *)v3 + 16))(v3, a2, &v4) >= 0 )
@@ -62615,7 +62725,7 @@ int __stdcall sub_44FAEB(int (__stdcall ***a1)(_DWORD, void *, int), int a2)
 // Address: 0x44FB04
 int __stdcall sub_44FB04(int (__stdcall ***a1)(_DWORD, void *, int), int a2)
 {
-  return (**a1)(a1, &unk_487E2C, a2);
+  return (**a1)(a1, &stru_487E2C, a2);
 }
 
 // Address: 0x44FB1D
@@ -84028,7 +84138,7 @@ void *__set_flsgetvalue()
   Value = TlsGetValue(dwTlsIndex);
   if ( Value == nullptr )
   {
-    Value = _decode_pointer(lpTlsValue);
+    Value = _decode_pointer(FlsGetValue);
     TlsSetValue(dwTlsIndex, Value);
   }
   return Value;
@@ -84039,7 +84149,7 @@ int __stdcall __fls_setvalue(int a1, int a2)
 {
   int (__stdcall *v2)(int, int); // eax
 
-  v2 = (int (__stdcall *)(int, int))_decode_pointer((void *)dword_4A7E74);
+  v2 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
   return v2(a1, a2);
 }
 
@@ -84105,12 +84215,12 @@ DWORD *_getptd_noexit()
   DWORD v1; // edi
   int (__stdcall *v2)(int); // eax
   DWORD *v3; // esi
-  DWORD *v4; // eax
-  int (__stdcall *v5)(int, DWORD *); // eax
+  int v4; // eax
+  int (__stdcall *v5)(int, int); // eax
   DWORD CurrentThreadId; // eax
   int v8; // [esp-8h] [ebp-10h]
   int v9; // [esp-4h] [ebp-Ch]
-  DWORD *v10; // [esp-4h] [ebp-Ch]
+  int v10; // [esp-4h] [ebp-Ch]
 
   LastError = GetLastError();
   v9 = dword_4A3CF8;
@@ -84119,13 +84229,13 @@ DWORD *_getptd_noexit()
   v3 = (DWORD *)v2(v9);
   if ( v3 == nullptr )
   {
-    v4 = (DWORD *)_calloc_crt(1u, 532);
-    v3 = v4;
-    if ( v4 != nullptr )
+    v4 = _calloc_crt(1u, 532);
+    v3 = (DWORD *)v4;
+    if ( v4 != 0 )
     {
       v10 = v4;
       v8 = dword_4A3CF8;
-      v5 = (int (__stdcall *)(int, DWORD *))_decode_pointer((void *)dword_4A7E74);
+      v5 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
       if ( v5(v8, v10) != 0 )
       {
         _initptd((int)v3, 0);
@@ -84217,7 +84327,7 @@ DWORD __cdecl _freeptd(void *Block)
       Block = (void *)Value(v4);
     }
     v5 = dword_4A3CF8;
-    v2 = (void (__stdcall *)(int, _DWORD))_decode_pointer((void *)dword_4A7E74);
+    v2 = (void (__stdcall *)(int, _DWORD))_decode_pointer(FlsSetValue);
     v2(v5, 0);
     _freefls(Block);
   }
