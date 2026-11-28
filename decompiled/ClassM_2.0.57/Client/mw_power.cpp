@@ -114,12 +114,12 @@ int __cdecl _get_printf_count_output()
 // Address: 0x100012B6
 int __stdcall _CRT_INIT(int a1, int a2, int a3)
 {
-  DWORD *v4; // eax
+  int v4; // eax
   DWORD *v5; // esi
-  int (__stdcall *v6)(int, DWORD *); // eax
+  int (__stdcall *v6)(int, int); // eax
   DWORD CurrentThreadId; // eax
   int v8; // [esp-8h] [ebp-10h]
-  DWORD *v9; // [esp-4h] [ebp-Ch]
+  int v9; // [esp-4h] [ebp-Ch]
 
   if ( a2 == 1 )
   {
@@ -133,7 +133,7 @@ LABEL_5:
     }
     sub_10003AC3();
     dword_1000FAA4 = (int)GetCommandLineA();
-    Source = (char *)__crtGetEnvironmentStringsA();
+    Source = __crtGetEnvironmentStringsA();
     if ( _ioinit() < 0 )
     {
 LABEL_7:
@@ -152,19 +152,19 @@ LABEL_7:
     if ( a2 == 2 )
     {
       __set_flsgetvalue();
-      v4 = (DWORD *)_calloc_crt(1u, 532);
-      v5 = v4;
-      if ( v4 == nullptr )
+      v4 = _calloc_crt(1u, 532);
+      v5 = (DWORD *)v4;
+      if ( v4 == 0 )
         return 0;
       v9 = v4;
       v8 = dword_1000D400;
-      v6 = (int (__stdcall *)(int, DWORD *))_decode_pointer(dword_1000E234);
+      v6 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
       if ( v6(v8, v9) == 0 )
       {
         free(v5);
         return 0;
       }
-      _initptd(v5, 0);
+      _initptd((int)v5, 0);
       CurrentThreadId = GetCurrentThreadId();
       v5[1] = -1;
       *v5 = CurrentThreadId;
@@ -1539,7 +1539,7 @@ void *__set_flsgetvalue()
   Value = TlsGetValue(dwTlsIndex);
   if ( Value == nullptr )
   {
-    Value = _decode_pointer(lpTlsValue);
+    Value = _decode_pointer(FlsGetValue);
     TlsSetValue(dwTlsIndex, Value);
   }
   return Value;
@@ -1587,7 +1587,7 @@ int __cdecl _initptd(int a1, int a2)
   *(_DWORD *)(a1 + 112) = 1;
   *(_BYTE *)(a1 + 200) = 67;
   *(_BYTE *)(a1 + 331) = 67;
-  *(_DWORD *)(a1 + 104) = &unk_1000D588;
+  *(_DWORD *)(a1 + 104) = &dword_1000D588;
   _lock(13);
   InterlockedIncrement(*(volatile LONG **)(a1 + 104));
   _unlock(13);
@@ -1607,12 +1607,12 @@ DWORD *_getptd_noexit()
   DWORD v1; // edi
   int (__stdcall *v2)(int); // eax
   DWORD *v3; // esi
-  DWORD *v4; // eax
-  int (__stdcall *v5)(int, DWORD *); // eax
+  int v4; // eax
+  int (__stdcall *v5)(int, int); // eax
   DWORD CurrentThreadId; // eax
   int v8; // [esp-8h] [ebp-10h]
   int v9; // [esp-4h] [ebp-Ch]
-  DWORD *v10; // [esp-4h] [ebp-Ch]
+  int v10; // [esp-4h] [ebp-Ch]
 
   LastError = GetLastError();
   v9 = dword_1000D400;
@@ -1621,13 +1621,13 @@ DWORD *_getptd_noexit()
   v3 = (DWORD *)v2(v9);
   if ( v3 == nullptr )
   {
-    v4 = (DWORD *)_calloc_crt(1u, 532);
-    v3 = v4;
-    if ( v4 != nullptr )
+    v4 = _calloc_crt(1u, 532);
+    v3 = (DWORD *)v4;
+    if ( v4 != 0 )
     {
       v10 = v4;
       v8 = dword_1000D400;
-      v5 = (int (__stdcall *)(int, DWORD *))_decode_pointer((void *)dword_1000E234);
+      v5 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
       if ( v5(v8, v10) != 0 )
       {
         _initptd((int)v3, 0);
@@ -1683,7 +1683,7 @@ void __stdcall _freefls(void *Block)
       free(*((void **)Block + 23));
     _lock(13);
     v1 = *((void **)Block + 26);
-    if ( v1 != nullptr && InterlockedDecrement(*((volatile LONG **)Block + 26)) == 0 && v1 != &unk_1000D588 )
+    if ( v1 != nullptr && InterlockedDecrement(*((volatile LONG **)Block + 26)) == 0 && v1 != &dword_1000D588 )
       free(v1);
     _unlock(13);
     _lock(12);
@@ -1717,7 +1717,7 @@ DWORD __cdecl _freeptd(void *Block)
       Block = (void *)Value(v4);
     }
     v5 = dword_1000D400;
-    v2 = (void (__stdcall *)(int, _DWORD))_decode_pointer((void *)dword_1000E234);
+    v2 = (void (__stdcall *)(int, _DWORD))_decode_pointer(FlsSetValue);
     v2(v5, 0);
     _freefls(Block);
   }
@@ -8547,6 +8547,12 @@ unsigned __int64 __stdcall _allmul(__int64 a1, __int64 a2)
 int __fastcall found_bx(int a1, int a2)
 {
   return a2 - 1;
+}
+
+// Address: 0x10009B30
+char *__cdecl strchr(const char *Str, int Val)
+{
+  return __from_strstr_to_strchr((unsigned __int8)Val, Str);
 }
 
 // Address: 0x10009B36

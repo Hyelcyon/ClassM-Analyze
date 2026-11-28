@@ -36638,6 +36638,59 @@ __CIlog10_default:
   return x;
 }
 
+// Address: 0x10027878
+long double __usercall start@<st0>(
+        char a1@<zf>,
+        int a2@<eax>,
+        __int16 a3@<dx>,
+        char a4@<fpstat>,
+        long double result@<st0>,
+        int a6,
+        int a7)
+{
+  int v7; // eax
+
+  if ( a1 )
+  {
+    if ( (a2 & 0xFFFFF) != 0 || a6 != 0 )
+    {
+      result = _convertTOStoQNaN(a2, result);
+      goto _ErrorHandling;
+    }
+    if ( (a2 & 0x80000000) == 0 )
+      goto exit_0;
+negative_x:
+    result = -2.0;
+    v7 = 1;
+    goto _ErrorHandling;
+  }
+  if ( (a7 & 0x7FF00000) != 0 )
+  {
+    if ( a7 >= 0 )
+    {
+normal:
+      result = __FYL2X__(result, 0.3010299956639811952);
+exit_0:
+      if ( dword_10084E20 == 0 && a3 != 639 && (a3 & 0x20) != 0 && (a4 & 0x20) != 0 )
+        return _startOneArgErrorHandling(8, 27, (int)"log10", result);
+      return result;
+    }
+    goto negative_x;
+  }
+  if ( (a7 & 0xFFFFF) != 0 || a6 != 0 )
+  {
+    if ( a7 >= 0 )
+      goto normal;
+    goto negative_x;
+  }
+  result = -0.0;
+  v7 = 2;
+_ErrorHandling:
+  if ( dword_10084E20 == 0 )
+    return _startOneArgErrorHandling(v7, 27, (int)"log10", result);
+  return result;
+}
+
 // Address: 0x10027930
 double __cdecl ceil(double X)
 {
@@ -38090,6 +38143,36 @@ int __cdecl _checkTOS_withFB(int a1, int a2)
   return result;
 }
 
+// Address: 0x100293A5
+// positive sp value has been detected, the output may be wrong!
+double __usercall _check_overflow_exit@<st0>(int a1@<edx>, int a2@<ecx>, double result@<st0>)
+{
+  char v3; // fps
+  int v4; // eax
+  double v5; // [esp-4h] [ebp-Ch]
+  __int16 v6; // [esp+4h] [ebp-4h]
+
+  v5 = result;
+  if ( (HIDWORD(v5) & 0x7FF00000) == 0x7FF00000 )
+  {
+    result = __FSCALE__(result, -1536.0);
+    v4 = 3;
+    if ( fabs(result) > 1.797693134862316e308 )
+      result = result * INFINITY;
+    goto have_error;
+  }
+  if ( v6 != 639 && (v6 & 0x20) == 0 && (v3 & 0x20) != 0 )
+  {
+    v4 = 8;
+have_error:
+    if ( a1 == 29 )
+      _startTwoArgErrorHandling();
+    else
+      return _startOneArgErrorHandling(v4, a1, a2, result);
+  }
+  return result;
+}
+
 // Address: 0x10029460
 void _startTwoArgErrorHandling()
 {
@@ -38097,26 +38180,22 @@ void _startTwoArgErrorHandling()
 }
 
 // Address: 0x10029477
-double __usercall _startOneArgErrorHandling@<st0>(
-        int a1@<eax>,
-        int a2@<edx>,
-        int a3@<ecx>,
-        double a4@<st0>,
-        __int16 a5,
-        int a6,
-        int a7,
-        int a8)
+double __usercall _startOneArgErrorHandling@<st0>(int a1@<eax>, int a2@<edx>, int a3@<ecx>, double a4@<st0>)
 {
-  _DWORD v9[6]; // [esp+0h] [ebp-20h] BYREF
-  double v10; // [esp+18h] [ebp-8h]
+  _DWORD v5[6]; // [esp+0h] [ebp-20h] BYREF
+  double v6; // [esp+18h] [ebp-8h]
+  int savedregs; // [esp+20h] [ebp+0h] BYREF
+  unsigned __int16 v8[4]; // [esp+28h] [ebp+8h] BYREF
+  int v9; // [esp+30h] [ebp+10h]
+  int v10; // [esp+34h] [ebp+14h]
 
-  v9[0] = a1;
-  v10 = a4;
-  v9[1] = a3;
-  v9[2] = a7;
-  v9[3] = a8;
-  _87except(a2, v9, &a5);
-  return v10;
+  v5[0] = a1;
+  v6 = a4;
+  v5[1] = a3;
+  v5[2] = v9;
+  v5[3] = v10;
+  _87except((int)&savedregs, a2, (int)v5, v8);
+  return v6;
 }
 
 // Address: 0x100294B3

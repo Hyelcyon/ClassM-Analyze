@@ -2666,6 +2666,14 @@ _QWORD *__fastcall sub_140002F10(_QWORD *a1, __int64 a2)
   return a1;
 }
 
+// Address: 0x140002F50
+// Microsoft VisualC v14 64bit runtime
+void __fastcall unknown_libname_1(_QWORD *a1)
+{
+  *a1 = &std::exception::`vftable';
+  _std_exception_destroy((__int64)(a1 + 1));
+}
+
 // Address: 0x140002F70
 const char *__fastcall sub_140002F70(__int64 a1)
 {
@@ -3215,6 +3223,13 @@ struct std::_Facet_base *__fastcall std::locale::facet::_Decref(std::locale::fac
   if ( _InterlockedAdd((volatile signed __int32 *)this + 2, 0xFFFFFFFF) == 0 )
     return this;
   return result;
+}
+
+// Address: 0x140003970
+void **__fastcall sub_140003970(_QWORD *a1)
+{
+  *a1 = &std::_Facet_base::`vftable';
+  return &std::_Facet_base::`vftable';
 }
 
 // Address: 0x140003980
@@ -4870,6 +4885,18 @@ DWORD __fastcall sub_1400055B0(__int64 a1)
     return TerminateThread(*(HANDLE *)(a1 + 8), 0);
   QueueUserAPC((PAPCFUNC)guard_check_icall_nop, *(HANDLE *)(a1 + 8), 0);
   return WaitForSingleObject(*(HANDLE *)(a1 + 8), 0xFFFFFFFF);
+}
+
+// Address: 0x140005640
+BOOL __fastcall sub_140005640(void **a1)
+{
+  void *v1; // rcx
+  BOOL result; // eax
+
+  v1 = *a1;
+  if ( v1 != nullptr )
+    return CloseHandle(v1);
+  return result;
 }
 
 // Address: 0x140005650
@@ -6637,6 +6664,13 @@ __int64 __fastcall sub_1400076F0(void **a1)
   return result;
 }
 
+// Address: 0x140007720
+void __fastcall sub_140007720(_BYTE **a1)
+{
+  if ( **a1 != 2 )
+    sub_1400F00D0(a1);
+}
+
 // Address: 0x140007730
 _QWORD *__fastcall sub_140007730(_QWORD *a1, _QWORD *a2, __int64 a3)
 {
@@ -6822,6 +6856,17 @@ HANDLE __fastcall sub_140007A50(__int64 a1)
     }
   }
   return result;
+}
+
+// Address: 0x140007AA0
+int __fastcall sub_140007AA0(__int64 a1)
+{
+  void *v1; // rax
+
+  v1 = (void *)_InterlockedExchange64((volatile __int64 *)(a1 + 16), 0);
+  if ( v1 != nullptr )
+    LODWORD(v1) = CloseHandle(v1);
+  return (int)v1;
 }
 
 // Address: 0x140007AC0
@@ -7376,6 +7421,13 @@ __int64 __fastcall sub_140008290(__int64 a1)
   return sub_14000FAF0(a1);
 }
 
+// Address: 0x1400082B0
+__int64 __fastcall sub_1400082B0(__int64 a1)
+{
+  *(_QWORD *)a1 = &boost::program_options::validation_error::`vftable';
+  return sub_140008060(a1);
+}
+
 // Address: 0x1400082C0
 _QWORD *__fastcall sub_1400082C0(_QWORD *Block, char a2)
 {
@@ -7384,6 +7436,25 @@ _QWORD *__fastcall sub_1400082C0(_QWORD *Block, char a2)
   if ( (a2 & 1) != 0 )
     j_j_j__free_base(Block);
   return Block;
+}
+
+// Address: 0x140008300
+__int64 __fastcall sub_140008300(__int64 (__fastcall ****a1)(_QWORD, __int64))
+{
+  __int64 (__fastcall ***v1)(_QWORD, __int64); // rcx
+  __int64 result; // rax
+
+  v1 = *a1;
+  if ( v1 != nullptr )
+    return (**v1)(v1, 1);
+  return result;
+}
+
+// Address: 0x140008320
+void **__fastcall sub_140008320(_QWORD *a1)
+{
+  *a1 = &boost::any::placeholder::`vftable';
+  return &boost::any::placeholder::`vftable';
 }
 
 // Address: 0x140008330
@@ -7417,6 +7488,13 @@ _QWORD *__fastcall sub_1400083A0(_QWORD *a1, char a2)
   if ( (a2 & 1) != 0 )
     j_j_j__free_base(a1);
   return a1;
+}
+
+// Address: 0x1400083D0
+void **__fastcall sub_1400083D0(_QWORD *a1)
+{
+  *a1 = &boost::program_options::abstract_variables_map::`vftable';
+  return &boost::program_options::abstract_variables_map::`vftable';
 }
 
 // Address: 0x1400083E0
@@ -13171,6 +13249,13 @@ _QWORD *__fastcall sub_14000EAB0(_QWORD *a1, char *a2)
   return a1;
 }
 
+// Address: 0x14000EB00
+_QWORD *__fastcall sub_14000EB00(_QWORD *a1, _QWORD *a2)
+{
+  sub_140013910(a1, a2, 0, 0xFFFFFFFFFFFFFFFFuLL);
+  return a1;
+}
+
 // Address: 0x14000EB20
 void *__fastcall sub_14000EB20(void *a1)
 {
@@ -15714,6 +15799,12 @@ void **__fastcall sub_140011560(__int64 a1, struct std::locale::facet *a2)
   }
   *(_QWORD *)(a1 + 112) = 0;
   return result;
+}
+
+// Address: 0x140011680
+void __fastcall sub_140011680(void **a1)
+{
+  j_j__free_base(*a1);
 }
 
 // Address: 0x140011690
@@ -42316,6 +42407,17 @@ void __fastcall std::locale::_Locimp::~_Locimp(std::locale::_Locimp *this)
   }
 }
 
+// Address: 0x14002DCC0
+__int64 __fastcall sub_14002DCC0(__int64 a1)
+{
+  __int64 result; // rax
+
+  *(_QWORD *)(*(int *)(*(_QWORD *)(a1 - 16) + 4LL) + a1 - 16) = &std::wostream::`vftable';
+  result = *(_QWORD *)(a1 - 16);
+  *(_DWORD *)(*(int *)(result + 4) + a1 - 20) = *(_DWORD *)(result + 4) - 16;
+  return result;
+}
+
 // Address: 0x14002DCF0
 __int64 __fastcall sub_14002DCF0(__int64 a1, unsigned __int16 *a2, __int64 a3)
 {
@@ -48440,7 +48542,7 @@ LABEL_95:
             v48 = v44[5];
             if ( v48 != 0 )
             {
-              v49 = (char *)&unk_140192F10 + v48;
+              v49 = (char *)&qword_140192F10 + v48;
               for ( kk = *v49; *v49 != 0; kk = *v49 )
               {
                 --v8;
@@ -106698,7 +106800,7 @@ void __fastcall sub_140075200(__int64 a1, _QWORD *a2, __int64 a3, int a4, unsign
   if ( (v10 != 0 || (v10 = sub_140098BA0(a1)) != 0)
     && v6 != nullptr
     && *((_DWORD *)v6 + 14) != 0
-    && (unsigned int)sub_140083E40("sqlite_%", *v6, &unk_140192D38, 0) != 0 )
+    && (unsigned int)sub_140083E40("sqlite_%", *v6, &byte_140192D38, 0) != 0 )
   {
     v15 = sub_140093F50(v7, v6[14]);
     v16 = *(_QWORD *)(v7 + 32);
@@ -212345,7 +212447,7 @@ __int64 __fastcall sub_1400EAC50(__int64 a1)
 {
   __int64 v2; // rax
 
-  v2 = _std_type_info_name(&qword_1401E6158, &unk_1401EF3F0);
+  v2 = _std_type_info_name(&qword_1401E6158, &stru_1401EF3F0);
   sub_1400EDFF0(a1, v2);
   return a1;
 }
@@ -212757,7 +212859,7 @@ __int64 __fastcall sub_1400EB230(__int64 a1)
 {
   __int64 v2; // rax
 
-  v2 = _std_type_info_name(&qword_1401E60E8, &unk_1401EF3F0);
+  v2 = _std_type_info_name(&qword_1401E60E8, &stru_1401EF3F0);
   sub_1400EDFF0(a1, v2);
   return a1;
 }
@@ -212767,7 +212869,7 @@ __int64 __fastcall sub_1400EB270(__int64 a1)
 {
   __int64 v2; // rax
 
-  v2 = _std_type_info_name(&qword_1401E61A0, &unk_1401EF3F0);
+  v2 = _std_type_info_name(&qword_1401E61A0, &stru_1401EF3F0);
   sub_1400EDFF0(a1, v2);
   return a1;
 }
@@ -213968,6 +214070,13 @@ __int64 __fastcall sub_1400ECA90(_QWORD *a1)
   }
   *a1 = &std::exception::`vftable';
   return _std_exception_destroy(a1 + 1);
+}
+
+// Address: 0x1400ECB30
+void (__fastcall __noreturn **__fastcall sub_1400ECB30(_QWORD *a1))()
+{
+  *a1 = off_1401792A0;
+  return off_1401792A0;
 }
 
 // Address: 0x1400ECB40
@@ -215870,7 +215979,7 @@ _QWORD *__fastcall sub_1400EE9A0(_QWORD *a1, _QWORD *a2)
 
   v12 = -2;
   v11 = 0;
-  v3 = (const char *)_std_type_info_name(*a1 + 8LL, &unk_1401EF3F0);
+  v3 = (const char *)_std_type_info_name(*a1 + 8LL, &stru_1401EF3F0);
   if ( v3 == nullptr )
   {
     v15[0] = &std::exception::`vftable';
@@ -217294,7 +217403,7 @@ void *sub_1400F02C0()
         {
           __wind
           {
-            sub_140108650(&unk_1401EE7EC);
+            sub_140108650(&dword_1401EE7EC);
             atexit(sub_14016DD10);
           }
           __unwind
@@ -217322,7 +217431,7 @@ LABEL_21:
     {
       __wind
       {
-        sub_140108650(&unk_1401EE7EC);
+        sub_140108650(&dword_1401EE7EC);
         atexit(sub_14016DD10);
       }
       __unwind
@@ -217332,7 +217441,7 @@ LABEL_21:
       Init_thread_footer(&dword_1401EE7F0);
     }
   }
-  return &unk_1401EE7EC;
+  return &dword_1401EE7EC;
 }
 
 // Address: 0x1400F03E0
@@ -236250,6 +236359,16 @@ char *__fastcall sub_140104230(__int128 *a1)
   return result;
 }
 
+// Address: 0x1401042B0
+void __fastcall sub_1401042B0(void **a1)
+{
+  void *v1; // rcx
+
+  v1 = *a1;
+  if ( v1 != nullptr )
+    j_j_j__free_base(v1);
+}
+
 // Address: 0x1401042D0
 void __fastcall sub_1401042D0(__int64 a1)
 {
@@ -236291,7 +236410,7 @@ void *sub_140104310()
         {
           __wind
           {
-            sub_140108650(&unk_1401EE8C8);
+            sub_140108650(&dword_1401EE8C8);
             atexit(sub_14016DDE0);
           }
           __unwind
@@ -236319,7 +236438,7 @@ LABEL_21:
     {
       __wind
       {
-        sub_140108650(&unk_1401EE8C8);
+        sub_140108650(&dword_1401EE8C8);
         atexit(sub_14016DDE0);
       }
       __unwind
@@ -236329,7 +236448,7 @@ LABEL_21:
       Init_thread_footer(&dword_1401EE8CC);
     }
   }
-  return &unk_1401EE8C8;
+  return &dword_1401EE8C8;
 }
 
 // Address: 0x140104430
@@ -236664,6 +236783,12 @@ void **__fastcall sub_140104890(__int64 a1)
     *(_QWORD *)a1 = &boost::detail::sp_counted_base::`vftable';
     return &boost::detail::sp_counted_base::`vftable';
   }
+}
+
+// Address: 0x140104900
+void __fastcall sub_140104900(__int64 a1)
+{
+  sub_14000FAF0((_QWORD *)(a1 + 32));
 }
 
 // Address: 0x140104910
@@ -238642,6 +238767,16 @@ unwind_state_0:
     goto unwind_state_0;
   __eh34_exit_wind_state(0, -1);
   return result;
+}
+
+// Address: 0x140106600
+void __fastcall sub_140106600(volatile signed __int32 **a1)
+{
+  volatile signed __int32 *v1; // rcx
+
+  v1 = *a1;
+  if ( v1 != nullptr && _InterlockedExchangeAdd(v1, 0xFFFFFFFF) == 1 )
+    sub_140106AB0(v1);
 }
 
 // Address: 0x140106620
@@ -245282,6 +245417,12 @@ LABEL_23:
     vmovaps xmm15, xmmword ptr [r11-0A0h]
   }
   return result;
+}
+
+// Address: 0x14010D880
+void __fastcall sub_14010D880(void **a1)
+{
+  j_j_j__free_base(*a1);
 }
 
 // Address: 0x14010D890

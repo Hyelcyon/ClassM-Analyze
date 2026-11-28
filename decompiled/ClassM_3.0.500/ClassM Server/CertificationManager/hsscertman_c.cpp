@@ -373,11 +373,31 @@ int __thiscall sub_401670(void *this)
   return atexit(sub_570410);
 }
 
+// Address: 0x4016D0
+int sub_4016D0()
+{
+  sub_405180(&dword_5C24A8);
+  dword_5C24BC = 15;
+  dword_5C24B8 = 0;
+  LOBYTE(dword_5C24A8) = 0;
+  return atexit(sub_570470);
+}
+
 // Address: 0x401710
 int sub_401710()
 {
   sub_4C01E0();
   return atexit(sub_5704D0);
+}
+
+// Address: 0x401730
+int sub_401730()
+{
+  sub_405180(&dword_5C2478);
+  dword_5C248C = 15;
+  dword_5C2488 = 0;
+  LOBYTE(dword_5C2478) = 0;
+  return atexit(sub_570540);
 }
 
 // Address: 0x401770
@@ -1268,6 +1288,20 @@ int sub_402290()
   return sub_4FAF00(&unk_5C14B8);
 }
 
+// Address: 0x4022A0
+int sub_4022A0()
+{
+  sub_4FF3D0(&dword_5C14DC);
+  return atexit(__std_execution_wake_by_address_all);
+}
+
+// Address: 0x4022C0
+int sub_4022C0()
+{
+  sub_4FF630(&dword_5C14E4);
+  return atexit(sub_570E30);
+}
+
 // Address: 0x4022E0
 int sub_4022E0()
 {
@@ -1676,6 +1710,13 @@ int sub_402722()
 void sub_40272D()
 {
   InitializeSListHead(&ListHead);
+}
+
+// Address: 0x402739
+int sub_402739()
+{
+  __ExceptionPtr::_InitBadAllocException(&dword_5C2050);
+  return atexit(sub_57117B);
 }
 
 // Address: 0x402760
@@ -15422,6 +15463,66 @@ int __cdecl sub_411B40(int a1)
   return sub_411A60(v1);
 }
 
+// Address: 0x411B60
+int __usercall sub_411B60@<eax>(int a1@<ebx>)
+{
+  int v1; // eax
+  _DWORD *v2; // ecx
+  unsigned int v3; // esi
+  int v4; // edx
+  int result; // eax
+
+  if ( xmmword_5B6158 == nullptr )
+    sub_484BB0(a1);
+  xmmword_5C20E8 = 0;
+  xmmword_5C20F8 = 0;
+  if ( dword_5B6134 != 0 )
+    v1 = ((int (__cdecl *)(int))*(&xmmword_5B6178 + 2))(3);
+  else
+    v1 = 0;
+  v2 = (_DWORD *)dword_5B61F0;
+  LODWORD(xmmword_5C20E8) = v1;
+  if ( dword_5B61F0 != 0 && dword_5B61F4 >= 100 && dword_5B61F8 > 0 )
+  {
+    DWORD2(xmmword_5C20F8) = dword_5B61F8;
+    v3 = dword_5B61F4 & 0xFFFFFFF8;
+    v4 = dword_5B61F8 - 1;
+    dword_5B61F4 &= 0xFFFFFFF8;
+    DWORD1(xmmword_5C20F8) = dword_5B61F0;
+    if ( dword_5B61F8 - 1 > 0 )
+    {
+      do
+      {
+        *v2 = (char *)v2 + v3;
+        v2 = (_DWORD *)((char *)v2 + v3);
+        --v4;
+      }
+      while ( v4 != 0 );
+    }
+    *v2 = 0;
+    LODWORD(xmmword_5C20F8) = v2 + 1;
+  }
+  else
+  {
+    LODWORD(xmmword_5C20F8) = 0;
+    dword_5B61F0 = 0;
+    dword_5B61F4 = 0;
+    dword_5B61F8 = 0;
+  }
+  if ( dword_5B61FC == 0 || dword_5B6200 < 512 || dword_5B6204 <= 0 )
+  {
+    dword_5B61FC = 0;
+    dword_5B6200 = 0;
+  }
+  result = (*(&xmmword_5B6168 + 1))(*(&xmmword_5B6168 + 3));
+  if ( result != 0 )
+  {
+    xmmword_5C20E8 = 0;
+    xmmword_5C20F8 = 0;
+  }
+  return result;
+}
+
 // Address: 0x411C80
 __int64 sub_411C80()
 {
@@ -22411,8 +22512,8 @@ int __cdecl sub_419010(int a1, const char *a2, _DWORD *a3, unsigned int a4, _DWO
   a3[13] = 0;
   a3[14] = 0;
   a3[15] = 0;
-  a3[16] = dword_5B61E0;
-  a3[17] = dword_5B61E4;
+  a3[16] = qword_5B61E0;
+  a3[17] = MEMORY[0x5B61E4];
   return 0;
 }
 
@@ -24836,6 +24937,12 @@ void __cdecl sub_41B7F0(_DWORD *a1)
   sub_412180(a1[14]);
   sub_412180(a1[12]);
   sub_412180((int)a1);
+}
+
+// Address: 0x41B850
+int __usercall sub_41B850@<eax>(int a1@<ebx>)
+{
+  return sub_484BB0(a1);
 }
 
 // Address: 0x41B870
@@ -126285,15 +126392,19 @@ LABEL_25:
 }
 
 // Address: 0x484BB0
-int __usercall sub_484BB0@<eax>(int a1@<ebx>, int a2, int a3, int a4, unsigned __int64 a5)
+int __usercall sub_484BB0@<eax>(int a1@<ebx>)
 {
-  int v5; // edi
+  int v1; // edi
   int result; // eax
-  unsigned int v7; // edx
-  int v8; // esi
-  unsigned int v9; // eax
+  unsigned int v3; // edx
+  int v4; // esi
+  unsigned int v5; // eax
+  int v6; // [esp+18h] [ebp+8h]
+  int v7; // [esp+1Ch] [ebp+Ch]
+  int v8; // [esp+20h] [ebp+10h]
+  unsigned __int64 v9; // [esp+24h] [ebp+14h]
 
-  v5 = 0;
+  v1 = 0;
   if ( dword_5B6214 != 0 )
   {
     sub_414470(a1, 21, "%s at line %d of [%.10s]", "misuse", 139745, "ada05cfa86ad7f5645450ac7a2a21c9aa6e57d2c");
@@ -126301,7 +126412,7 @@ int __usercall sub_484BB0@<eax>(int a1@<ebx>, int a2, int a3, int a4, unsigned _
   }
   else
   {
-    switch ( a2 )
+    switch ( v6 )
     {
       case 1:
         dword_5B6134 = 0;
@@ -126319,118 +126430,118 @@ int __usercall sub_484BB0@<eax>(int a1@<ebx>, int a2, int a3, int a4, unsigned _
         result = 0;
         break;
       case 4:
-        *(_OWORD *)&xmmword_5B6158 = *(_OWORD *)a3;
-        *(_OWORD *)&xmmword_5B6168 = *(_OWORD *)(a3 + 16);
+        *(_OWORD *)&xmmword_5B6158 = *(_OWORD *)v7;
+        *(_OWORD *)&xmmword_5B6168 = *(_OWORD *)(v7 + 16);
         result = 0;
         break;
       case 5:
         if ( xmmword_5B6158 == nullptr )
-          sub_484BB0(4, &off_5884E8);
-        *(_OWORD *)a3 = *(_OWORD *)&xmmword_5B6158;
-        *(_OWORD *)(a3 + 16) = *(_OWORD *)&xmmword_5B6168;
+          sub_484BB0(a1);
+        *(_OWORD *)v7 = *(_OWORD *)&xmmword_5B6158;
+        *(_OWORD *)(v7 + 16) = *(_OWORD *)&xmmword_5B6168;
         result = 0;
         break;
       case 6:
-        dword_5B61F0 = a3;
-        dword_5B61F4 = a4;
-        dword_5B61F8 = a5;
+        dword_5B61F0 = v7;
+        dword_5B61F4 = v8;
+        dword_5B61F8 = v9;
         result = 0;
         break;
       case 7:
-        dword_5B61FC = a3;
-        dword_5B6200 = a4;
-        dword_5B6204 = a5;
+        dword_5B61FC = v7;
+        dword_5B6200 = v8;
+        dword_5B6204 = v9;
         result = 0;
         break;
       case 9:
-        dword_5B6130 = a3;
+        dword_5B6130 = v7;
         result = 0;
         break;
       case 10:
-        *(_OWORD *)&xmmword_5B6178 = *(_OWORD *)a3;
-        *(_OWORD *)&xmmword_5B6188 = *(_OWORD *)(a3 + 16);
-        dword_5B6198 = *(_DWORD *)(a3 + 32);
+        *(_OWORD *)&xmmword_5B6178 = *(_OWORD *)v7;
+        *(_OWORD *)&xmmword_5B6188 = *(_OWORD *)(v7 + 16);
+        dword_5B6198 = *(_DWORD *)(v7 + 32);
         result = 0;
         break;
       case 11:
-        *(_OWORD *)a3 = *(_OWORD *)&xmmword_5B6178;
-        *(_OWORD *)(a3 + 16) = *(_OWORD *)&xmmword_5B6188;
-        *(_DWORD *)(a3 + 32) = dword_5B6198;
+        *(_OWORD *)v7 = *(_OWORD *)&xmmword_5B6178;
+        *(_OWORD *)(v7 + 16) = *(_OWORD *)&xmmword_5B6188;
+        *(_DWORD *)(v7 + 32) = dword_5B6198;
         result = 0;
         break;
       case 13:
-        dword_5B614C = a3;
-        dword_5B6150 = a4;
+        dword_5B614C = v7;
+        dword_5B6150 = v8;
         result = 0;
         break;
       case 14:
         goto LABEL_37;
       case 16:
-        dword_5B6230 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD))a3;
-        dword_5B6234 = a4;
+        dword_5B6230 = (int (__cdecl *)(_DWORD, _DWORD, _DWORD))v7;
+        dword_5B6234 = v8;
         result = 0;
         break;
       case 17:
-        dword_5B613C = a3;
+        dword_5B613C = v7;
         result = 0;
         break;
       case 18:
-        unk_5B619C = *(_OWORD *)a3;
-        *(_OWORD *)&xmmword_5B61AC = *(_OWORD *)(a3 + 16);
-        *(_OWORD *)&xmmword_5B61BC = *(_OWORD *)(a3 + 32);
-        dword_5B61CC = *(_DWORD *)(a3 + 48);
+        unk_5B619C = *(_OWORD *)v7;
+        *(_OWORD *)&xmmword_5B61AC = *(_OWORD *)(v7 + 16);
+        *(_OWORD *)&xmmword_5B61BC = *(_OWORD *)(v7 + 32);
+        dword_5B61CC = *(int (__cdecl **)(_DWORD))(v7 + 48);
         result = 0;
         break;
       case 19:
         if ( dword_5B61A4 == 0 )
-          sub_41B850();
-        *(_OWORD *)a3 = unk_5B619C;
-        *(_OWORD *)(a3 + 16) = *(_OWORD *)&xmmword_5B61AC;
-        *(_OWORD *)(a3 + 32) = *(_OWORD *)&xmmword_5B61BC;
-        *(_DWORD *)(a3 + 48) = dword_5B61CC;
+          sub_41B850(a1);
+        *(_OWORD *)v7 = unk_5B619C;
+        *(_OWORD *)(v7 + 16) = *(_OWORD *)&xmmword_5B61AC;
+        *(_OWORD *)(v7 + 32) = *(_OWORD *)&xmmword_5B61BC;
+        *(_DWORD *)(v7 + 48) = dword_5B61CC;
         result = 0;
         break;
       case 20:
-        dword_5B6140 = a3;
+        dword_5B6140 = v7;
         result = 0;
         break;
       case 22:
-        v7 = a3;
-        v8 = a4;
-        v9 = a5;
-        if ( a5 > 0x7FFF0000 )
-          v9 = 2147418112;
-        if ( a4 < 0 )
+        v3 = v7;
+        v4 = v8;
+        v5 = v9;
+        if ( v9 > 0x7FFF0000 )
+          v5 = 2147418112;
+        if ( v8 < 0 )
         {
-          v8 = 0;
-          v7 = 0;
+          v4 = 0;
+          v3 = 0;
         }
-        if ( v8 >= 0 && (v8 > 0 || v7 > v9) )
+        if ( v4 >= 0 && (v4 > 0 || v3 > v5) )
         {
-          v7 = v9;
-          v8 = 0;
+          v3 = v5;
+          v4 = 0;
         }
-        qword_5B61E8 = v9;
-        LODWORD(qword_5B61E0) = v7;
-        HIDWORD(qword_5B61E0) = v8;
+        qword_5B61E8 = v5;
+        LODWORD(qword_5B61E0) = v3;
+        HIDWORD(qword_5B61E0) = v4;
         result = 0;
         break;
       case 24:
-        *(_DWORD *)a3 = 160;
+        *(_DWORD *)v7 = 160;
         result = 0;
         break;
       case 25:
-        dword_5B6210 = a3;
+        dword_5B6210 = v7;
         result = 0;
         break;
       case 26:
-        dword_5B6154 = a3;
+        dword_5B6154 = v7;
         result = 0;
         break;
       default:
-        v5 = 1;
+        v1 = 1;
 LABEL_37:
-        result = v5;
+        result = v1;
         break;
     }
   }
@@ -141758,6 +141869,12 @@ void sub_4966A0()
     }
     CreateTimerQueueTimer(&Timer, TimerQueue, Callback, nullptr, 0x927C0u, 0, 0);
   }
+}
+
+// Address: 0x496920
+void __stdcall Callback(PVOID a1, BOOLEAN a2)
+{
+  sub_496940((void *)1);
 }
 
 // Address: 0x496940
@@ -169148,6 +169265,16 @@ char *__thiscall sub_4BE660(char *this, int a2)
     return this + 16;
 }
 
+// Address: 0x4BE690
+void __thiscall sub_4BE690(int this)
+{
+  if ( *(_BYTE *)(this + 16) != 0 )
+  {
+    sub_4F1350((void **)(this + 20));
+    *(_BYTE *)(this + 16) = 0;
+  }
+}
+
 // Address: 0x4BE6B0
 unsigned int *__thiscall sub_4BE6B0(unsigned int *this, int a2)
 {
@@ -174721,7 +174848,7 @@ static void __cdecl std::locale::_Setgloballocale(void *a1)
 static const struct std::locale *__cdecl std::locale::classic()
 {
   std::locale::_Init(false);
-  return (const struct std::locale *)&unk_5C0E58;
+  return (const struct std::locale *)&dword_5C0E58;
 }
 
 // Address: 0x4C3864
@@ -196581,6 +196708,16 @@ void __cdecl sub_4D74C0(void *Block)
   }
 }
 
+// Address: 0x4D74E0
+void __cdecl sub_4D74E0(void *Block)
+{
+  if ( Block != nullptr )
+  {
+    sub_4D7EA0((int)Block);
+    sub_4C17F6(Block);
+  }
+}
+
 // Address: 0x4D7500
 int __thiscall sub_4D7500(volatile signed __int32 **this, volatile signed __int32 *a2)
 {
@@ -199567,6 +199704,15 @@ _DWORD *__thiscall sub_4DB1F0(_DWORD *this, _DWORD *a2)
     sub_403330(a2, off_5B508C, v8);
   }
   return a2;
+}
+
+// Address: 0x4DB350
+struct std::_Facet_base *__usercall sub_4DB350@<eax>(int a1@<esi>)
+{
+  void ***v1; // eax
+
+  v1 = sub_4DC510(a1);
+  return sub_4AD5B0((int)v1);
 }
 
 // Address: 0x4DB360
@@ -209033,7 +209179,7 @@ void *sub_4E7840()
       if ( dword_5C13BC == -1 )
       {
         LOBYTE(v6) = 1;
-        sub_4FB4A0(&unk_5C13B8);
+        sub_4FB4A0(&dword_5C13B8);
         atexit(sub_570B60);
         LOBYTE(v6) = 0;
         _Init_thread_footer(v2, &dword_5C13BC);
@@ -209052,12 +209198,12 @@ void *sub_4E7840()
     if ( dword_5C13BC == -1 )
     {
       v6 = 2;
-      sub_4FB4A0(&unk_5C13B8);
+      sub_4FB4A0(&dword_5C13B8);
       atexit(sub_570B60);
       _Init_thread_footer(v2, &dword_5C13BC);
     }
   }
-  return &unk_5C13B8;
+  return &dword_5C13B8;
 }
 
 // Address: 0x4E7970
@@ -222620,7 +222766,7 @@ void *sub_4F84D0()
       if ( dword_5C1488 == -1 )
       {
         LOBYTE(v6) = 1;
-        sub_4FB4A0(&unk_5C1484);
+        sub_4FB4A0(&dword_5C1484);
         atexit(sub_570C70);
         LOBYTE(v6) = 0;
         _Init_thread_footer(v2, &dword_5C1488);
@@ -222639,12 +222785,12 @@ void *sub_4F84D0()
     if ( dword_5C1488 == -1 )
     {
       v6 = 2;
-      sub_4FB4A0(&unk_5C1484);
+      sub_4FB4A0(&dword_5C1484);
       atexit(sub_570C70);
       _Init_thread_footer(v2, &dword_5C1488);
     }
   }
-  return &unk_5C1484;
+  return &dword_5C1484;
 }
 
 // Address: 0x4F8600
@@ -222707,6 +222853,26 @@ _DWORD *__thiscall sub_4F86B0(_DWORD *this, int a2, int a3)
   }
   *this = v4;
   return this;
+}
+
+// Address: 0x4F8740
+char *__cdecl sub_4F8740(char *a1, int *a2)
+{
+  int v2; // eax
+
+  if ( *a2 == -1 )
+  {
+    sub_408570(a1, "[uninitialized]");
+    return a1;
+  }
+  else
+  {
+    v2 = sub_4F9C80(a2);
+    if ( *(_DWORD *)(v2 + 20) >= 0x10u )
+      v2 = *(_DWORD *)v2;
+    sub_408570(a1, (const char *)v2);
+    return a1;
+  }
 }
 
 // Address: 0x4F8780
@@ -230441,9 +230607,9 @@ DWORD sub_501E80()
 
 // Address: 0x501EA0
 // attributes: thunk
-void __cdecl sub_501EA0(int a1, int a2)
+void __cdecl sub_501EA0()
 {
-  sub_5021A0(a1, a2);
+  sub_5021A0();
 }
 
 // Address: 0x501EB0
@@ -230769,6 +230935,28 @@ int sub_502460()
 {
   sub_501E80();
   return 0;
+}
+
+// Address: 0x502470
+void __stdcall TlsCallback_0(int a1, int a2, int a3)
+{
+  if ( a2 == 3 )
+    sub_501EA0();
+}
+
+// Address: 0x502480
+int __stdcall sub_502480(int a1, int a2, int a3)
+{
+  if ( a2 != 0 )
+  {
+    if ( a2 == 3 )
+      sub_501EA0();
+  }
+  else
+  {
+    sub_501E80();
+  }
+  return 1;
 }
 
 // Address: 0x5024C0
@@ -279080,6 +279268,122 @@ __CIpow_default:
   return x;
 }
 
+// Address: 0x534CE4
+// local variable allocation has failed, the output may be wrong!
+long double __cdecl _pow_default(int a1, int a2, int a3, int a4)
+{
+  int v4; // ecx
+  int v5; // eax
+  double v6; // st7
+  int v7; // ecx
+  int v8; // ecx
+  int v9; // eax
+  char v11; // zf
+  long double result; // st7
+  char v13; // cl
+  int v14; // ecx
+  int v15; // ecx
+  double v17; // rt0
+  char v18; // c3
+  int v19; // eax
+  unsigned __int8 v21; // cl
+  unsigned __int8 v22; // ch
+  char v23; // cl
+  double *v24; // [esp+10h] [ebp-7Ch]
+  double *v25; // [esp+10h] [ebp-7Ch]
+  double v26[15]; // [esp+14h] [ebp-78h] BYREF
+
+  v6 = _fload_withFB(v4, &a3);
+  v7 = v5;
+  HIDWORD(v26[14]) = v5;
+  if ( (_WORD)v5 != 639 )
+    _load_CW();
+  v8 = v7 & 0x7FF00000;
+  if ( v8 == 2146435072 )
+  {
+    if ( (a3 | v5 & 0xFFFFF) != 0 )
+    {
+      _ST6 = _fload_withFB(0, &a1);
+      if ( 1.0 == _ST6 )
+        return 1.0;
+      v15 = v14 + 1;
+    }
+    else
+    {
+      _ST6 = _fload_withFB(0, &a1);
+    }
+test_base:
+    if ( (a2 & 0x7FF00000) != 0x7FF00000 || (a1 | a2 & 0xFFFFF) == 0 )
+    {
+      if ( v15 == 0 )
+      {
+        v24 = v26;
+        __asm { fsave   byte ptr [ecx+8] }
+        v19 = _powhlp(_ST6, v6, v26);
+        _ECX = v25;
+        __asm { frstor  byte ptr [ecx+8] }
+        result = *v25;
+        if ( v19 == 0 )
+          return result;
+        goto _ErrorHandling;
+      }
+      return v6 + _ST6;
+    }
+    v17 = _ST6;
+    _ST6 = v6;
+    v6 = v17;
+    __asm { fxam }
+    if ( v18 == 0 )
+      return v6 + _ST6;
+    return 1.0;
+  }
+  _ST6 = _fload_withFB(v8, &a1);
+  if ( v11 )
+  {
+    v15 = 0;
+    goto test_base;
+  }
+  if ( (v9 & 0x7FF00000) != 0 || (a1 | a2 & 0xFFFFF) != 0 )
+  {
+    if ( a2 < 0 )
+    {
+      test_whether_TOS_is_int();
+      _ST6 = -_ST6;
+      if ( v23 == 0 )
+      {
+        result = -2.0;
+_ErrorHandling:
+        if ( dword_5C1F00 == 0 )
+          _startTwoArgErrorHandling();
+        return result;
+      }
+    }
+    result = _twoToTOS(__FYL2X__(_ST6, v6));
+    if ( v13 == 1 )
+      result = -result;
+    if ( dword_5C1F00 == 0 )
+      _check_range_exit(&unk_57C270, 29);
+  }
+  else
+  {
+    if ( (a3 | a4 & 0x7FFFFFFF) == 0 )
+      return 1.0;
+    test_whether_TOS_is_int();
+    v22 = HIBYTE(a2) >> 7;
+    if ( a4 < 0 )
+    {
+      result = -0.0;
+      if ( (v21 & v22) != 0 )
+        result = --0.0;
+      goto _ErrorHandling;
+    }
+    result = 0.0;
+    if ( (v21 & v22) != 0 )
+      return -0.0;
+  }
+  return result;
+}
+
 // Address: 0x534EB1
 void test_whether_TOS_is_int()
 {
@@ -283160,7 +283464,7 @@ FARPROC __cdecl try_get_function(int a1, const CHAR *lpProcName, _DWORD *a3, _DW
   FARPROC ProcAddress; // eax
   FARPROC v9; // esi
 
-  v4 = (volatile __int32 *)((char *)&unk_5C1D88 + 4 * a1);
+  v4 = (volatile __int32 *)((char *)&dword_5C1D88 + 4 * a1);
   v5 = __ROR4__(*v4 ^ __security_cookie, __security_cookie & 0x1F);
   if ( v5 == -1 )
     return nullptr;
@@ -292139,26 +292443,22 @@ void _startTwoArgErrorHandling()
 }
 
 // Address: 0x541B97
-double __usercall _startOneArgErrorHandling@<st0>(
-        int a1@<eax>,
-        int a2@<edx>,
-        int a3@<ecx>,
-        double a4@<st0>,
-        __int16 a5,
-        int a6,
-        int a7,
-        int a8)
+double __usercall _startOneArgErrorHandling@<st0>(int a1@<eax>, int a2@<edx>, int a3@<ecx>, double a4@<st0>)
 {
-  _DWORD v9[6]; // [esp+0h] [ebp-20h] BYREF
-  double v10; // [esp+18h] [ebp-8h]
+  _DWORD v5[6]; // [esp+0h] [ebp-20h] BYREF
+  double v6; // [esp+18h] [ebp-8h]
+  int savedregs; // [esp+20h] [ebp+0h] BYREF
+  __int16 v8[4]; // [esp+28h] [ebp+8h] BYREF
+  int v9; // [esp+30h] [ebp+10h]
+  int v10; // [esp+34h] [ebp+14h]
 
-  v9[0] = a1;
-  v10 = a4;
-  v9[1] = a3;
-  v9[2] = a7;
-  v9[3] = a8;
-  _87except(a2, v9, &a5);
-  return v10;
+  v5[0] = a1;
+  v6 = a4;
+  v5[1] = a3;
+  v5[2] = v9;
+  v5[3] = v10;
+  _87except((int)&savedregs, a2, (int)v5, v8);
+  return v6;
 }
 
 // Address: 0x541BE0
@@ -292210,6 +292510,44 @@ int __cdecl _checkTOS_withFB(int a1, int a2)
 void _check_overflow_exit()
 {
   JUMPOUT(0x541CDD);
+}
+
+// Address: 0x541CC9
+// positive sp value has been detected, the output may be wrong!
+double __usercall _check_range_exit@<st0>(int a1@<edx>, int a2@<ecx>, double result@<st0>)
+{
+  char v3; // fps
+  int v4; // eax
+  double v5; // [esp-4h] [ebp-Ch]
+  __int16 v6; // [esp+4h] [ebp-4h]
+
+  v5 = result;
+  if ( (HIDWORD(v5) & 0x7FF00000) == 0 )
+  {
+    result = __FSCALE__(result, 1536.0);
+    v4 = 4;
+    if ( fabs(result) < 2.225073858507201e-308 )
+      result = result * 0.0;
+    goto have_error;
+  }
+  if ( (HIDWORD(v5) & 0x7FF00000) == 0x7FF00000 )
+  {
+    result = __FSCALE__(result, -1536.0);
+    v4 = 3;
+    if ( fabs(result) > 1.797693134862316e308 )
+      result = result * INFINITY;
+    goto have_error;
+  }
+  if ( v6 != 639 && (v6 & 0x20) == 0 && (v3 & 0x20) != 0 )
+  {
+    v4 = 8;
+have_error:
+    if ( a1 == 29 )
+      _startTwoArgErrorHandling();
+    else
+      return _startOneArgErrorHandling(v4, a1, a2, result);
+  }
+  return result;
 }
 
 // Address: 0x541D6C
@@ -296072,6 +296410,59 @@ __CIlog10_default:
     return start_1(v3, v5);
   }
   return x;
+}
+
+// Address: 0x5457E8
+long double __usercall start_1@<st0>(
+        char a1@<zf>,
+        int a2@<eax>,
+        __int16 a3@<dx>,
+        char a4@<fpstat>,
+        long double result@<st0>,
+        int a6,
+        int a7)
+{
+  int v7; // eax
+
+  if ( a1 )
+  {
+    if ( (a2 & 0xFFFFF) != 0 || a6 != 0 )
+    {
+      result = _convertTOStoQNaN(a2, result);
+      goto _ErrorHandling_0;
+    }
+    if ( (a2 & 0x80000000) == 0 )
+      goto exit_1;
+negative_x:
+    result = -2.0;
+    v7 = 1;
+    goto _ErrorHandling_0;
+  }
+  if ( (a7 & 0x7FF00000) != 0 )
+  {
+    if ( a7 >= 0 )
+    {
+normal_0:
+      result = __FYL2X__(result, 0.3010299956639811952);
+exit_1:
+      if ( dword_5C1F00 == 0 && a3 != 639 && (a3 & 0x20) != 0 && (a4 & 0x20) != 0 )
+        return _startOneArgErrorHandling(8, 27, (int)"log10", result);
+      return result;
+    }
+    goto negative_x;
+  }
+  if ( (a7 & 0xFFFFF) != 0 || a6 != 0 )
+  {
+    if ( a7 >= 0 )
+      goto normal_0;
+    goto negative_x;
+  }
+  result = -0.0;
+  v7 = 2;
+_ErrorHandling_0:
+  if ( dword_5C1F00 == 0 )
+    return _startOneArgErrorHandling(v7, 27, (int)"log10", result);
+  return result;
 }
 
 // Address: 0x5458A0
@@ -301006,6 +301397,14 @@ LABEL_22:
     goto LABEL_31;
   }
   return result;
+}
+
+// Address: 0x549BB5
+int __stdcall sub_549BB5(LPVOID lpThreadParameter)
+{
+  sub_549BCE((int)lpThreadParameter);
+  sub_5481AE(0);
+  return 0;
 }
 
 // Address: 0x549BCE
@@ -307979,7 +308378,7 @@ int __cdecl sub_54FAA4(char a1, char a2, int a3)
     v4[8] = -720526716;
     v4[9] = 1632799356;
     v4[13] = a3;
-    return sub_55476C(dword_5C1FE0, dword_5C1FE4, v4);
+    return sub_55476C(qword_5C1FE0, MEMORY[0x5C1FE4], v4);
   }
   return result;
 }
@@ -309557,7 +309956,7 @@ int __cdecl sub_550EC5(char a1, char a2, int a3, int a4)
     v5[9] = -872517224;
     v5[13] = a3;
     v5[14] = a4;
-    return sub_55476C(dword_5C1FE0, dword_5C1FE4, v5);
+    return sub_55476C(qword_5C1FE0, MEMORY[0x5C1FE4], v5);
   }
   return result;
 }
@@ -322492,6 +322891,54 @@ double __usercall _CIsqrt@<st0>(unsigned __int64 x@<st0>)
   return _sqrt_common(v2, v3);
 }
 
+// Address: 0x55D344
+long double __usercall _sqrt_common@<st0>(
+        char a1@<zf>,
+        __int16 a2@<dx>,
+        char a3@<fpstat>,
+        long double result@<st0>,
+        int a5,
+        int a6)
+{
+  int v6; // eax
+  int v7; // eax
+
+  v6 = a6;
+  if ( a1 )
+  {
+    if ( (a6 & 0xFFFFF) != 0 || a5 != 0 )
+    {
+      result = _convertTOStoQNaN(a6, result);
+      goto _Error_handling;
+    }
+    if ( (a6 & 0x80000000) == 0 )
+      goto exit_2;
+  }
+  else
+  {
+    if ( a2 != 639 )
+      _load_CW();
+    if ( v6 >= 0 )
+    {
+      result = sqrt(result);
+      goto exit_2;
+    }
+    if ( (v6 & 0x7FF00000) == 0 && (v6 & 0xFFFFF) == 0 && a5 == 0 )
+    {
+exit_2:
+      if ( dword_5C1F00 == 0 && a2 != 639 && (a2 & 0x20) != 0 && (a3 & 0x20) != 0 )
+        return _startOneArgErrorHandling(8, 5, (int)"sqrt", result);
+      return result;
+    }
+  }
+  result = -2.0;
+  v7 = 1;
+_Error_handling:
+  if ( dword_5C1F00 == 0 )
+    return _startOneArgErrorHandling(v7, 5, (int)"sqrt", result);
+  return result;
+}
+
 // Address: 0x55D3E1
 int __cdecl common_fsopen<char>(_BYTE *a1, _BYTE *a2)
 {
@@ -322705,16 +323152,17 @@ int __usercall _cintrindisp1@<eax>(int a1@<edx>, __int16 a2@<cx>, double a3@<st0
 }
 
 // Address: 0x55D8C9
-int __usercall _ctrandisp2@<eax>(double a1@<st1>, double a2@<st0>, double a3, double a4)
+int __usercall _ctrandisp2@<eax>(double a2@<st0>, double a3, double a4)
 {
-  int v4; // edx
-  __int16 v5; // fps
+  double v4; // st6
+  int v5; // edx
+  __int16 v6; // fps
   int savedregs; // [esp+2D4h] [ebp+0h] BYREF
 
   _fload(a3);
-  _fload(a4);
-  _trandisp2(v4, (int)&savedregs, v5, a1, a2);
-  return ctranexit();
+  v4 = _fload(a4);
+  _trandisp2(v5, (int)&savedregs, v6, v4, a2);
+  return ctranexit((int)&savedregs);
 }
 
 // Address: 0x55D90A

@@ -7800,7 +7800,7 @@ void __stdcall __noreturn std::_Nomemory(int a1)
     sub_40E356("bad allocation");
     atexit(sub_40E3CB);
   }
-  sub_40E3B3((struct exception *)&unk_4400D0);
+  sub_40E3B3((struct exception *)&dword_4400D0);
   _CxxThrowException(pExceptionObject, (_ThrowInfo *)&_TI2_AVbad_alloc_std__);
 }
 
@@ -10978,6 +10978,18 @@ int *__cdecl sub_411108(unsigned int a1)
     *result = 13;
   }
   return result;
+}
+
+// Address: 0x41117B
+int *__cdecl _errno()
+{
+  return _getptd() + 2;
+}
+
+// Address: 0x411184
+unsigned int *__cdecl __doserrno()
+{
+  return _getptd() + 3;
 }
 
 // Address: 0x41118D
@@ -16765,7 +16777,7 @@ char __cdecl fix_grouping_0(char *a1)
 // Address: 0x416DF3
 void __cdecl _free_lc_lconv(LPVOID *a1)
 {
-  if ( a1 != nullptr && a1[3] != &unk_440364 )
+  if ( a1 != nullptr && a1[3] != &word_440364 )
   {
     sub_40E649(a1[3]);
     sub_40E649(a1[4]);

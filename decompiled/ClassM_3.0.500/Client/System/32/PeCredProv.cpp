@@ -322,6 +322,13 @@ int __stdcall sub_100010EB(int a1, int a2, int a3)
   return sub_10002650(a1, a2, a3);
 }
 
+// Address: 0x100010F0
+// attributes: thunk
+void sub_100010F0()
+{
+  JUMPOUT(0x100016E0);
+}
+
 // Address: 0x100010F5
 // attributes: thunk
 int sub_100010F5()
@@ -9135,7 +9142,7 @@ LABEL_210:
     if ( (unsigned __int16)(v7 - 32) > 0x58u )
       v10 = 0;
     else
-      v10 = *(&byte_100360A0 + (unsigned __int16)v7) & 0xF;
+      v10 = *(&aC_0 + (unsigned __int16)v7) & 0xF;
     v55 = byte_100360C0[8 * v10 + v8] >> 4;
     switch ( v55 )
     {
@@ -9969,6 +9976,26 @@ _DWORD *__cdecl __FrameUnwindToState(int a1, int a2, int a3, int a4)
   return result;
 }
 
+// Address: 0x1000CF38
+int __usercall ExFilterRethrow@<eax>(_DWORD **a1@<eax>)
+{
+  _DWORD *v1; // eax
+  int v2; // ecx
+
+  v1 = *a1;
+  if ( *v1 != -529697949 )
+    return 0;
+  if ( v1[4] != 3 )
+    return 0;
+  v2 = v1[5];
+  if ( v2 != 429065504 && v2 != 429065505 && v2 != 429065506 )
+    return 0;
+  if ( v1[7] != 0 )
+    return 0;
+  _getptd()[131] = 1;
+  return 1;
+}
+
 // Address: 0x1000CF7D
 void __cdecl __DestructExceptionObject(_DWORD *a1)
 {
@@ -9996,6 +10023,12 @@ int __cdecl __AdjustPointer(int a1, _DWORD *a2)
   if ( (int)a2[1] >= 0 )
     result += a2[1] + *(_DWORD *)(*(_DWORD *)(a2[1] + a1) + a2[2]);
   return result;
+}
+
+// Address: 0x1000CFFB
+bool __cdecl __uncaught_exception()
+{
+  return _getptd()[36] != 0;
 }
 
 // Address: 0x1000D00E
@@ -11040,7 +11073,7 @@ void __stdcall _freefls(void *Block)
     if ( v2 != nullptr )
     {
       __removelocaleref(*((volatile LONG **)Block + 27));
-      if ( v2 != (_DWORD *)off_1003BE48 && v2 != (_DWORD *)&unk_1003BD70 && *v2 == 0 )
+      if ( v2 != (_DWORD *)off_1003BE48 && v2 != (_DWORD *)&dword_1003BD70 && *v2 == 0 )
         __freetlocinfo(v2);
     }
     savedregs = 268493702;
@@ -21069,7 +21102,7 @@ volatile LONG *__usercall _updatetlocinfoEx_nolock@<eax>(volatile LONG **a1@<eax
     if ( v2 != nullptr )
     {
       __removelocaleref(v2);
-      if ( *v2 == 0 && v2 != (volatile LONG *)&unk_1003BD70 )
+      if ( *v2 == 0 && v2 != (volatile LONG *)&dword_1003BD70 )
         __freetlocinfo((char *)v2);
     }
   }
@@ -21172,8 +21205,12 @@ void __cdecl _free_locale(_locale_t Locale)
       _lock(12);
       __removelocaleref((volatile LONG *)Locale->locinfo);
       locinfo = Locale->locinfo;
-      if ( Locale->locinfo != nullptr && *(_DWORD *)locinfo == 0 && locinfo != (struct __crt_locale_data *)&unk_1003BD70 )
+      if ( Locale->locinfo != nullptr
+        && *(_DWORD *)locinfo == 0
+        && locinfo != (struct __crt_locale_data *)&dword_1003BD70 )
+      {
         __freetlocinfo((char *)Locale->locinfo);
+      }
       _unlock(12);
     }
     Locale->locinfo = (struct __crt_locale_data *)-1163005939;

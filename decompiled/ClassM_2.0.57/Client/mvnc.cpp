@@ -3408,6 +3408,15 @@ int __usercall sub_405180@<eax>(int a1@<esi>)
   return a1;
 }
 
+// Address: 0x405260
+char *__thiscall sub_405260(char *this, char a2)
+{
+  sub_405280(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x405280
 void __thiscall sub_405280(char *this)
 {
@@ -10651,25 +10660,25 @@ LABEL_16:
 BOOL __usercall sub_4104B0@<eax>(HANDLE *a1@<eax>)
 {
   BOOL v1; // edi
-  int v3; // eax
+  DWORD active; // eax
   DWORD v4; // eax
   HANDLE v5; // esi
   HANDLE TokenHandle; // [esp+Ch] [ebp-8h] BYREF
-  int TokenInformation; // [esp+10h] [ebp-4h] BYREF
+  DWORD TokenInformation; // [esp+10h] [ebp-4h] BYREF
 
   v1 = false;
-  v3 = 0;
+  active = 0;
   TokenHandle = nullptr;
   TokenInformation = 0;
-  if ( dword_543CC8 != 0 )
+  if ( WTSGetActiveConsoleSessionId != nullptr )
   {
-    v3 = ((int (*)(void))dword_543CC8)();
-    TokenInformation = v3;
+    active = WTSGetActiveConsoleSessionId();
+    TokenInformation = active;
   }
   if ( byte_543B54 != 0 )
     v4 = sub_4102C0();
   else
-    v4 = sub_410370(v3);
+    v4 = sub_410370(active);
   if ( byte_543B54 == 0 && v4 == -1 )
     v4 = sub_4102C0();
   v5 = OpenProcess(0x1F0FFFu, false, v4);
@@ -10691,11 +10700,11 @@ int __usercall sub_410570@<eax>(int a1@<eax>)
   HMODULE LibraryA; // esi
   FARPROC WinStationConnectW; // ebp
   HMODULE v5; // edi
-  int v6; // eax
+  DWORD active; // eax
   HMODULE v8; // esi
   FARPROC ProcAddress; // ebp
   HMODULE v10; // edi
-  int v11; // eax
+  DWORD v11; // eax
   HANDLE hToken; // [esp+14h] [ebp-54h] BYREF
   int v13; // [esp+18h] [ebp-50h]
   LPVOID Environment; // [esp+1Ch] [ebp-4Ch] BYREF
@@ -10712,8 +10721,8 @@ int __usercall sub_410570@<eax>(int a1@<eax>)
   StartupInfo.cb = 68;
   sub_410200();
   sub_40FFC0();
-  if ( dword_543CC8 != nullptr )
-    dword_543CC8();
+  if ( WTSGetActiveConsoleSessionId != nullptr )
+    WTSGetActiveConsoleSessionId();
   if ( !sub_4104B0(&hToken) )
     return 0;
   if ( CreateEnvironmentBlock(&Environment, hToken, false) )
@@ -10751,10 +10760,15 @@ int __usercall sub_410570@<eax>(int a1@<eax>)
             LockWorkStation = GetProcAddress(v5, "LockWorkStation");
           if ( WinStationConnectW != nullptr && LockWorkStation != nullptr )
           {
-            v6 = 0;
-            if ( dword_543CC8 != nullptr )
-              v6 = dword_543CC8();
-            ((void (__stdcall *)(_DWORD, _DWORD, int, void *, _DWORD))WinStationConnectW)(0, 0, v6, &unk_4D6048, 0);
+            active = 0;
+            if ( WTSGetActiveConsoleSessionId != nullptr )
+              active = WTSGetActiveConsoleSessionId();
+            ((void (__stdcall *)(_DWORD, _DWORD, DWORD, void *, _DWORD))WinStationConnectW)(
+              0,
+              0,
+              active,
+              &unk_4D6048,
+              0);
             LockWorkStation();
           }
           Sleep(0xBB8u);
@@ -10820,9 +10834,9 @@ LABEL_39:
   if ( ProcAddress != nullptr && LockWorkStation != nullptr )
   {
     v11 = 0;
-    if ( dword_543CC8 != nullptr )
-      v11 = dword_543CC8();
-    ((void (__stdcall *)(_DWORD, _DWORD, int, void *, _DWORD))ProcAddress)(0, 0, v11, &unk_4D6048, 0);
+    if ( WTSGetActiveConsoleSessionId != nullptr )
+      v11 = WTSGetActiveConsoleSessionId();
+    ((void (__stdcall *)(_DWORD, _DWORD, DWORD, void *, _DWORD))ProcAddress)(0, 0, v11, &unk_4D6048, 0);
     LockWorkStation();
   }
   Sleep(0xBB8u);
@@ -10867,7 +10881,7 @@ char *sub_410910()
   HWND DesktopWindow; // eax
   void (__stdcall *v16)(HANDLE); // esi
   int v17; // [esp+10h] [ebp-234h]
-  int v18; // [esp+14h] [ebp-230h]
+  DWORD active; // [esp+14h] [ebp-230h]
   int v19; // [esp+18h] [ebp-22Ch]
   DWORD ExitCode; // [esp+1Ch] [ebp-228h] BYREF
   HANDLE Handles; // [esp+20h] [ebp-224h] BYREF
@@ -10878,7 +10892,7 @@ char *sub_410910()
   sub_40FFC0();
   v0 = 0;
   v17 = 0;
-  v18 = 0;
+  active = 0;
   v19 = 99;
   hObject = nullptr;
   v1 = 0;
@@ -10901,10 +10915,10 @@ char *sub_410910()
       {
         if ( ++v17 == 30 )
           v17 = 0;
-        if ( dword_543CC8 != nullptr )
+        if ( WTSGetActiveConsoleSessionId != nullptr )
         {
-          v18 = dword_543CC8();
-          v0 = v18;
+          active = WTSGetActiveConsoleSessionId();
+          v0 = active;
         }
         if ( v19 != v0 )
           SetEvent(hEvent);
@@ -11001,7 +11015,7 @@ LABEL_28:
         strcpy(v13, "cad.exe");
         DesktopWindow = GetDesktopWindow();
         ShellExecuteA(DesktopWindow, "open", File, Locale, nullptr, 1);
-        v0 = v18;
+        v0 = active;
         v2 = Sleep;
       }
       if ( LibraryA != nullptr )
@@ -11125,7 +11139,7 @@ bool sub_410DE0()
   FARPROC WinStationConnectW; // esi
   BOOL (__stdcall *LockWorkStation)(); // edi
   bool result; // al
-  int v5; // eax
+  DWORD active; // eax
   DWORD LastError; // eax
   CHAR OutputString[1028]; // [esp+18h] [ebp-40Ch] BYREF
 
@@ -11142,10 +11156,10 @@ bool sub_410DE0()
       LockWorkStation = GetProcAddress(v1, "LockWorkStation");
     if ( WinStationConnectW != nullptr && LockWorkStation != nullptr )
     {
-      v5 = 0;
-      if ( dword_543CC8 != nullptr )
-        v5 = dword_543CC8();
-      ((void (__stdcall *)(_DWORD, _DWORD, int, void *, _DWORD))WinStationConnectW)(0, 0, v5, &unk_4D6048, 0);
+      active = 0;
+      if ( WTSGetActiveConsoleSessionId != nullptr )
+        active = WTSGetActiveConsoleSessionId();
+      ((void (__stdcall *)(_DWORD, _DWORD, DWORD, void *, _DWORD))WinStationConnectW)(0, 0, active, &unk_4D6048, 0);
       Sleep(0xBB8u);
       if ( LockWorkStation() == 0 )
       {
@@ -18707,6 +18721,27 @@ void __thiscall sub_41B3F0(HGDIOBJ *this)
 {
   *this = &vncClient::ClientUpdateTracker::`vftable';
   sub_40EE50(this);
+}
+
+// Address: 0x41B400
+int __thiscall sub_41B400(int this, HRGN *a2)
+{
+  CombineRgn(*(HRGN *)(this + 4), *(HRGN *)(this + 4), *a2, 2);
+  return sub_4245C0(*(_DWORD **)(this + 40));
+}
+
+// Address: 0x41B430
+int __thiscall sub_41B430(int this, HRGN *a2)
+{
+  CombineRgn(*(HRGN *)(this + 12), *(HRGN *)(this + 12), *a2, 2);
+  return sub_4245C0(*(_DWORD **)(this + 40));
+}
+
+// Address: 0x41B460
+int __thiscall sub_41B460(int this, HRGN *a2, int *a3)
+{
+  sub_40EEE0((HRGN *)this, a2, a3);
+  return sub_4245C0(*(_DWORD **)(this + 40));
 }
 
 // Address: 0x41B480
@@ -36427,7 +36462,6 @@ int __usercall sub_434860@<eax>(int a1@<eax>, unsigned __int16 *a2@<esi>, int a3
   int i; // ecx
   int v8; // eax
   int v9; // eax
-  const char *v10; // [esp-8h] [ebp-10h]
 
   v3 = 0;
   v4 = 0;
@@ -36451,9 +36485,10 @@ int __usercall sub_434860@<eax>(int a1@<eax>, unsigned __int16 *a2@<esi>, int a3
     case 32:
       return *(_DWORD *)a2;
     default:
-      v6 = (FILE *)sub_4AB304("getBgColour: bpp %d?\n", a1);
-      fprintf(v6 + 2, v10);
-      exit(1);
+      sub_4AB304();
+      fprintf(v6 + 2, "getBgColour: bpp %d?\n", a1);
+      exit();
+      return *(_DWORD *)a2;
   }
 }
 
@@ -38851,7 +38886,6 @@ int __usercall sub_436F80@<eax>(int a1@<eax>, unsigned __int16 *a2@<esi>, int a3
   int i; // ecx
   int v8; // eax
   int v9; // eax
-  const char *v10; // [esp-8h] [ebp-10h]
 
   v3 = 0;
   v4 = 0;
@@ -38875,9 +38909,10 @@ int __usercall sub_436F80@<eax>(int a1@<eax>, unsigned __int16 *a2@<esi>, int a3
     case 32:
       return *(_DWORD *)a2;
     default:
-      v6 = (FILE *)sub_4AB304("getBgColour: bpp %d?\n", a1);
-      fprintf(v6 + 2, v10);
-      exit(1);
+      sub_4AB304();
+      fprintf(v6 + 2, "getBgColour: bpp %d?\n", a1);
+      exit();
+      return *(_DWORD *)a2;
   }
 }
 
@@ -46552,9 +46587,9 @@ int __usercall sub_43F310@<eax>(int a1@<eax>, int a2@<ecx>, int a3, int a4)
   do
   {
     v7 = v13;
-    v8 = &unk_50EBA0;
+    v8 = &byte_50EBA0;
     if ( (v13 & 1) != 0 )
-      v8 = (char *)&unk_50EBA0 + 4 * (v4 >> 1);
+      v8 = (char *)&byte_50EBA0 + 4 * (v4 >> 1);
     if ( (v13 & 2) != 0 )
       v8 += 4 * v5 * (v4 >> 1);
     if ( v14 > 0 )
@@ -53652,6 +53687,15 @@ LABEL_5:
   }
 }
 
+// Address: 0x4466F0
+_DWORD *__thiscall sub_4466F0(_DWORD *this, char a2)
+{
+  sub_446710(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x446710
 int __thiscall sub_446710(_DWORD *this)
 {
@@ -56083,6 +56127,62 @@ void *__thiscall sub_449390(void *this, char a2)
   return this;
 }
 
+// Address: 0x4493B0
+char __usercall sub_4493B0@<al>(int a1@<ebx>)
+{
+  char result; // al
+  FILE *v2; // eax
+  FILE *v3; // eax
+  HANDLE StdHandle; // eax
+  int v5; // esi
+  FILE *v6; // eax
+
+  result = a1 & 1;
+  dword_4EBAEC = a1;
+  byte_4EBAE9 = a1 & 1;
+  if ( (a1 & 2) != 0 )
+  {
+    if ( byte_4EBAE8 == 0 )
+      result = sub_449580();
+  }
+  else
+  {
+    result = (char)dword_4EBAF4;
+    if ( dword_4EBAF4 != nullptr )
+    {
+      result = CloseHandle(dword_4EBAF4);
+      dword_4EBAF4 = nullptr;
+    }
+    byte_4EBAE8 = 0;
+  }
+  if ( (a1 & 4) != 0 )
+  {
+    if ( byte_4EBAEA == 0 )
+    {
+      AllocConsole();
+      sub_4AB304();
+      fclose(v2 + 1);
+      sub_4AB304();
+      fclose(v3 + 2);
+      StdHandle = GetStdHandle(0xFFFFFFF5);
+      v5 = _open_osfhandle((intptr_t)StdHandle, 0);
+      _dup2(v5, 1);
+      _dup2(v5, 2);
+      _fdopen(1, "wt");
+      _fdopen(2, "wt");
+      printf("fh is %d\n", v5);
+      sub_4AB304();
+      result = fflush(v6 + 1);
+    }
+    byte_4EBAEA = 1;
+  }
+  else
+  {
+    byte_4EBAEA = 0;
+  }
+  return result;
+}
+
 // Address: 0x4494A0
 char *sub_4494A0()
 {
@@ -57026,7 +57126,7 @@ LABEL_79:
 }
 
 // Address: 0x44ADB0
-int __stdcall sub_44ADB0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+int __stdcall sub_44ADB0(HWND hWnd, UINT Msg, char *wParam, char *lParam)
 {
   LONG WindowLongA; // esi
   int result; // eax
@@ -57034,19 +57134,19 @@ int __stdcall sub_44ADB0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 
   WindowLongA = GetWindowLongA(hWnd, -21);
   if ( Msg == dword_543BA0 )
-    sub_44B020(hWnd);
+    sub_44B020(WindowLongA, hWnd);
   if ( Msg > 0x54 )
   {
     if ( Msg > 0x117 )
     {
       if ( Msg == 32769 )
       {
-        sub_44B940(hWnd);
+        sub_44B940((int)lParam, WindowLongA, hWnd);
         return 0;
       }
       if ( Msg > 0x8002 && Msg <= 0x8004 )
       {
-        sub_44B1E0(hWnd, Msg);
+        sub_44B1E0(WindowLongA, hWnd, Msg);
         return 0;
       }
     }
@@ -57060,23 +57160,23 @@ int __stdcall sub_44ADB0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
       }
       if ( Msg == 273 )
       {
-        sub_44B710(hWnd, wParam);
+        sub_44B710(hWnd, WindowLongA, (__int16)wParam);
         return 0;
       }
       if ( Msg == 275 )
       {
-        sub_44B0B0();
-        return DefWindowProcA(hWnd, 0x113u, wParam, lParam);
+        sub_44B0B0(WindowLongA, hWnd);
+        return DefWindowProcA(hWnd, 0x113u, (WPARAM)wParam, (LPARAM)lParam);
       }
     }
 LABEL_23:
-    if ( sub_44C560(Msg, WindowLongA, hWnd, lParam) == 0 )
-      return DefWindowProcA(hWnd, Msg, wParam, lParam);
+    if ( sub_44C560(wParam, WindowLongA, Msg, hWnd, lParam) == 0 )
+      return DefWindowProcA(hWnd, Msg, (WPARAM)wParam, (LPARAM)lParam);
     return 0;
   }
   if ( Msg == 84 )
   {
-    sub_44BB70();
+    sub_44BB70(WindowLongA);
     return 0;
   }
   else
@@ -57093,16 +57193,16 @@ LABEL_23:
         result = 0;
         break;
       case 0x10u:
-        sub_44BA10(hWnd);
-        result = DefWindowProcA(hWnd, Msg, wParam, lParam);
+        sub_44BA10(WindowLongA, hWnd);
+        result = DefWindowProcA(hWnd, Msg, (WPARAM)wParam, (LPARAM)lParam);
         break;
       case 0x11u:
-        sub_44BAA0();
-        result = DefWindowProcA(hWnd, Msg, wParam, lParam);
+        sub_44BAA0((int)lParam, hWnd, WindowLongA);
+        result = DefWindowProcA(hWnd, Msg, (WPARAM)wParam, (LPARAM)lParam);
         break;
       case 0x16u:
         sub_401000((int)&off_4EBAE0, 0, ".\\vncmenu.cpp : WM_ENDSESSION\n");
-        result = DefWindowProcA(hWnd, Msg, wParam, lParam);
+        result = DefWindowProcA(hWnd, Msg, (WPARAM)wParam, (LPARAM)lParam);
         break;
       default:
         goto LABEL_23;
@@ -72952,6 +73052,15 @@ int __stdcall sub_463370(int a1, int a2)
   return a2;
 }
 
+// Address: 0x463380
+_DWORD *__thiscall sub_463380(_DWORD *this, char a2)
+{
+  sub_463410(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x4633A0
 int *sub_4633A0()
 {
@@ -73749,6 +73858,20 @@ int __usercall sub_464470@<eax>(unsigned int a1@<eax>, _DWORD *a2@<esi>, int a3)
   return result;
 }
 
+// Address: 0x464530
+void __cdecl __noreturn sub_464530(int a1, _DWORD *a2)
+{
+  int v2; // eax
+
+  (*(void (**)(void))(*a2 + 8))();
+  v2 = a2[1];
+  if ( v2 != 0 )
+    (*(void (**)(void))(v2 + 40))();
+  a2[1] = 0;
+  a2[5] = 0;
+  exit();
+}
+
 // Address: 0x464570
 int __cdecl sub_464570(int a1)
 {
@@ -74451,6 +74574,25 @@ int __cdecl sub_465150(_DWORD *a1, char a2, unsigned int a3)
   }
   sub_4646E0(a1, a2);
   return sub_464750(a3 + 2, a1);
+}
+
+// Address: 0x465190
+int __cdecl sub_465190(int a1, _DWORD *a2)
+{
+  int result; // eax
+
+  result = a2[6];
+  *(_BYTE *)(*(_DWORD *)result)++ = (_BYTE)a2;
+  if ( (*(_DWORD *)(result + 4))-- == 1 )
+  {
+    result = (*(int (**)(void))(result + 12))();
+    if ( (_BYTE)result == 0 )
+    {
+      *(_DWORD *)(*a2 + 20) = 24;
+      return (*(int (**)(void))*a2)();
+    }
+  }
+  return result;
 }
 
 // Address: 0x4651D0
@@ -89373,6 +89515,81 @@ void sub_472B00()
   }
 }
 
+// Address: 0x472CA0
+int __cdecl sub_472CA0(int a1)
+{
+  unsigned int *v1; // edi
+  unsigned int v2; // esi
+  unsigned int v3; // eax
+  FILE *v4; // eax
+  FILE *v5; // eax
+  int v6; // eax
+  int v8; // [esp+8h] [ebp-18h] BYREF
+  _DWORD v9[4]; // [esp+10h] [ebp-10h] BYREF
+
+  if ( dword_543C04 != 0 && lpFileName != nullptr && strcmp(lpFileName, "-") != 0 )
+  {
+    v1 = (unsigned int *)dword_543C54;
+    if ( dword_543C54 != nullptr )
+    {
+      v2 = 0;
+      do
+      {
+        if ( *(_BYTE *)(v1[18] + v1[6] - 1) != 47 )
+        {
+          v3 = (sub_478550(&v8, v1) & 1) != 0 ? sub_475D90(v9) : v1[2];
+          if ( v2 < v3 )
+            v2 = v3;
+        }
+        v1 = (unsigned int *)v1[23];
+      }
+      while ( v1 != nullptr );
+      if ( v2 != 0 )
+      {
+        sub_479920(v2);
+      }
+      else if ( dword_4EA504 != 0 )
+      {
+        sub_4AB304();
+        fprintf(
+          v4 + 2,
+          "\tzip warning: %s%s\n",
+          "zip file has only directories, can't make it as old as latest entry",
+          Locale);
+        sub_4AB304();
+        fflush(v5 + 2);
+      }
+    }
+    else
+    {
+      sub_472FD0("zip file is empty, can't make it as old as latest entry");
+    }
+  }
+  if ( dword_543C50 != nullptr )
+  {
+    free(dword_543C50);
+    dword_543C50 = nullptr;
+  }
+  if ( lpFileName != nullptr )
+  {
+    free((void *)lpFileName);
+    lpFileName = nullptr;
+  }
+  if ( dword_543C58 != nullptr )
+  {
+    free(dword_543C58);
+    dword_543C58 = nullptr;
+  }
+  if ( dword_543C20 != 0 )
+  {
+    v6 = sub_478590();
+    if ( v6 != 0 )
+      sub_472E10("was deleting moved files and directories", v6);
+  }
+  sub_472B00();
+  return a1;
+}
+
 // Address: 0x472E10
 void __usercall __noreturn sub_472E10(const char *a1@<eax>, int Value)
 {
@@ -89461,6 +89678,24 @@ void __usercall __noreturn sub_472E10(const char *a1@<eax>, int Value)
   }
   sub_472B00();
   longjmp(Buf, v2);
+}
+
+// Address: 0x472FD0
+int __usercall sub_472FD0@<eax>(int result@<eax>, const char *a2@<ecx>)
+{
+  FILE *v2; // eax
+  FILE *v3; // eax
+  const char *v5; // [esp-4h] [ebp-4h]
+
+  if ( dword_4EA504 != 0 )
+  {
+    v5 = (const char *)result;
+    sub_4AB304();
+    fprintf(v2 + 2, "\tzip warning: %s%s\n", a2, v5);
+    sub_4AB304();
+    return fflush(v3 + 2);
+  }
+  return result;
 }
 
 // Address: 0x473000
@@ -89649,6 +89884,1372 @@ LABEL_54:
   }
 }
 
+// Address: 0x473340
+int __usercall sub_473340@<eax>(int a1@<ebx>, int a2@<esi>)
+{
+  int result; // eax
+  FILE *v3; // eax
+  FILE *v4; // eax
+  int v5; // esi
+  unsigned int v6; // ebx
+  int v7; // eax
+  char *v8; // eax
+  FILE *v9; // ecx
+  char ptr; // al
+  void *v11; // eax
+  int v12; // eax
+  void *v13; // ebx
+  int v14; // eax
+  int v15; // esi
+  int v16; // esi
+  int *v17; // eax
+  bool v18; // zf
+  FILE *v19; // eax
+  char *v20; // esi
+  int v21; // eax
+  FILE *v22; // eax
+  FILE *v23; // eax
+  int v24; // edi
+  int v25; // eax
+  int v26; // eax
+  int v27; // eax
+  void *v28; // eax
+  const char *v29; // ecx
+  _BYTE *v30; // edx
+  char v31; // al
+  const char *const *v32; // esi
+  int v33; // eax
+  void *v34; // eax
+  const char *v35; // ecx
+  _BYTE *v36; // edx
+  char v37; // al
+  FILE *v38; // eax
+  FILE *v39; // eax
+  FILE *v40; // eax
+  const char *v41; // eax
+  const char **v42; // esi
+  int v43; // eax
+  const char **v44; // esi
+  const char *v45; // eax
+  FILE *v46; // eax
+  FILE *v47; // eax
+  void *i; // esi
+  BOOL v49; // eax
+  int v50; // eax
+  char *v51; // esi
+  LPCSTR v52; // edi
+  void *v53; // eax
+  char v54; // bl
+  _BYTE *v55; // ecx
+  int v56; // edx
+  char v57; // al
+  unsigned int *v58; // esi
+  unsigned int v59; // eax
+  unsigned int v60; // eax
+  unsigned int v61; // ebx
+  BOOL v62; // eax
+  const char *v63; // eax
+  _DWORD *v64; // esi
+  unsigned int v65; // eax
+  const char *v66; // edi
+  const char *v67; // esi
+  FILE *v68; // eax
+  FILE *v69; // edi
+  FILE *v70; // eax
+  int v71; // eax
+  FILE *v72; // eax
+  int v73; // eax
+  FILE *v74; // eax
+  int v75; // eax
+  FILE *v76; // ebx
+  char *v77; // eax
+  const char *v78; // esi
+  void *v79; // eax
+  char *v80; // eax
+  int v81; // eax
+  int v82; // eax
+  const char *v83; // ecx
+  char *v84; // esi
+  void **v85; // ebx
+  FILE *v86; // ebx
+  int v87; // eax
+  int v88; // edi
+  FILE *v89; // eax
+  const char *v90; // ecx
+  int (__stdcall *v91)(_DWORD, _DWORD); // eax
+  void *v92; // edi
+  _DWORD *v93; // edi
+  void *v94; // esi
+  int v95; // edx
+  int v96; // eax
+  int v97; // ebx
+  unsigned int v98; // ecx
+  FILE *v99; // eax
+  FILE *v100; // eax
+  const char *v101; // ecx
+  FILE *v102; // eax
+  int v103; // eax
+  char *v104; // edi
+  FILE *v105; // eax
+  _DWORD *v106; // ebx
+  unsigned int v107; // esi
+  _BYTE *v108; // eax
+  char *v109; // ecx
+  char *v110; // edi
+  char v111; // dl
+  const CHAR *v112; // edi
+  CHAR *v113; // eax
+  CHAR *v114; // esi
+  char *v115; // esi
+  FILE *v116; // edi
+  unsigned int v117; // ebx
+  int v118; // eax
+  int v119; // edx
+  int v120; // ecx
+  int v121; // edx
+  unsigned int v122; // esi
+  int v123; // eax
+  FILE *v124; // esi
+  const char *v125; // edi
+  int v126; // esi
+  struct _EXCEPTION_REGISTRATION_RECORD *v127; // [esp-8h] [ebp-C0h]
+  int v128; // [esp-4h] [ebp-BCh]
+  struct _stat64i32 v129; // [esp+10h] [ebp-A8h] BYREF
+  char v130[8]; // [esp+40h] [ebp-78h] BYREF
+  __int64 v131; // [esp+48h] [ebp-70h]
+  int v132[2]; // [esp+58h] [ebp-60h] BYREF
+  __int64 v133; // [esp+60h] [ebp-58h] BYREF
+  void *Block; // [esp+74h] [ebp-44h]
+  int v135; // [esp+78h] [ebp-40h] BYREF
+  int v136; // [esp+7Ch] [ebp-3Ch] BYREF
+  int v137; // [esp+80h] [ebp-38h] BYREF
+  int v138; // [esp+84h] [ebp-34h]
+  int v139; // [esp+88h] [ebp-30h]
+  int *v140; // [esp+8Ch] [ebp-2Ch]
+  FILE *v141; // [esp+90h] [ebp-28h]
+  FILE *v142; // [esp+94h] [ebp-24h]
+  int Mode; // [esp+98h] [ebp-20h]
+  signed int v144; // [esp+9Ch] [ebp-1Ch]
+  BOOL v145; // [esp+A0h] [ebp-18h]
+  int v146; // [esp+A4h] [ebp-14h]
+  FILE *Stream; // [esp+A8h] [ebp-10h]
+  const char **v148; // [esp+ACh] [ebp-Ch]
+  unsigned int v149; // [esp+B0h] [ebp-8h]
+  int v150; // [esp+B4h] [ebp-4h]
+  int savedregs; // [esp+B8h] [ebp+0h] BYREF
+
+  v148 = (const char **)::Block;
+  v139 = dword_57A5A4;
+  v140 = nullptr;
+  v144 = 0;
+  setlocale(2, Locale);
+  dword_4EA514 = 1;
+  dword_543BFC = 0;
+  dword_543C00 = 0;
+  dword_543C04 = 0;
+  dword_543C08 = 0;
+  dword_543C0C = 0;
+  dword_543C10 = 0;
+  dword_543C14 = 0;
+  dword_543C18 = 0;
+  dword_578FC0 = -1;
+  OldFilename = nullptr;
+  NumOfElements = 0;
+  dword_543C1C = 0;
+  dword_543C20 = 0;
+  dword_4EA45C = 1;
+  dword_4EA4F8 = -1;
+  dword_543C24 = 0;
+  dword_543C28 = 0;
+  dword_543C2C = 0;
+  dword_543C30 = 0;
+  dword_4EA4FC = 6;
+  dword_543C34 = 0;
+  dword_543C38 = 0;
+  dword_543C48 = 0;
+  dword_543C3C = 0;
+  dword_543C40 = 0;
+  dword_4EA500 = 1;
+  dword_543C44 = 0;
+  dword_4EA504 = 1;
+  dword_4EA508 = 1;
+  off_4EA50C = ".Z:.zip:.zoo:.arc:.lzh:.arj";
+  dword_543C4C = nullptr;
+  dword_543C50 = nullptr;
+  dword_543C5C = nullptr;
+  off_4EA510 = (int *)&dword_543C5C;
+  dword_543C60 = nullptr;
+  dword_543C64 = 0;
+  dword_543C68 = 0;
+  dword_543C6C = 0;
+  v146 = 0;
+  result = _setjmp3(a1, (int)&savedregs, 0, a2, Buf, 0, v127, v128);
+  if ( result != 0 )
+    return result;
+  sub_4AB304();
+  dword_578FC4 = v3 + 1;
+  sub_4AB304();
+  v142 = v4;
+  sub_478CB0();
+  _putenv("TZ=");
+  _tzset();
+  v5 = 0;
+  OldFilename = nullptr;
+  lpFileName = nullptr;
+  ::Stream = nullptr;
+  v145 = false;
+  v150 = 0;
+  Mode = 0;
+  result = sub_473000(v139, (int)v148);
+  if ( result != 0 )
+    return result;
+  v6 = 1;
+  v149 = 1;
+  if ( v139 > 1 )
+  {
+    while ( 1 )
+    {
+      v8 = (char *)v148[v6];
+      if ( *v8 == 45 )
+      {
+        v9 = (FILE *)(v8 + 1);
+        if ( v8[1] == 0 )
+        {
+          switch ( v5 )
+          {
+            case 1:
+              sub_472E10("invalid path", 16);
+            case 2:
+              sub_472E10("invalid time", 16);
+            case 3:
+            case 4:
+              v142 = nullptr;
+              if ( dword_4EA514 == 1 || dword_4EA514 == 2 )
+                v25 = sub_47A090(v8);
+              else
+                v25 = sub_47A1F0(v8, 1, -1);
+              if ( v25 == 0 )
+                goto LABEL_111;
+              if ( v25 != -1 )
+                goto LABEL_178;
+              if ( v146 != 0 )
+                goto LABEL_177;
+              v26 = (int)v148[v6];
+              break;
+            default:
+              goto LABEL_93;
+          }
+LABEL_110:
+          sub_472FD0(v26, "name not matched: ");
+LABEL_111:
+          if ( v5 == 3 )
+          {
+            v144 = v6;
+            v150 = 4;
+            goto LABEL_153;
+          }
+LABEL_94:
+          if ( v5 != 6 )
+            goto LABEL_153;
+          goto LABEL_95;
+        }
+        ptr = (char)v9->_ptr;
+        Stream = v9;
+        if ( ptr != 0 )
+        {
+          while ( 2 )
+          {
+            switch ( ptr )
+            {
+              case '!':
+                dword_543C48 = 1;
+                goto LABEL_91;
+              case '$':
+                dword_543C40 = 1;
+                goto LABEL_91;
+              case '0':
+                dword_4EA4F8 = 0;
+                dword_4EA4FC = 0;
+                goto LABEL_91;
+              case '1':
+              case '2':
+              case '3':
+              case '4':
+              case '5':
+              case '6':
+              case '7':
+              case '8':
+              case '9':
+                dword_4EA4FC = ptr - 48;
+                goto LABEL_91;
+              case '@':
+                v142 = nullptr;
+                if ( v150 >= 3 )
+                {
+                  sub_4AB304();
+                  v20 = sub_475210(v19);
+                  if ( v20 != nullptr )
+                  {
+                    v150 = 4;
+                    do
+                    {
+                      if ( dword_4EA514 == 1 || dword_4EA514 == 2 )
+                        v21 = sub_47A090(v20);
+                      else
+                        v21 = sub_47A1F0(v20, 1, -1);
+                      if ( v21 != 0 )
+                      {
+                        if ( v21 != -1 )
+LABEL_173:
+                          sub_472E10(v20, v21);
+                        sub_472FD0((int)v20, "name not matched: ");
+                        if ( v146 != 0 )
+LABEL_196:
+                          sub_472E10(v20, 18);
+                      }
+                      sub_4AB304();
+                      v20 = sub_475210(v22);
+                    }
+                    while ( v20 != nullptr );
+                  }
+                }
+                else
+                {
+                  Mode = 1;
+                }
+LABEL_91:
+                Stream = (FILE *)((char *)Stream + 1);
+                ptr = (char)Stream->_ptr;
+                if ( LOBYTE(Stream->_ptr) != 0 )
+                  continue;
+                v5 = v150;
+                break;
+              case 'A':
+                dword_543C30 = 1;
+                goto LABEL_91;
+              case 'D':
+                dword_4EA500 = 0;
+                goto LABEL_91;
+              case 'F':
+                ++dword_543C2C;
+                goto LABEL_91;
+              case 'J':
+                dword_543C18 = 1;
+                goto LABEL_91;
+              case 'M':
+                ++v146;
+                goto LABEL_91;
+              case 'P':
+                if ( v150 != 0 )
+                  sub_472E10("use -P before zip file name", 16);
+                if ( dword_543C4C != nullptr )
+                  sub_472E10("can only have one -P", 16);
+                v150 = 7;
+                goto LABEL_91;
+              case 'R':
+                if ( dword_543C1C == 1 )
+                  goto LABEL_168;
+                dword_543C1C = 2;
+                goto LABEL_91;
+              case 'S':
+                dword_543C3C = 1;
+                goto LABEL_91;
+              case 'T':
+                dword_543C10 = 1;
+                goto LABEL_91;
+              case 'X':
+                dword_4EA508 = 0;
+                goto LABEL_91;
+              case 'b':
+                dword_543C14 = 1;
+                if ( v150 != 0 )
+                  sub_472E10("use -b before zip file name", 16);
+                v150 = 1;
+                goto LABEL_91;
+              case 'c':
+                dword_543BFC = 1;
+                goto LABEL_91;
+              case 'd':
+                if ( dword_4EA514 != 1 )
+                  goto LABEL_156;
+                dword_4EA514 = 0x10000;
+                goto LABEL_91;
+              case 'e':
+                if ( dword_543C4C == nullptr )
+                {
+                  v11 = malloc(0x51u);
+                  dword_543C4C = v11;
+                  if ( v11 == nullptr )
+                    sub_472E10("was getting encryption password", 4);
+                  v12 = (*(int (__stdcall **)(void *, int, const char *, LPCSTR))(dword_543BF8 + 8))(
+                          v11,
+                          81,
+                          "Enter password: ",
+                          lpFileName);
+                  if ( v12 != 0 )
+                  {
+                    if ( v12 < 0 )
+                      v12 = 16;
+                    sub_472E10("was getting encryption password", v12);
+                  }
+                  if ( *(_BYTE *)dword_543C4C == 0 )
+                    sub_472E10("zero length password not allowed", 16);
+                  v13 = malloc(0x51u);
+                  if ( v13 == nullptr )
+                    sub_472E10("was verifying encryption password", 4);
+                  v14 = (*(int (__stdcall **)(void *, int, const char *, LPCSTR))(dword_543BF8 + 8))(
+                          v13,
+                          81,
+                          "Verify password: ",
+                          lpFileName);
+                  v15 = v14;
+                  if ( v14 != 0 && v14 != -1 )
+                  {
+                    free(v13);
+                    if ( v15 < 0 )
+                      v15 = 16;
+                    sub_472E10("was verifying encryption password", v15);
+                  }
+                  if ( v14 == -1 )
+                    v16 = 0;
+                  else
+                    v16 = strcmp((const char *)dword_543C4C, (const char *)v13);
+                  free(v13);
+                  if ( v16 != 0 )
+                    sub_472E10("password verification failed", 16);
+                }
+                goto LABEL_91;
+              case 'f':
+                if ( dword_4EA514 != 1 )
+                  goto LABEL_156;
+                dword_4EA514 = 3;
+                goto LABEL_91;
+              case 'g':
+                v145 = true;
+                goto LABEL_91;
+              case 'i':
+              case 'x':
+                if ( BYTE1(Stream->_ptr) == 64 && BYTE2(Stream->_ptr) != 0 )
+                  goto LABEL_153;
+                if ( lpFileName == nullptr )
+                  sub_472E10("use -x or -i after name of zipfile", 16);
+                v150 = 5;
+                goto LABEL_91;
+              case 'j':
+                dword_4EA45C = 0;
+                goto LABEL_91;
+              case 'k':
+                dword_543C24 = 1;
+                goto LABEL_91;
+              case 'l':
+                ++dword_543C34;
+                goto LABEL_91;
+              case 'm':
+                if ( ++dword_543C20 == 2 )
+                  sub_472E10("mm not supported", 16);
+                goto LABEL_91;
+              case 'n':
+                off_4EA50C = nullptr;
+                goto LABEL_91;
+              case 'o':
+                dword_543C04 = 1;
+                goto LABEL_91;
+              case 'p':
+                goto LABEL_91;
+              case 'q':
+                dword_4EA504 = 0;
+                if ( dword_543C28 != 0 )
+                  --dword_543C28;
+                goto LABEL_91;
+              case 'r':
+                if ( dword_543C1C == 2 )
+LABEL_168:
+                  sub_472E10("do not specify both -r and -R", 16);
+                dword_543C1C = 1;
+                goto LABEL_91;
+              case 't':
+                if ( BYTE1(Stream->_ptr) == 116 )
+                {
+                  Stream = (FILE *)((char *)Stream + 1);
+                  v17 = &dword_543C0C;
+                }
+                else
+                {
+                  v17 = &dword_543C08;
+                }
+                v18 = *v17 == 0;
+                v140 = v17;
+                if ( !v18 )
+                {
+                  v18 = v17 == &dword_543C0C;
+                  v41 = "can only have one -tt";
+                  if ( !v18 )
+                    v41 = "can only have one -t";
+                  sub_472E10(v41, 16);
+                }
+                v150 = 2;
+                goto LABEL_91;
+              case 'u':
+                if ( dword_4EA514 != 1 )
+LABEL_156:
+                  sub_472E10("specify just one action", 16);
+                dword_4EA514 = 2;
+                goto LABEL_91;
+              case 'v':
+                ++dword_543C28;
+                dword_4EA504 = 1;
+                goto LABEL_91;
+              case 'z':
+                dword_543C00 = 1;
+                goto LABEL_91;
+              default:
+                sprintf(byte_578FE0, "no such option: %c", SLOBYTE(Stream->_ptr));
+                sub_472E10(byte_578FE0, 16);
+            }
+            break;
+          }
+        }
+      }
+      else if ( off_4EA50C != nullptr )
+      {
+        if ( v5 == 5 )
+          goto LABEL_6;
+        if ( v5 == 6 )
+        {
+          if ( dword_4EA514 == 1 || dword_4EA514 == 2 )
+            v43 = sub_47A090(word_4D8610);
+          else
+            v43 = sub_47A1F0((char *)word_4D8610, 1, -1);
+          if ( v43 != 0 )
+          {
+            if ( v43 != -1 )
+              sub_472E10(v148[v6], v43);
+            if ( v146 != 0 )
+            {
+              v44 = v148;
+              sub_472FD0((int)v148[v6], "name not matched: ");
+              sub_472E10(v44[v6], 18);
+            }
+            sub_472FD0((int)v148[v6], "name not matched: ");
+          }
+          if ( v144 == 0 )
+            v144 = v6;
+          break;
+        }
+        switch ( v5 )
+        {
+          case 0:
+            lpFileName = sub_476180(v8);
+            if ( lpFileName == nullptr )
+              goto LABEL_257;
+            v27 = sub_477B10();
+            if ( v27 != 0 )
+              goto LABEL_368;
+            v5 = dword_543C1C != 2 ? 3 : 6;
+            v150 = v5;
+            break;
+          case 1:
+            v28 = malloc(strlen(v8) + 1);
+            dword_543C50 = v28;
+            if ( v28 == nullptr )
+              goto LABEL_257;
+            v29 = v148[v6];
+            v30 = v28;
+            do
+            {
+              v31 = *v29;
+              *v30++ = *v29++;
+            }
+            while ( v31 != 0 );
+            if ( lpFileName == nullptr )
+              goto LABEL_125;
+            goto LABEL_143;
+          case 2:
+            v32 = v148;
+            if ( sscanf(v148[v6], "%4d-%2d-%2d", &v135, &v136, &v137) != 3
+              && sscanf(v32[v6], "%2d%2d%4d", &v136, &v137, &v135) != 3
+              || (unsigned int)(v136 - 1) > 0xB
+              || (unsigned int)(v137 - 1) > 0x1E )
+            {
+              v45 = "invalid date entered for -tt option";
+              if ( v140 != &dword_543C0C )
+                v45 = "invalid date entered for -t option";
+              sub_472E10(v45, 16);
+            }
+            v33 = sub_475D50(v135, 0, v136, v137, 0, 0);
+            *v140 = v33;
+            goto LABEL_142;
+          case 3:
+          case 4:
+            if ( dword_4EA514 == 1 || dword_4EA514 == 2 )
+              v25 = sub_47A090(v8);
+            else
+              v25 = sub_47A1F0(v8, 1, -1);
+            if ( v25 == 0 )
+              goto LABEL_111;
+            if ( v25 != -1 )
+LABEL_178:
+              sub_472E10(v148[v6], v25);
+            if ( v146 != 0 )
+            {
+LABEL_177:
+              v42 = v148;
+              sub_472FD0((int)v148[v6], "name not matched: ");
+              sub_472E10(v42[v6], 18);
+            }
+            v26 = (int)v148[v6];
+            goto LABEL_110;
+          case 7:
+            v34 = malloc(strlen(v8) + 1);
+            dword_543C4C = v34;
+            if ( v34 == nullptr )
+              goto LABEL_257;
+            v35 = v148[v6];
+            v36 = v34;
+            do
+            {
+              v37 = *v35;
+              *v36++ = *v35++;
+            }
+            while ( v37 != 0 );
+LABEL_142:
+            if ( lpFileName == nullptr )
+            {
+LABEL_125:
+              v150 = 0;
+              goto LABEL_153;
+            }
+LABEL_143:
+            v5 = (v144 > 0) + 3;
+            v150 = v5;
+            break;
+          default:
+            break;
+        }
+      }
+      else
+      {
+        off_4EA50C = (char *)v148[v6];
+      }
+LABEL_93:
+      if ( v5 != 3 )
+        goto LABEL_94;
+LABEL_95:
+      if ( Mode != 0 )
+      {
+        sub_4AB304();
+        v20 = sub_475210(v23);
+        if ( v20 != nullptr )
+        {
+          v24 = v146;
+          v144 = v149 + 1;
+          v150 = 4;
+          do
+          {
+            if ( dword_4EA514 == 1 || dword_4EA514 == 2 )
+              v21 = sub_47A090(v20);
+            else
+              v21 = sub_47A1F0(v20, 1, -1);
+            if ( v21 != 0 )
+            {
+              if ( v21 != -1 )
+                goto LABEL_173;
+              if ( v24 != 0 )
+              {
+                if ( dword_4EA504 != 0 )
+                {
+                  sub_4AB304();
+                  fprintf(v46 + 2, "\tzip warning: %s%s\n", "name not matched: ", v20);
+                  sub_4AB304();
+                  fflush(v47 + 2);
+                }
+                goto LABEL_196;
+              }
+              if ( dword_4EA504 != 0 )
+              {
+                sub_4AB304();
+                fprintf(v38 + 2, "\tzip warning: %s%s\n", "name not matched: ", v20);
+                sub_4AB304();
+                fflush(v39 + 2);
+              }
+            }
+            sub_4AB304();
+            v20 = sub_475210(v40);
+          }
+          while ( v20 != nullptr );
+        }
+        Mode = 0;
+        if ( dword_543C1C == 2 )
+          v150 = 6;
+      }
+LABEL_153:
+      v5 = v150;
+      if ( (int)++v149 >= v139 )
+        break;
+      v6 = v149;
+    }
+  }
+  if ( v5 == 7 || v5 == 1 )
+    sub_472E10("missing argument for -b or -P", 16);
+LABEL_6:
+  if ( dword_543C64 == 0 || v144 != 0 )
+  {
+    v7 = dword_4EA514;
+  }
+  else if ( v5 < 3 || (v7 = dword_4EA514, dword_4EA514 != 2) && dword_4EA514 != 3 )
+  {
+    sub_472E10("nothing to select from", 16);
+  }
+  if ( v5 != 4 && v144 == 0 && (v7 == 2 || v7 == 3) )
+  {
+    for ( i = dword_543C54; i != nullptr; i = *((void **)i + 23) )
+    {
+      v49 = dword_543C64 == 0 || sub_475710(*((char **)i + 19), 0);
+      *((_DWORD *)i + 20) = v49;
+    }
+  }
+  v50 = sub_475510();
+  if ( v50 != 0 )
+  {
+    if ( v50 == 16 )
+      sub_472E10("cannot repeat names in zip file", 16);
+    sub_472E10("was processing list of files", v50);
+  }
+  if ( dword_579440 != 0 )
+    free(dword_578FC8);
+  if ( off_4EA50C == nullptr )
+    sub_472E10("missing suffix list", 16);
+  if ( dword_4EA4FC == 9 || strcmp(off_4EA50C, ";") == 0 || strcmp(off_4EA50C, (const char *)&word_4D4D94) == 0 )
+    off_4EA50C = nullptr;
+  if ( dword_4EA514 == 0x10000
+    && (dword_4EA4F8 != -1
+     || dword_543C20 != 0
+     || dword_543C1C != 0
+     || dword_543C4C != nullptr
+     || dword_543BFC != 0
+     || dword_543C00 != 0) )
+  {
+    sub_472FD0((int)Locale, "invalid option(s) used with -d; ignored.");
+    dword_4EA4F8 = -1;
+    dword_543C20 = 0;
+    dword_543C1C = 0;
+    if ( dword_543C4C != nullptr )
+    {
+      free(dword_543C4C);
+      dword_543C4C = nullptr;
+    }
+    dword_543BFC = 0;
+    dword_543C00 = 0;
+  }
+  if ( dword_543C44 != 0 && dword_543C24 != 0 )
+  {
+    sub_472FD0((int)Locale, "can't use -y with -k, -y ignored");
+    dword_543C44 = 0;
+  }
+  if ( dword_543C2C != 0 && dword_543C30 != 0 )
+    sub_472FD0((int)Locale, "can't use -F with -A, -F ignored");
+  if ( dword_543C10 != 0 && strcmp(lpFileName, "-") == 0 )
+  {
+    dword_543C10 = 0;
+    sub_472FD0((int)Locale, "can't use -T on stdout, -T ignored");
+  }
+  if ( (dword_4EA514 != 1 || v145) && strcmp(lpFileName, "-") == 0 )
+    sub_472E10("can't use -d,-f,-u or -g on stdout\n", 16);
+  if ( dword_579440 == 0 && (dword_4EA514 != 1 || v145) )
+    sub_472FD0((int)" not found or empty", lpFileName);
+  if ( v146 == 1 )
+    sub_472E10("-M not supported, use -MM for Must Match", 16);
+  if ( v146 > 1 )
+    v146 = 1;
+  if ( dword_543C50 == nullptr )
+  {
+    v51 = (char *)sub_478DE0(lpFileName, 47);
+    if ( v51 != nullptr
+      || (v51 = (char *)sub_478DE0(lpFileName, 92)) != nullptr
+      || (v51 = (char *)sub_478DE0(lpFileName, 58)) != nullptr )
+    {
+      if ( *v51 == 58 )
+        ++v51;
+      v52 = lpFileName;
+      v53 = malloc(v51 - lpFileName + 1);
+      dword_543C50 = v53;
+      if ( v53 == nullptr )
+LABEL_257:
+        sub_472E10("was processing arguments", 4);
+      v54 = *v51;
+      *v51 = 0;
+      v55 = v52;
+      v56 = (_BYTE *)v53 - v52;
+      do
+      {
+        v57 = *v55;
+        v55[v56] = *v55;
+        ++v55;
+      }
+      while ( v57 != 0 );
+      *v51 = v54;
+    }
+  }
+  v58 = (unsigned int *)dword_543C54;
+  v150 = 0;
+  if ( dword_543C54 != nullptr )
+  {
+    do
+    {
+      if ( v58[20] != 0 )
+      {
+        if ( dword_4EA514 == 0x10000 )
+        {
+          if ( (sub_478550(v132, v58) & 1) != 0 )
+            v59 = sub_475D90(&v133);
+          else
+            v59 = v58[2];
+          if ( v59 < dword_543C08 || dword_543C0C != 0 && v59 >= dword_543C0C )
+            v58[20] = 0;
+          else
+            ++v150;
+        }
+        else
+        {
+          v60 = sub_47A820(0, 0, v130);
+          v61 = v60;
+          if ( v60 == 0 || v60 < dword_543C08 || dword_543C0C != 0 && v60 >= dword_543C0C )
+          {
+LABEL_280:
+            v58[20] = dword_543BFC != 0 ? 2 : 0;
+            v62 = v61 != 0 && v61 >= dword_543C08 && (dword_543C0C == 0 || v61 < dword_543C0C);
+            v18 = dword_543C28 == 0;
+            v58[21] = v62;
+            if ( !v18 )
+            {
+              v18 = !v62;
+              v63 = "up to date";
+              if ( v18 )
+                v63 = "missing or early";
+              fprintf(dword_578FC4, "zip diagnostic: %s %s\n", (const char *)v58[19], v63);
+            }
+            goto LABEL_292;
+          }
+          if ( dword_4EA514 == 2 || dword_4EA514 == 3 )
+          {
+            if ( (sub_478550(v132, v58) & 1) != 0 )
+            {
+              if ( v131 <= v133 )
+                goto LABEL_280;
+            }
+            else if ( v58[2] >= v61 )
+            {
+              goto LABEL_280;
+            }
+          }
+          ++v150;
+        }
+      }
+LABEL_292:
+      v58 = (unsigned int *)v58[23];
+    }
+    while ( v58 != nullptr );
+  }
+  v64 = dword_543C5C;
+  if ( dword_543C5C != nullptr )
+  {
+    do
+    {
+      if ( dword_4EA514 == 0x10000
+        || dword_4EA514 == 3
+        || (v65 = sub_47A820(0, 0, 0)) == 0
+        || v65 < dword_543C08
+        || dword_543C0C != 0 && v65 >= dword_543C0C
+        || (v66 = lpFileName, sub_478D10((unsigned __int8 *)lpFileName, (_BYTE *)v64[2]) == 0) && strcmp(v66, "-") != 0 )
+      {
+        v64 = (_DWORD *)sub_475290((int)v64);
+      }
+      else
+      {
+        v64 = (_DWORD *)v64[5];
+      }
+    }
+    while ( v64 != nullptr );
+  }
+  if ( v150 == 0
+    && dword_543C5C == nullptr
+    && (dword_543C54 == nullptr
+     || dword_543C04 == 0
+     && dword_543C2C == 0
+     && dword_543C30 == 0
+     && dword_543C18 == 0
+     && dword_543BFC == 0
+     && dword_543C00 == 0) )
+  {
+    if ( dword_543C10 != 0 && (dword_543C54 != nullptr || ElementCount != 0) )
+      return sub_472CA0(0);
+    if ( dword_4EA514 != 2 && dword_4EA514 != 3 )
+    {
+      if ( dword_543C54 == nullptr && (dword_543C04 != 0 || dword_543C2C != 0 || dword_543C30 != 0 || dword_543C18 != 0) )
+        sub_472E10(lpFileName, 13);
+      sub_472E10(lpFileName, 12);
+    }
+    return sub_472CA0(12);
+  }
+  v145 = v145 && v150 == 0 && (ElementCount != 0 || dword_543C54 != nullptr);
+  if ( dword_543C4C != nullptr )
+    dword_5794A0 = (int)dword_4D1530;
+  v67 = lpFileName;
+  if ( strcmp(lpFileName, "-") == 0 )
+    goto LABEL_341;
+  if ( dword_543C14 != 0 )
+  {
+    if ( dword_543C54 != nullptr )
+    {
+LABEL_345:
+      v68 = fopen(lpFileName, "r+b");
+      goto LABEL_346;
+    }
+    if ( ElementCount == 0 )
+    {
+LABEL_341:
+      Mode = 0;
+      goto LABEL_355;
+    }
+  }
+  if ( dword_543C54 != nullptr || ElementCount != 0 )
+    goto LABEL_345;
+  v68 = fopen(lpFileName, "wbS");
+LABEL_346:
+  if ( v68 == nullptr )
+    sub_472E10(lpFileName, 15);
+  fclose(v68);
+  if ( sub_4799E0((char *)lpFileName, &v129) != 0 )
+    Mode = 0;
+  else
+    Mode = v129.st_mode;
+  if ( dword_543C54 == nullptr && ElementCount == 0 )
+    _unlink(lpFileName);
+  v67 = lpFileName;
+LABEL_355:
+  if ( dword_543C18 != 0 )
+    ElementCount = 0;
+  v69 = nullptr;
+  v141 = nullptr;
+  dword_578FD0 = 0;
+  if ( strcmp(v67, "-") == 0 )
+  {
+    sub_4AB304();
+    v71 = _fileno(v70 + 1);
+    if ( _isatty(v71) != 0 )
+      sub_472E10("tried to write binary zipfile data to console!", 5);
+    sub_4AB304();
+    v73 = _fileno(v72 + 1);
+    _setmode(v73, 0x8000);
+    sub_4AB304();
+    v75 = _fileno(v74 + 1);
+    v76 = _fdopen(v75, "wbS");
+    Stream = v76;
+    ::Stream = v76;
+    v77 = (char *)malloc(4u);
+    v78 = v77;
+    OldFilename = v77;
+    if ( v77 == nullptr )
+      sub_472E10("allocating temp filename", 4);
+    *(_WORD *)v77 = 45;
+  }
+  else
+  {
+    if ( v145 )
+    {
+      v76 = fopen(lpFileName, "r+b");
+      Stream = v76;
+      if ( v76 == nullptr )
+        sub_472E10(lpFileName, 13);
+      OldFilename = (char *)lpFileName;
+      ::Stream = v76;
+      if ( fseek(v76, Offset, 0) != 0 )
+      {
+        v27 = ferror(v76) != 0 ? 11 : 2;
+LABEL_368:
+        sub_472E10(lpFileName, v27);
+      }
+      dword_578FD0 = Offset;
+    }
+    else
+    {
+      if ( dword_543C54 != nullptr || ElementCount != 0 )
+      {
+        v69 = fopen(v67, "rb");
+        v141 = v69;
+        if ( v69 == nullptr )
+          sub_472E10(lpFileName, 13);
+      }
+      v80 = sub_475FC0();
+      OldFilename = v80;
+      if ( v80 == nullptr )
+        sub_472E10("allocating temp filename", 4);
+      v76 = fopen(v80, "wbS");
+      Stream = v76;
+      ::Stream = v76;
+      if ( v76 == nullptr )
+        sub_472E10(OldFilename, 10);
+    }
+    v78 = OldFilename;
+  }
+  v79 = malloc(0x4000u);
+  Block = v79;
+  if ( v79 == nullptr )
+    sub_472E10(v78, 4);
+  setvbuf(v76, (char *)v79, 0, 0x4000u);
+  if ( strcmp(lpFileName, "-") != 0 && !v145 )
+  {
+    v81 = ElementCount;
+    if ( ElementCount != 0 )
+    {
+      v82 = sub_476070(v69, v76, ElementCount);
+      if ( v82 != 0 )
+      {
+        v83 = OldFilename;
+        if ( v82 != 10 )
+          v83 = lpFileName;
+        sub_472E10(v83, v82);
+      }
+      v81 = ElementCount;
+    }
+    dword_578FD0 = v81;
+  }
+  v84 = (char *)dword_543C54;
+  v85 = &dword_543C54;
+  v138 = 0;
+  v149 = (unsigned int)&dword_543C54;
+  if ( dword_543C54 != nullptr )
+  {
+    do
+    {
+      if ( *((_DWORD *)v84 + 20) == 1 )
+      {
+        if ( dword_4EA514 == 0x10000 )
+        {
+          if ( dword_4EA504 != 0 )
+          {
+            fprintf(dword_578FC4, "deleting: %s\n", *((const char **)v84 + 19));
+            fflush(dword_578FC4);
+          }
+          if ( dword_543BF8 != 0 )
+          {
+            v91 = *(int (__stdcall **)(_DWORD, _DWORD))(dword_543BF8 + 12);
+            if ( v91 != nullptr && v91(*((_DWORD *)v84 + 19), 0) != 0 )
+              sub_472E10("User terminated operation", 9);
+          }
+          v92 = *((void **)v84 + 23);
+          free(*((void **)v84 + 18));
+          free(*((void **)v84 + 19));
+          if ( *((_DWORD *)v84 + 7) != 0 )
+            free(*((void **)v84 + 15));
+          if ( *((_DWORD *)v84 + 8) != 0 && *((_DWORD *)v84 + 16) != *((_DWORD *)v84 + 15) )
+            free(*((void **)v84 + 16));
+          if ( *((_DWORD *)v84 + 9) != 0 )
+            free(*((void **)v84 + 17));
+          free(v84);
+          --dword_579440;
+          *v85 = v92;
+          goto LABEL_426;
+        }
+        if ( dword_4EA504 != 0 )
+        {
+          if ( dword_4EA514 == 3 )
+            fprintf(dword_578FC4, "freshening: %s", *((_DWORD *)v84 + 19));
+          else
+            fprintf(dword_578FC4, "updating: %s", *((_DWORD *)v84 + 19));
+          fflush(dword_578FC4);
+        }
+        v86 = Stream;
+        v87 = sub_47AED0((int)v84, Stream);
+        v88 = v87;
+        if ( v87 != 0 )
+        {
+          if ( v87 == 18 )
+            goto LABEL_402;
+          if ( v87 != -1 )
+          {
+            if ( dword_4EA504 != 0 )
+            {
+              sub_4AB304();
+              fprintf(v99 + 1, SubStr);
+            }
+            sprintf(byte_578FE0, "was zipping %s", *((_DWORD *)v84 + 14));
+LABEL_439:
+            sub_472E10(byte_578FE0, v88);
+          }
+        }
+        if ( v87 == -1 )
+        {
+LABEL_402:
+          v138 = 1;
+          if ( dword_4EA504 != 0 )
+          {
+            sub_4AB304();
+            fprintf(v89 + 1, SubStr);
+          }
+          if ( v88 == 18 )
+          {
+            if ( v146 != 0 )
+            {
+              sprintf(byte_578FE0, "was zipping %s", *((const char **)v84 + 14));
+              sub_472E10(byte_578FE0, 18);
+            }
+            perror(*((const char **)v84 + 19));
+            v90 = "could not open for reading: ";
+          }
+          else
+          {
+            v90 = "file and directory with the same name: ";
+          }
+          sub_472FD0(*((_DWORD *)v84 + 19), v90);
+          sub_472FD0(*((_DWORD *)v84 + 19), "will just copy entry over: ");
+          v88 = sub_478230(v86, (int)v84, v141);
+          if ( v88 != 0 )
+          {
+LABEL_441:
+            sprintf(byte_578FE0, "was copying %s", *((_DWORD *)v84 + 19));
+            goto LABEL_439;
+          }
+          *((_DWORD *)v84 + 20) = 0;
+        }
+      }
+      else if ( !v145 )
+      {
+        v88 = sub_478230(Stream, (int)v84, v141);
+        if ( v88 != 0 )
+          goto LABEL_441;
+      }
+      v85 = (void **)(v84 + 92);
+      v149 = (unsigned int)(v84 + 92);
+LABEL_426:
+      v84 = (char *)*v85;
+    }
+    while ( *v85 != nullptr );
+  }
+  v93 = dword_543C5C;
+  if ( dword_543C5C != nullptr )
+  {
+    do
+    {
+      v94 = malloc(0x60u);
+      if ( v94 == nullptr )
+        sub_472E10("was adding files to zip file", 4);
+      *((_DWORD *)v94 + 23) = 0;
+      *((_DWORD *)v94 + 14) = *v93;
+      *v93 = 0;
+      v150 = (int)v94 + 92;
+      *((_DWORD *)v94 + 18) = v93[1];
+      v95 = v93[2];
+      v93[1] = 0;
+      *((_DWORD *)v94 + 19) = v95;
+      v93[2] = 0;
+      *((_DWORD *)v94 + 9) = 0;
+      *((_DWORD *)v94 + 8) = 0;
+      *((_DWORD *)v94 + 7) = 0;
+      *((_DWORD *)v94 + 16) = 0;
+      *((_DWORD *)v94 + 15) = 0;
+      *((_DWORD *)v94 + 20) = 1;
+      *((_DWORD *)v94 + 22) = v93[3];
+      if ( dword_4EA504 != 0 )
+      {
+        fprintf(dword_578FC4, "  adding: %s", *((const char **)v94 + 19));
+        fflush(dword_578FC4);
+      }
+      v96 = sub_47AED0((int)v94, Stream);
+      v97 = v96;
+      if ( v96 != 0 )
+      {
+        if ( v96 == 18 )
+          goto LABEL_444;
+        if ( v96 != -1 )
+        {
+          if ( dword_4EA504 != 0 )
+          {
+            sub_4AB304();
+            fprintf(v105 + 1, SubStr);
+          }
+          sprintf(byte_578FE0, "was zipping %s", *((const char **)v94 + 19));
+          sub_472E10(byte_578FE0, v97);
+        }
+      }
+      if ( v96 == -1 )
+      {
+LABEL_444:
+        v138 = 1;
+        if ( dword_4EA504 != 0 )
+        {
+          sub_4AB304();
+          fprintf(v100 + 1, SubStr);
+        }
+        if ( v97 == 18 )
+        {
+          if ( v146 != 0 )
+          {
+            sprintf(byte_578FE0, "was zipping %s", *((const char **)v94 + 14));
+            sub_472E10(byte_578FE0, 18);
+          }
+          perror("zip warning");
+          v101 = "could not open for reading: ";
+        }
+        else
+        {
+          v101 = "file and directory with the same name: ";
+        }
+        sub_472FD0(*((_DWORD *)v94 + 19), v101);
+        free(*((void **)v94 + 14));
+        free(*((void **)v94 + 18));
+        free(*((void **)v94 + 19));
+        free(v94);
+        goto LABEL_451;
+      }
+      v98 = v150;
+      ++dword_579440;
+      *(_DWORD *)v149 = v94;
+      v149 = v98;
+LABEL_451:
+      v93 = (_DWORD *)sub_475290((int)v93);
+    }
+    while ( v93 != nullptr );
+  }
+  if ( dword_543C4C != nullptr )
+  {
+    free(dword_543C4C);
+    dword_543C4C = nullptr;
+  }
+  if ( dword_543BFC != 0 )
+  {
+    if ( v142 == nullptr )
+    {
+      sub_4AB304();
+      v103 = _fileno(v102 + 2);
+      v142 = _fdopen(v103, "r");
+    }
+    v104 = (char *)malloc(0x101u);
+    v149 = (unsigned int)v104;
+    if ( v104 == nullptr )
+      sub_472E10("was reading comment lines", 4);
+    v106 = dword_543C54;
+    if ( dword_543C54 != nullptr )
+    {
+      do
+      {
+        if ( v106[20] != 0 )
+        {
+          if ( dword_4EA504 != 0 )
+            fprintf(dword_578FC4, "Enter comment for %s:\n", (const char *)v106[19]);
+          if ( fgets(v104, 257, v142) != nullptr )
+          {
+            v107 = strlen(v104);
+            v108 = malloc(v107 + 1);
+            if ( v108 == nullptr )
+            {
+              free(v104);
+              sub_472E10("was reading comment lines", 4);
+            }
+            v109 = (char *)v149;
+            v110 = &v108[-v149];
+            do
+            {
+              v111 = *v109;
+              v109[(_DWORD)v110] = *v109;
+              ++v109;
+            }
+            while ( v111 != 0 );
+            if ( v108[v107 - 1] == 10 )
+              v108[--v107] = 0;
+            v104 = (char *)v149;
+            v106[17] = v108;
+            v106[9] = v107;
+          }
+        }
+        v106 = (_DWORD *)v106[23];
+      }
+      while ( v106 != nullptr );
+    }
+    free(v104);
+  }
+  if ( dword_543C00 != 0 )
+  {
+    sub_47B930();
+    v112 = lpString2;
+    v113 = (CHAR *)malloc(strlen(lpString2) + 1);
+    v114 = v113;
+    if ( v113 == nullptr )
+      sub_472E10("was setting comments to null", 4);
+    if ( *v112 != 0 )
+      lstrcpyA(v113, v112);
+    else
+      *v113 = 0;
+    free(dword_543C58);
+    GlobalUnlock(hMem);
+    GlobalFree(hMem);
+    dword_543C58 = v114;
+    dword_579438 = strlen(v114);
+  }
+  v115 = (char *)dword_543C54;
+  v116 = (FILE *)dword_578FD0;
+  v117 = 0;
+  v150 = 0;
+  v142 = (FILE *)dword_578FD0;
+  v149 = 0;
+  if ( dword_543C54 != nullptr )
+  {
+    do
+    {
+      v118 = sub_477E70(Stream, v115);
+      if ( v118 != 0 )
+        goto LABEL_494;
+      v119 = *((_DWORD *)v115 + 6) + *((_DWORD *)v115 + 8) + *((_DWORD *)v115 + 9);
+      v117 += *((_DWORD *)v115 + 5);
+      ++v150;
+      v120 = dword_578FD0 + v119 + 46;
+      v121 = *((_DWORD *)v115 + 4);
+      v115 = *((char **)v115 + 23);
+      v149 += v121;
+      dword_578FD0 = v120;
+    }
+    while ( v115 != nullptr );
+    v116 = v142;
+  }
+  if ( v150 == 0 )
+    sub_472FD0((int)Locale, "zip file empty");
+  if ( dword_543C28 != 0 )
+  {
+    v122 = v149;
+    v123 = sub_47AE00(v117, v149);
+    fprintf(dword_578FC4, "total bytes=%lu, compressed=%lu -> %d%% savings\n", v117, v122, v123);
+  }
+  v124 = Stream;
+  v118 = sub_4780E0((int)v116, Stream, v150, dword_578FD0 - (_DWORD)v116);
+  if ( v118 != 0 )
+LABEL_494:
+    sub_472E10(OldFilename, v118);
+  ::Stream = nullptr;
+  if ( fclose(v124) != 0 )
+    sub_472E10(OldFilename, 4 * v145 + 10);
+  if ( v141 != nullptr )
+    fclose(v141);
+  v125 = lpFileName;
+  if ( strcmp(lpFileName, "-") != 0 && !v145 )
+  {
+    v126 = sub_475EA0();
+    if ( v126 != 0 )
+    {
+      sub_472FD0((int)OldFilename, "new zip file left as: ");
+      free(OldFilename);
+      OldFilename = nullptr;
+      sub_472E10("was replacing the original zip file", v126);
+    }
+    free(OldFilename);
+    v125 = lpFileName;
+  }
+  OldFilename = nullptr;
+  if ( Mode != 0 && strcmp(v125, "-") != 0 )
+    _chmod(v125, Mode);
+  free(Block);
+  return sub_472CA0(v138 != 0 ? 0x12 : 0);
+}
+
 // Address: 0x475210
 char *__usercall sub_475210@<eax>(FILE *a1@<ebx>)
 {
@@ -89813,6 +91414,108 @@ char *__cdecl sub_475370(char *a1)
     *a1 = 0;
     return a1;
   }
+}
+
+// Address: 0x475510
+int sub_475510()
+{
+  size_t v0; // esi
+  _DWORD *v1; // ebp
+  _DWORD *v2; // eax
+  _DWORD *v3; // ecx
+  size_t v4; // edi
+  size_t v5; // ebx
+  const char **v6; // esi
+  _DWORD *v7; // esi
+  int v8; // edi
+  FILE *v10; // eax
+  FILE *v11; // eax
+  FILE *v12; // eax
+  FILE *v13; // eax
+  FILE *v14; // eax
+  FILE *v15; // eax
+  size_t v16; // [esp-Ch] [ebp-1Ch]
+  const char *v17; // [esp-4h] [ebp-14h]
+  const char *v18; // [esp-4h] [ebp-14h]
+  const char *v19; // [esp-4h] [ebp-14h]
+
+  v0 = NumOfElements;
+  if ( NumOfElements == 0 )
+    return 0;
+  if ( (4 * NumOfElements) >> 2 != NumOfElements )
+    return 4;
+  v1 = malloc(4 * NumOfElements);
+  if ( v1 == nullptr )
+    return 4;
+  v2 = dword_543C5C;
+  if ( dword_543C5C != nullptr )
+  {
+    v3 = v1;
+    do
+    {
+      *v3 = v2;
+      v2 = (_DWORD *)v2[5];
+      ++v3;
+    }
+    while ( v2 != nullptr );
+  }
+  qsort(v1, v0, 4u, (_CoreCrtNonSecureSearchSortCompareFunction)CompareFunction);
+  v4 = NumOfElements - 1;
+  v5 = NumOfElements - 1;
+  if ( NumOfElements != 1 )
+  {
+    do
+    {
+      v6 = (const char **)v1[v4];
+      if ( strcmp(*(const char **)v1[v4 - 1], *v6) == 0 )
+        sub_475290((int)v6);
+      else
+        v1[v5--] = v6;
+      --v4;
+    }
+    while ( v4 != 0 );
+  }
+  v7 = &v1[v5];
+  v16 = NumOfElements;
+  *v7 = *v1;
+  qsort(v7, v16, 4u, sub_475330);
+  v8 = 1;
+  if ( NumOfElements <= 1 )
+  {
+LABEL_15:
+    free(v1);
+    return 0;
+  }
+  while ( strcmp(*(const char **)(v7[v8 - 1] + 4), *(const char **)(v7[v8] + 4)) != 0 )
+  {
+    if ( ++v8 >= NumOfElements )
+      goto LABEL_15;
+  }
+  if ( dword_4EA504 != 0 )
+  {
+    v17 = *(const char **)v7[v8 - 1];
+    sub_4AB304();
+    fprintf(v10 + 2, "\tzip warning: %s%s\n", "  first full name: ", v17);
+    sub_4AB304();
+    fflush(v11 + 2);
+  }
+  if ( dword_4EA504 != 0 )
+  {
+    v18 = *(const char **)v7[v8];
+    sub_4AB304();
+    fprintf(v12 + 2, "\tzip warning: %s%s\n", " second full name: ", v18);
+    sub_4AB304();
+    fflush(v13 + 2);
+  }
+  if ( dword_4EA504 != 0 )
+  {
+    v19 = *(const char **)(v7[v8] + 4);
+    sub_4AB304();
+    fprintf(v14 + 2, "\tzip warning: %s%s\n", "name in zip file repeated: ", v19);
+    sub_4AB304();
+    fflush(v15 + 2);
+  }
+  return 16;
 }
 
 // Address: 0x475710
@@ -90377,6 +92080,158 @@ char *__usercall sub_476180@<eax>(const char *a1@<eax>)
   return result;
 }
 
+// Address: 0x476230
+int __usercall sub_476230@<eax>(unsigned __int16 *a1@<esi>)
+{
+  FILE *v1; // eax
+  FILE *v2; // eax
+  unsigned __int16 v3; // ax
+  unsigned __int16 v4; // ax
+  unsigned __int16 v5; // cx
+  FILE *v6; // eax
+  FILE *v7; // eax
+  unsigned __int16 v8; // ax
+  FILE *v9; // eax
+  FILE *v10; // eax
+  unsigned __int16 v11; // ax
+  FILE *v12; // eax
+  FILE *v13; // eax
+  unsigned __int16 v14; // ax
+  int result; // eax
+  FILE *v16; // eax
+  const char *v17; // ecx
+  FILE *v18; // eax
+  const char *v19; // [esp-8h] [ebp-Ch]
+  const char *v20; // [esp-4h] [ebp-8h]
+  int v21; // [esp-4h] [ebp-8h]
+  const char *v22; // [esp+0h] [ebp-4h]
+  const char *v23; // [esp+0h] [ebp-4h]
+  const char *v24; // [esp+0h] [ebp-4h]
+  const char *v25; // [esp+0h] [ebp-4h]
+  const char *v26; // [esp+0h] [ebp-4h]
+
+  if ( (*a1 & 0xFF00u) >= 0x1F00 )
+  {
+    sprintf(
+      byte_578FE0,
+      "made by version %d.%d on system type %d: ",
+      (unsigned __int8)*a1 / 10,
+      (unsigned __int8)*a1 % 10,
+      HIBYTE(*a1));
+    if ( dword_4EA504 != 0 )
+    {
+      v20 = *((const char **)a1 + 19);
+      sub_4AB304();
+      fprintf(v1 + 2, "\tzip warning: %s%s\n", byte_578FE0, v20);
+      sub_4AB304();
+      fflush(v2 + 2);
+    }
+  }
+  v3 = a1[1];
+  if ( v3 != 10 && v3 != 11 && v3 != 20 )
+  {
+    sprintf(
+      byte_578FE0,
+      "needs unzip %d.%d on system type %d: ",
+      (unsigned __int8)a1[1] / 10,
+      (unsigned __int8)a1[1] % 10,
+      HIBYTE(a1[1]));
+    sub_472FD0(*((_DWORD *)a1 + 19), byte_578FE0);
+  }
+  v4 = a1[2];
+  v5 = a1[22];
+  if ( v4 == v5 )
+  {
+    if ( (a1[2] & 0xFFF0) == 0 )
+      goto LABEL_14;
+    sprintf(byte_578FE0, "undefined bits used in flags = 0x%04x: ", v4);
+  }
+  else
+  {
+    sprintf(byte_578FE0, "local flags = 0x%04x, central = 0x%04x: ", v5, v4);
+  }
+  if ( dword_4EA504 != 0 )
+  {
+    v22 = *((const char **)a1 + 19);
+    sub_4AB304();
+    fprintf(v6 + 2, "\tzip warning: %s%s\n", byte_578FE0, v22);
+    sub_4AB304();
+    fflush(v7 + 2);
+  }
+LABEL_14:
+  v8 = a1[3];
+  if ( v8 > 8u )
+  {
+    sprintf(byte_578FE0, "unknown compression method %u: ", v8);
+    if ( dword_4EA504 != 0 )
+    {
+      v23 = *((const char **)a1 + 19);
+      sub_4AB304();
+      fprintf(v9 + 2, "\tzip warning: %s%s\n", byte_578FE0, v23);
+      sub_4AB304();
+      fflush(v10 + 2);
+    }
+  }
+  v11 = a1[20];
+  if ( v11 != 0 )
+  {
+    sprintf(byte_578FE0, "starts on disk %u: ", v11);
+    if ( dword_4EA504 != 0 )
+    {
+      v24 = *((const char **)a1 + 19);
+      sub_4AB304();
+      fprintf(v12 + 2, "\tzip warning: %s%s\n", byte_578FE0, v24);
+      sub_4AB304();
+      fflush(v13 + 2);
+    }
+  }
+  v14 = a1[21];
+  if ( v14 > 2u )
+  {
+    sprintf(byte_578FE0, "unknown internal attributes = 0x%04x: ", v14);
+    sub_472FD0(*((_DWORD *)a1 + 19), byte_578FE0);
+  }
+  result = *((_DWORD *)a1 + 7);
+  if ( result == 0 )
+  {
+    if ( *((_DWORD *)a1 + 8) == 0 )
+      return result;
+  }
+  else if ( *((_DWORD *)a1 + 8) != 0 && *((_DWORD *)a1 + 15) != *((_DWORD *)a1 + 16) )
+  {
+    result = sprintf(byte_578FE0, "local extra (%ld bytes) != central extra (%ld bytes): ", result, *((_DWORD *)a1 + 8));
+    if ( dword_4EA504 != 0 )
+    {
+      v25 = *((const char **)a1 + 19);
+      sub_4AB304();
+      return fprintf(v16 + 2, "\tzip info: %s%s\n", byte_578FE0, v25);
+    }
+    return result;
+  }
+  if ( dword_4EA504 != 0 )
+  {
+    if ( result != 0 )
+    {
+      if ( *((_DWORD *)a1 + 8) != 0 )
+        v17 = Locale;
+      else
+        v17 = "local ";
+    }
+    else
+    {
+      v17 = "central ";
+    }
+    if ( result == 0 )
+      result = *((_DWORD *)a1 + 8);
+    v26 = v17;
+    v21 = result;
+    v19 = *((const char **)a1 + 19);
+    sub_4AB304();
+    return fprintf(v18 + 2, "zip info: %s has %ld bytes of %sextra data\n", v19, v21, v26);
+  }
+  return result;
+}
+
 // Address: 0x476500
 int __cdecl sub_476500(FILE *Stream)
 {
@@ -90680,6 +92535,492 @@ LABEL_49:
   if ( ElementCount != 0 && dword_4EA504 != 0 )
     fprintf(dword_578FC4, "%s: adjusting offsets for a preamble of %lu bytes\n", lpFileName, ElementCount);
   return 0;
+}
+
+// Address: 0x476DC0
+int __thiscall sub_476DC0(FILE *Stream)
+{
+  FILE *v1; // ebx
+  unsigned __int8 *v2; // eax
+  unsigned __int8 *v3; // edi
+  _BYTE *v5; // ebp
+  unsigned __int8 *v6; // esi
+  unsigned int v7; // eax
+  size_t v8; // eax
+  size_t v9; // eax
+  unsigned __int8 *v10; // eax
+  FILE *v11; // eax
+  FILE *v12; // eax
+  FILE *v13; // eax
+  FILE *v14; // eax
+  unsigned __int16 v15; // ax
+  size_t v16; // esi
+  void *v17; // eax
+  int v18; // eax
+  char *v19; // eax
+  char *v20; // esi
+  _BYTE *v21; // eax
+  int i; // ebp
+  BOOL v23; // eax
+  int v24; // eax
+  void *v25; // eax
+  void *v26; // eax
+  void *v27; // eax
+  size_t v28; // eax
+  size_t v29; // eax
+  size_t v30; // esi
+  unsigned __int8 *v31; // esi
+  int v32; // eax
+  char *v33; // ebp
+  unsigned int v34; // eax
+  int v35; // ecx
+  char *v36; // edi
+  void *v37; // eax
+  unsigned int v38; // eax
+  _BYTE *v39; // ecx
+  _BYTE *v40; // edi
+  int v41; // eax
+  __int16 v42; // dx
+  unsigned int v43; // ebx
+  const char *v44; // edi
+  char *v45; // eax
+  const char *v46; // eax
+  int v47; // [esp+8h] [ebp-50h]
+  int v48; // [esp+8h] [ebp-50h]
+  int v49; // [esp+8h] [ebp-50h]
+  void **v50; // [esp+Ch] [ebp-4Ch]
+  int v51; // [esp+Ch] [ebp-4Ch]
+  __int16 v53; // [esp+14h] [ebp-44h]
+  __int16 Buffer; // [esp+18h] [ebp-40h] BYREF
+  _WORD v55[3]; // [esp+1Ah] [ebp-3Eh] BYREF
+  unsigned __int8 v56; // [esp+20h] [ebp-38h]
+  unsigned __int8 v57; // [esp+21h] [ebp-37h]
+  int v58; // [esp+22h] [ebp-36h]
+  int v59; // [esp+26h] [ebp-32h]
+  int v60; // [esp+2Ah] [ebp-2Eh]
+  unsigned __int8 v61; // [esp+2Eh] [ebp-2Ah]
+  unsigned __int8 v62; // [esp+2Fh] [ebp-29h]
+  unsigned __int8 v63; // [esp+30h] [ebp-28h]
+  unsigned __int8 v64; // [esp+31h] [ebp-27h]
+  unsigned __int8 v65; // [esp+32h] [ebp-26h]
+  unsigned __int8 v66; // [esp+33h] [ebp-25h]
+  unsigned __int8 v67; // [esp+34h] [ebp-24h]
+  unsigned __int8 v68; // [esp+35h] [ebp-23h]
+  __int16 v69; // [esp+36h] [ebp-22h]
+  __int16 v70; // [esp+38h] [ebp-20h]
+  unsigned __int8 v71; // [esp+3Ah] [ebp-1Eh]
+  unsigned __int8 v72; // [esp+3Bh] [ebp-1Dh]
+  unsigned __int8 v73; // [esp+3Ch] [ebp-1Ch]
+  unsigned __int8 v74; // [esp+3Dh] [ebp-1Bh]
+  unsigned __int8 v75; // [esp+3Eh] [ebp-1Ah]
+  unsigned __int8 v76; // [esp+3Fh] [ebp-19h]
+  unsigned __int8 v77; // [esp+40h] [ebp-18h]
+  unsigned __int8 v78; // [esp+41h] [ebp-17h]
+  _BYTE v79[4]; // [esp+44h] [ebp-14h] BYREF
+  int v80; // [esp+48h] [ebp-10h]
+  int v81; // [esp+4Ch] [ebp-Ch]
+  int v82; // [esp+50h] [ebp-8h]
+
+  v1 = Stream;
+  v2 = (unsigned __int8 *)malloc(0x1004u);
+  v3 = v2;
+  if ( v2 == nullptr )
+    return 4;
+  v5 = v2 + 4096;
+  v6 = v2 + 4096;
+  v47 = 0;
+  v2[4097] = 0;
+  v2[4098] = 0;
+  v2[4099] = 0;
+  if ( fseek(v1, -4096, 2) != 0 )
+  {
+    ElementCount = 4096;
+  }
+  else
+  {
+    v7 = ftell(v1) + 4096;
+    ElementCount = v7;
+    while ( v7 >= 0x1000 )
+    {
+      ElementCount = v7 - 4096;
+      *v5 = v6[1];
+      v3[4097] = v6[2];
+      v3[4098] = v6[3];
+      fread(v3, 1u, 0x1000u, v1);
+      fseek(v1, -8192, 1);
+      v6 = v3 + 4095;
+      if ( v3 + 4095 >= v3 )
+      {
+        while ( (*v6 | (unsigned __int16)(v6[1] << 8) | ((v6[2] | (unsigned __int16)(v6[3] << 8)) << 16)) != 0x6054B50 )
+        {
+          if ( --v6 < v3 )
+            goto LABEL_5;
+        }
+        v8 = v6 - v3 + ElementCount;
+        goto LABEL_19;
+      }
+LABEL_5:
+      v7 = ElementCount;
+    }
+    if ( v7 == 0 )
+      goto LABEL_20;
+  }
+  fseek(v1, 0, 0);
+  clearerr(v1);
+  v9 = fread(v3, 1u, ElementCount, v1);
+  v3[v9] = v6[1];
+  v3[v9 + 1] = v6[2];
+  v3[v9 + 2] = v6[3];
+  v10 = &v3[v9 - 1];
+  if ( v10 >= v3 )
+  {
+    while ( (*v10 | (unsigned __int16)(v10[1] << 8) | ((v10[2] | (unsigned __int16)(v10[3] << 8)) << 16)) != 0x6054B50 )
+    {
+      if ( --v10 < v3 )
+        goto LABEL_20;
+    }
+    v8 = v10 - v3;
+LABEL_19:
+    ElementCount = v8;
+    v47 = 1;
+    fseek(v1, v8 + 4, 0);
+  }
+LABEL_20:
+  free(v3);
+  if ( v47 == 0 )
+  {
+    if ( dword_4EA504 != 0 )
+    {
+      sub_4AB304();
+      fprintf(v11 + 2, "\tzip warning: %s%s\n", "missing end signature--probably not a zip file (did you", Locale);
+      sub_4AB304();
+      fflush(v12 + 2);
+      if ( dword_4EA504 != 0 )
+      {
+        sub_4AB304();
+        fprintf(v13 + 2, "\tzip warning: %s%s\n", "remember to use binary mode when you transferred it?)", Locale);
+        sub_4AB304();
+        fflush(v14 + 2);
+      }
+    }
+    return 3;
+  }
+  if ( fread(&Buffer, 0x12u, 1u, v1) != 1 )
+    return ferror(v1) != 0 ? 11 : 2;
+  if ( Buffer != 0 || v55[0] != 0 || v55[1] != v55[2] )
+    sub_472FD0((int)Locale, "multiple disk information ignored");
+  v15 = HIBYTE(v59) << 8;
+  v16 = BYTE2(v59) | v15;
+  dword_579438 = v16;
+  if ( v16 != 0 )
+  {
+    v17 = malloc(BYTE2(v59) | v15);
+    dword_543C58 = v17;
+    if ( v17 == nullptr )
+      return 4;
+    if ( fread(v17, v16, 1u, v1) != 1 )
+    {
+      free(dword_543C58);
+      dword_543C58 = nullptr;
+      return ferror(v1) != 0 ? 11 : 2;
+    }
+  }
+  v18 = ElementCount
+      - (v56 | (unsigned __int16)(v57 << 8) | (((unsigned __int8)v58 | (unsigned __int16)(BYTE1(v58) << 8)) << 16));
+  Offset = v18;
+  if ( dword_543C30 != 0 )
+    v48 = v18
+        - (BYTE2(v58)
+         | (unsigned __int16)(HIBYTE(v58) << 8)
+         | (((unsigned __int8)v59 | (unsigned __int16)(BYTE1(v59) << 8)) << 16));
+  else
+    v48 = 0;
+  if ( fseek(v1, v18, 0) != 0 )
+  {
+    perror("fseek");
+    return 3;
+  }
+  v50 = &dword_543C54;
+  if ( fread(&Buffer, 4u, 1u, v1) == 1 )
+  {
+    if ( ((unsigned __int8)Buffer
+        | (unsigned __int16)(HIBYTE(Buffer) << 8)
+        | ((LOBYTE(v55[0]) | (unsigned __int16)(HIBYTE(v55[0]) << 8)) << 16)) == 0x2014B50 )
+    {
+      while ( fread(&Buffer, 0x2Au, 1u, v1) == 1 )
+      {
+        v19 = (char *)malloc(0x60u);
+        v20 = v19;
+        if ( v19 == nullptr )
+          return 4;
+        v21 = v19 + 2;
+        *(_WORD *)v20 = Buffer;
+        for ( i = 22; i != 0; --i )
+        {
+          *v21 = v21[(char *)v55 - (v20 + 2)];
+          ++v21;
+        }
+        *((_DWORD *)v20 + 6) = v63 | (unsigned __int16)(v64 << 8);
+        *((_DWORD *)v20 + 8) = v65 | (unsigned __int16)(v66 << 8);
+        *((_DWORD *)v20 + 9) = v67 | (unsigned __int16)(v68 << 8);
+        *((_WORD *)v20 + 20) = v69;
+        *((_WORD *)v20 + 21) = v70;
+        *((_DWORD *)v20 + 12) = v71 | (unsigned __int16)(v72 << 8) | ((v73 | (unsigned __int16)(v74 << 8)) << 16);
+        *((_DWORD *)v20 + 13) = v48
+                              + (v75 | (unsigned __int16)(v76 << 8) | ((v77 | (unsigned __int16)(v78 << 8)) << 16));
+        v23 = (*(_WORD *)v20 & 0xFF00) == 0;
+        *((_DWORD *)v20 + 17) = 0;
+        *((_DWORD *)v20 + 16) = 0;
+        *((_DWORD *)v20 + 15) = 0;
+        *((_DWORD *)v20 + 18) = 0;
+        *((_DWORD *)v20 + 14) = 0;
+        *((_DWORD *)v20 + 22) = v23;
+        *((_DWORD *)v20 + 19) = 0;
+        *v50 = v20;
+        *((_DWORD *)v20 + 23) = 0;
+        v50 = (void **)(v20 + 92);
+        v24 = *((_DWORD *)v20 + 6);
+        if ( v24 == 0 )
+        {
+          sprintf(byte_578FE0, "%lu", dword_579440 + 1);
+          sub_472FD0((int)byte_578FE0, "zero-length name for entry #");
+          free(v20);
+          return 3;
+        }
+        v25 = malloc(v24 + 1);
+        *((_DWORD *)v20 + 18) = v25;
+        if ( v25 == nullptr )
+          return 4;
+        if ( *((_DWORD *)v20 + 8) != 0 )
+        {
+          v26 = malloc(*((_DWORD *)v20 + 8));
+          *((_DWORD *)v20 + 16) = v26;
+          if ( v26 == nullptr )
+            return 4;
+        }
+        if ( *((_DWORD *)v20 + 9) != 0 )
+        {
+          v27 = malloc(*((_DWORD *)v20 + 9));
+          *((_DWORD *)v20 + 17) = v27;
+          if ( v27 == nullptr )
+            return 4;
+        }
+        if ( fread(*((void **)v20 + 18), *((_DWORD *)v20 + 6), 1u, v1) != 1 )
+          return ferror(v1) != 0 ? 11 : 2;
+        v28 = *((_DWORD *)v20 + 8);
+        if ( v28 != 0 && fread(*((void **)v20 + 16), v28, 1u, v1) != 1 )
+          return ferror(v1) != 0 ? 11 : 2;
+        v29 = *((_DWORD *)v20 + 9);
+        if ( v29 != 0 && fread(*((void **)v20 + 17), v29, 1u, v1) != 1 )
+          return ferror(v1) != 0 ? 11 : 2;
+        *(_BYTE *)(*((_DWORD *)v20 + 18) + *((_DWORD *)v20 + 6)) = 0;
+        v30 = *((_DWORD *)v20 + 13);
+        if ( v30 < ElementCount )
+          ElementCount = v30;
+        ++dword_579440;
+        if ( fread(&Buffer, 4u, 1u, v1) != 1 )
+          return ferror(v1) != 0 ? 11 : 2;
+        if ( ((unsigned __int8)Buffer
+            | (unsigned __int16)(HIBYTE(Buffer) << 8)
+            | ((LOBYTE(v55[0]) | (unsigned __int16)(HIBYTE(v55[0]) << 8)) << 16)) != 0x2014B50 )
+          goto LABEL_60;
+      }
+    }
+    else
+    {
+LABEL_60:
+      v31 = (unsigned __int8 *)dword_543C54;
+      if ( dword_543C54 == nullptr )
+      {
+LABEL_111:
+        if ( ElementCount != 0 && dword_4EA504 != 0 )
+        {
+          v46 = "adjusting offsets for";
+          if ( dword_543C30 == 0 )
+            v46 = "found";
+          fprintf(dword_578FC4, "%s: %s a preamble of %lu bytes\n", lpFileName, v46, ElementCount);
+        }
+        return 0;
+      }
+      while ( 1 )
+      {
+        v1 = Stream;
+        if ( fseek(Stream, *((_DWORD *)v31 + 13), 0) != 0 || fread(&Buffer, 4u, 1u, Stream) != 1 )
+          break;
+        if ( ((unsigned __int8)Buffer
+            | (unsigned __int16)(HIBYTE(Buffer) << 8)
+            | ((LOBYTE(v55[0]) | (unsigned __int16)(HIBYTE(v55[0]) << 8)) << 16)) != 0x4034B50 )
+        {
+          sub_472FD0(*((_DWORD *)v31 + 18), "local header not found for ");
+          return 3;
+        }
+        if ( fread(&Buffer, 0x1Au, 1u, Stream) != 1 )
+          return ferror(v1) != 0 ? 11 : 2;
+        *((_WORD *)v31 + 22) = v55[0];
+        v32 = v61 | (unsigned __int16)(v62 << 8);
+        *((_DWORD *)v31 + 7) = v63 | (unsigned __int16)(v64 << 8);
+        if ( v32 != *((_DWORD *)v31 + 6) )
+        {
+          sub_472FD0(*((_DWORD *)v31 + 18), "name lengths in local and central differ for ");
+          return 3;
+        }
+        v33 = (char *)malloc(*((_DWORD *)v31 + 6));
+        if ( v33 == nullptr )
+          return 4;
+        if ( fread(v33, *((_DWORD *)v31 + 6), 1u, Stream) != 1 )
+        {
+          free(v33);
+          return ferror(v1) != 0 ? 11 : 2;
+        }
+        v34 = *((_DWORD *)v31 + 6);
+        v35 = *((_DWORD *)v31 + 18);
+        v36 = v33;
+        if ( v34 >= 4 )
+        {
+          while ( *(_DWORD *)v36 == *(_DWORD *)v35 )
+          {
+            v34 -= 4;
+            v35 += 4;
+            v36 += 4;
+            if ( v34 < 4 )
+              goto LABEL_71;
+          }
+LABEL_120:
+          free(v33);
+          sub_472FD0(*((_DWORD *)v31 + 18), "names in local and central differ for ");
+          return 3;
+        }
+LABEL_71:
+        if ( v34 != 0
+          && (*(_BYTE *)v35 != *v36
+           || v34 > 1 && (*(_BYTE *)(v35 + 1) != v36[1] || v34 > 2 && *(_BYTE *)(v35 + 2) != v36[2])) )
+        {
+          goto LABEL_120;
+        }
+        free(v33);
+        if ( *((_DWORD *)v31 + 7) != 0 )
+        {
+          v37 = malloc(*((_DWORD *)v31 + 7));
+          *((_DWORD *)v31 + 15) = v37;
+          if ( v37 == nullptr )
+            return 4;
+          if ( fread(v37, *((_DWORD *)v31 + 7), 1u, Stream) != 1 )
+          {
+            free(*((void **)v31 + 15));
+            return ferror(v1) != 0 ? 11 : 2;
+          }
+          v38 = *((_DWORD *)v31 + 7);
+          if ( v38 == *((_DWORD *)v31 + 8) )
+          {
+            v39 = *((_BYTE **)v31 + 16);
+            v40 = *((_BYTE **)v31 + 15);
+            if ( v38 < 4 )
+            {
+LABEL_84:
+              if ( v38 == 0 || *v39 == *v40 && (v38 <= 1 || v39[1] == v40[1] && (v38 <= 2 || v39[2] == v40[2])) )
+              {
+                free(*((void **)v31 + 15));
+                *((_DWORD *)v31 + 15) = *((_DWORD *)v31 + 16);
+              }
+            }
+            else
+            {
+              while ( *(_DWORD *)v40 == *(_DWORD *)v39 )
+              {
+                v38 -= 4;
+                v39 += 4;
+                v40 += 4;
+                if ( v38 < 4 )
+                  goto LABEL_84;
+              }
+            }
+          }
+        }
+        if ( (v31[44] & 8) != 0 )
+        {
+          v41 = (unsigned __int8)v59
+              | (unsigned __int16)(BYTE1(v59) << 8)
+              | ((BYTE2(v59) | (unsigned __int16)(HIBYTE(v59) << 8)) << 16);
+          if ( v41 == 0 )
+            v41 = v31[16] | (unsigned __int16)(v31[17] << 8) | ((v31[18] | (unsigned __int16)(v31[19] << 8)) << 16);
+          if ( fseek(Stream, *((_DWORD *)v31 + 13) + *((_DWORD *)v31 + 6) + *((_DWORD *)v31 + 7) + v41 + 30, 0) != 0
+            || fread(v79, 0x10u, 1u, Stream) != 1 )
+          {
+            return ferror(v1) != 0 ? 11 : 2;
+          }
+          if ( (v79[0] | (unsigned __int16)(v79[1] << 8) | ((v79[2] | (unsigned __int16)(v79[3] << 8)) << 16)) != 0x8074B50 )
+          {
+            sub_472FD0(*((_DWORD *)v31 + 18), "extended local header not found for ");
+            return 3;
+          }
+          v58 = v80;
+          v59 = v81;
+          v60 = v82;
+        }
+        v42 = *((_WORD *)v31 + 2);
+        v31[5] &= 0x1Fu;
+        HIBYTE(v55[0]) &= 0x1Fu;
+        v43 = 0;
+        v53 = v42;
+        v49 = 0;
+        v51 = v31 + 2 - (unsigned __int8 *)&Buffer;
+        do
+        {
+          if ( *((_BYTE *)&v55[-1] + v43) != *((_BYTE *)&v55[-1] + v43 + v51) )
+          {
+            if ( v49 == 0 )
+            {
+              sub_472FD0(*((_DWORD *)v31 + 19), "local and central headers differ for ");
+              v49 = 1;
+            }
+            if ( dword_4EA504 != 0 )
+            {
+              sprintf(
+                byte_578FE0,
+                " offset %u--local = %02x, central = %02x",
+                v43,
+                *((unsigned __int8 *)&v55[-1] + v43),
+                *((unsigned __int8 *)&v55[-1] + v43 + v51));
+              sub_472FD0((int)Locale, byte_578FE0);
+            }
+          }
+          ++v43;
+        }
+        while ( v43 < 0x16 );
+        if ( v49 != 0 && dword_543C30 == 0 )
+          return 3;
+        *((_DWORD *)v31 + 5) = v31[20]
+                             | (unsigned __int16)(v31[21] << 8)
+                             | ((v31[22] | (unsigned __int16)(v31[23] << 8)) << 16);
+        *((_DWORD *)v31 + 4) = v31[16]
+                             | (unsigned __int16)(v31[17] << 8)
+                             | ((v31[18] | (unsigned __int16)(v31[19] << 8)) << 16);
+        *((_DWORD *)v31 + 3) = v31[12]
+                             | (unsigned __int16)(v31[13] << 8)
+                             | ((v31[14] | (unsigned __int16)(v31[15] << 8)) << 16);
+        *((_DWORD *)v31 + 2) = v31[8]
+                             | (unsigned __int16)(v31[9] << 8)
+                             | ((v31[10] | (unsigned __int16)(v31[11] << 8)) << 16);
+        *((_WORD *)v31 + 3) = *((_WORD *)v31 + 3);
+        *((_WORD *)v31 + 2) = v53;
+        *((_WORD *)v31 + 1) = v31[2] | (v31[3] << 8);
+        v44 = *((const char **)v31 + 18);
+        *((_DWORD *)v31 + 20) = 0;
+        *((_DWORD *)v31 + 21) = 0;
+        v45 = sub_47A7F0(v44);
+        *((_DWORD *)v31 + 19) = v45;
+        if ( v45 == nullptr )
+          return 4;
+        *((_DWORD *)v31 + 14) = v45;
+        if ( dword_543C28 != 0 )
+          sub_476230((unsigned __int16 *)v31);
+        v31 = *((unsigned __int8 **)v31 + 23);
+        if ( v31 == nullptr )
+          goto LABEL_111;
+      }
+    }
+  }
+  return ferror(v1) != 0 ? 11 : 2;
 }
 
 // Address: 0x477B10
@@ -91091,6 +93432,133 @@ int __usercall sub_478550@<eax>(int *a1@<eax>, unsigned int *a2@<edi>)
     }
   }
   return result;
+}
+
+// Address: 0x478590
+int sub_478590()
+{
+  void *v0; // esi
+  int v1; // ebp
+  int v2; // ecx
+  int v3; // edx
+  FILE *v4; // eax
+  FILE *v5; // eax
+  const char *v6; // edi
+  const char *v7; // eax
+  const char *v8; // edi
+  const char *v9; // eax
+  const char *v10; // edx
+  unsigned int v11; // eax
+  char v12; // cl
+  _DWORD *v13; // ebp
+  void *v15; // esi
+  size_t i; // ebx
+  int v17; // eax
+  size_t j; // edi
+  const char *v19; // eax
+  const char *v20; // eax
+  const char *v21; // [esp-4h] [ebp-14h]
+
+  v0 = dword_543C54;
+  v1 = 0;
+  if ( dword_543C54 != nullptr )
+  {
+    do
+    {
+      if ( *((_DWORD *)v0 + 20) == 1 || *((_DWORD *)v0 + 21) != 0 )
+      {
+        v2 = *((_DWORD *)v0 + 6);
+        v3 = *((_DWORD *)v0 + 18);
+        *((_DWORD *)v0 + 20) = 1;
+        if ( *(_BYTE *)(v2 + v3 - 1) == 47 )
+        {
+          ++v1;
+        }
+        else
+        {
+          if ( dword_543C28 != 0 )
+            fprintf(dword_578FC4, "zip diagnostic: deleting file %s\n", *((const char **)v0 + 14));
+          if ( _unlink(*((const char **)v0 + 14)) != 0 && dword_4EA504 != 0 )
+          {
+            v21 = *((const char **)v0 + 14);
+            sub_4AB304();
+            fprintf(v4 + 2, "\tzip warning: %s%s\n", "error deleting ", v21);
+            sub_4AB304();
+            fflush(v5 + 2);
+          }
+          if ( dword_4EA500 == 0 )
+          {
+            v6 = *((const char **)v0 + 14);
+            v7 = sub_478DE0(v6, 47);
+            if ( v7 != nullptr )
+              *v7 = 0;
+            else
+              *v6 = 0;
+            v8 = *((const char **)v0 + 18);
+            v9 = sub_478DE0(v8, 47);
+            if ( v9 != nullptr )
+              *v9 = 0;
+            else
+              *v8 = 0;
+            v10 = *((const char **)v0 + 18);
+            v11 = strlen(v10);
+            *((_DWORD *)v0 + 6) = v11;
+            if ( v11 != 0 )
+            {
+              v10[v11 - 1] = 47;
+              *(_BYTE *)(*((_DWORD *)v0 + 6) + *((_DWORD *)v0 + 18)) = v12;
+              ++*((_DWORD *)v0 + 6);
+            }
+            if ( *((_DWORD *)v0 + 6) != 0 )
+              ++v1;
+          }
+        }
+      }
+      v0 = *((void **)v0 + 23);
+    }
+    while ( v0 != nullptr );
+    if ( v1 != 0 )
+    {
+      v13 = malloc(4 * v1);
+      if ( v13 == nullptr )
+        return 4;
+      v15 = dword_543C54;
+      for ( i = 0; v15 != nullptr; v15 = *((void **)v15 + 23) )
+      {
+        if ( *((_DWORD *)v15 + 20) != 0 )
+        {
+          v17 = *((_DWORD *)v15 + 6);
+          if ( v17 != 0
+            && *(_BYTE *)(*((_DWORD *)v15 + 18) + v17 - 1) == 47
+            && (i == 0 || strcmp(*((const char **)v15 + 14), *(const char **)(v13[i - 1] + 56)) != 0) )
+          {
+            v13[i++] = v15;
+          }
+        }
+      }
+      qsort(v13, i, 4u, sub_476160);
+      for ( j = 0; j < i; ++j )
+      {
+        if ( **(_BYTE **)(v13[j] + 56) != 0 )
+        {
+          v19 = *(const char **)(v13[j] + 56);
+          if ( v19[strlen(v19) - 1] == 47 )
+          {
+            v20 = *(const char **)(v13[j] + 56);
+            v20[strlen(v20) - 1] = 0;
+          }
+          if ( j == 0 || strcmp(*(const char **)(v13[j] + 56), *(const char **)(v13[j - 1] + 56)) != 0 )
+          {
+            if ( dword_543C28 != 0 )
+              fprintf(dword_578FC4, "deleting directory %s (if empty)                \n", *(const char **)(v13[j] + 56));
+            _rmdir(*(const char **)(v13[j] + 56));
+          }
+        }
+      }
+      free(v13);
+    }
+  }
+  return 0;
 }
 
 // Address: 0x478820
@@ -92807,6 +95275,120 @@ char *__usercall sub_47A7F0@<eax>(const char *a1@<edi>)
   if ( result != nullptr )
     strcpy(result, a1);
   return result;
+}
+
+// Address: 0x47A820
+int __usercall sub_47A820@<eax>(const char *a1@<eax>, _DWORD *a2, _off_t *a3, int a4)
+{
+  unsigned int v5; // esi
+  BOOL v6; // ebp
+  char *v8; // esi
+  FILE *v9; // eax
+  int v10; // eax
+  unsigned __int16 st_mode; // cx
+  DWORD FileAttributesA; // eax
+  _off_t st_size; // eax
+  int st_atime_high; // edx
+  int st_mtime; // ecx
+  int st_mtime_high; // edx
+  int st_ctime; // ecx
+  int st_ctime_high; // edx
+  unsigned int v19; // [esp+14h] [ebp-34h]
+  struct _stat64i32 Stat; // [esp+18h] [ebp-30h] BYREF
+
+  v5 = strlen(a1);
+  v19 = v5;
+  v6 = strcmp(a1, "-") == 0;
+  if ( a1 == (const char *)dword_543C70 )
+  {
+    if ( a2 != nullptr )
+      *a2 = dword_543C7C;
+    if ( a3 != nullptr )
+      *a3 = -2;
+    if ( a4 != 0 )
+    {
+      *(_QWORD *)(a4 + 16) = qword_543C80;
+      *(_QWORD *)(a4 + 8) = qword_543C80;
+      *(_QWORD *)a4 = qword_543C80;
+    }
+    return dword_543C78;
+  }
+  else
+  {
+    v8 = (char *)malloc(v5 + 1);
+    if ( v8 == nullptr )
+      sub_472E10("filetime", 4);
+    strcpy(v8, a1);
+    if ( sub_478DE0(v8, 47) == &v8[v19 - 1] )
+      v8[v19 - 1] = 0;
+    if ( v6 )
+    {
+      sub_4AB304();
+      v10 = _fileno(v9);
+      if ( _fstat64i32(v10, &Stat) != 0 )
+      {
+        free(v8);
+        sub_472E10("fstat(stdin)", 5);
+      }
+      _time64(&Stat.st_mtime);
+    }
+    else if ( sub_4799E0(v8, &Stat) != 0 )
+    {
+      free(v8);
+      return 0;
+    }
+    if ( a2 != nullptr )
+    {
+      if ( v6 )
+      {
+        st_mode = Stat.st_mode;
+        *a2 = Stat.st_mode << 16;
+      }
+      else
+      {
+        FileAttributesA = GetFileAttributesA(v8);
+        if ( FileAttributesA == -1 )
+        {
+          fprintf(dword_578FC4, "zip diagnostic: GetFileAttributes failed\n");
+          st_mode = Stat.st_mode;
+          *a2 = (Stat.st_mode << 16) | 0x20;
+        }
+        else
+        {
+          st_mode = Stat.st_mode;
+          *a2 = FileAttributesA & 0x37 | (Stat.st_mode << 16);
+        }
+      }
+    }
+    else
+    {
+      st_mode = Stat.st_mode;
+    }
+    if ( a3 != nullptr )
+    {
+      if ( (st_mode & 0xF000) == 0x8000 )
+        st_size = Stat.st_size;
+      else
+        st_size = -1;
+      *a3 = st_size;
+    }
+    if ( a4 != 0 )
+    {
+      st_atime_high = HIDWORD(Stat.st_atime);
+      *(_DWORD *)a4 = Stat.st_atime;
+      st_mtime = Stat.st_mtime;
+      *(_DWORD *)(a4 + 4) = st_atime_high;
+      st_mtime_high = HIDWORD(Stat.st_mtime);
+      *(_DWORD *)(a4 + 8) = st_mtime;
+      st_ctime = Stat.st_ctime;
+      *(_DWORD *)(a4 + 12) = st_mtime_high;
+      st_ctime_high = HIDWORD(Stat.st_ctime);
+      *(_DWORD *)(a4 + 16) = st_ctime;
+      *(_DWORD *)(a4 + 20) = st_ctime_high;
+    }
+    free(v8);
+    return sub_475D90(&Stat.st_mtime);
+  }
 }
 
 // Address: 0x47AA80
@@ -95300,6 +97882,28 @@ int __userpurge sub_47D950@<eax>(int a1@<eax>, int a2)
   }
 }
 
+// Address: 0x47D9F0
+int __usercall sub_47D9F0@<eax>(const void *a1@<ebx>, unsigned int a2@<edi>, FILE *a3@<esi>, int a4)
+{
+  FILE *v4; // eax
+  FILE *v5; // eax
+  int v6; // eax
+
+  sub_4AB304();
+  if ( a3 == &v4[2] || (sub_4AB304(), a3 == &v5[1]) )
+  {
+    if ( dword_543C9C != 0 )
+      return a2;
+    else
+      return (**(int (__stdcall ***)(const void *, unsigned int))(a4 + 68456))(a1, a2);
+  }
+  else
+  {
+    v6 = _fileno(a3);
+    return _write(v6, a1, a2);
+  }
+}
+
 // Address: 0x47DA40
 int __stdcall sub_47DA40(int a1, int a2, int a3, int a4)
 {
@@ -97301,6 +99905,89 @@ int __usercall sub_480200@<eax>(int a1@<esi>)
   return 50;
 }
 
+// Address: 0x480250
+BOOL __stdcall sub_480250(_DWORD *a1, char *a2, unsigned int a3, __int16 a4)
+{
+  char v4; // bl
+  unsigned int v5; // edi
+  BOOL result; // eax
+  FILE *v7; // eax
+  FILE *v8; // esi
+  FILE *v9; // eax
+  FILE *v10; // eax
+  FILE *v11; // eax
+  FILE *v12; // eax
+  FILE *v13; // eax
+  char *v14; // [esp+14h] [ebp+Ch]
+  int v15; // [esp+18h] [ebp+10h]
+
+  v4 = a4;
+  v5 = a3;
+  v14 = &a2[a3];
+  if ( (a4 & 0x1000) != 0 || (a4 & 0x100) != 0 )
+    return false;
+  if ( a1[40] != 0 && a1[41] == 0 )
+    return false;
+  v15 = a4 & 1;
+  if ( (v4 & 1) == 0 || a1[17] != 0 )
+  {
+    sub_4AB304();
+    v8 = v9 + 1;
+  }
+  else
+  {
+    sub_4AB304();
+    v8 = v7 + 2;
+  }
+  if ( (v4 & 0x40) != 0 )
+  {
+    if ( v5 == 0 )
+    {
+      if ( a1[17012] != 0 )
+        goto LABEL_17;
+      goto LABEL_16;
+    }
+    if ( *(v14 - 1) != 10 )
+    {
+LABEL_16:
+      *v14++ = 10;
+      ++v5;
+    }
+  }
+LABEL_17:
+  if ( (v4 & 0x20) != 0 && a1[17012] == 0 )
+  {
+    fputc(10, v8);
+    fflush(v8);
+    if ( v15 != 0 && a1[17] != 0 && _isatty(1) == 0 && _isatty(2) != 0 )
+    {
+      sub_4AB304();
+      fputc(10, v10 + 2);
+      sub_4AB304();
+      fflush(v11 + 2);
+    }
+    a1[17012] = 1;
+  }
+  if ( v5 != 0 )
+  {
+    result = sub_47D9F0(a2, v5, v8, (int)a1) != v5;
+    if ( result )
+      return result;
+    fflush(v8);
+    if ( v15 != 0 && a1[17] != 0 && _isatty(1) == 0 && _isatty(2) != 0 )
+    {
+      sub_4AB304();
+      result = sub_47D9F0(a2, v5, v12 + 2, (int)a1) != v5;
+      if ( result )
+        return result;
+      sub_4AB304();
+      fflush(v13 + 2);
+    }
+    a1[17012] = *(v14 - 1) == 10;
+  }
+  return false;
+}
+
 // Address: 0x480400
 int __stdcall sub_480400(int a1, int a2, _DWORD *a3, int a4)
 {
@@ -97376,6 +100063,241 @@ int __usercall sub_4804B0@<eax>(int a1@<eax>)
     v6 = sub_480410(*(_DWORD *)(a1 + 67880));
   }
   return __SPAIR64__(v5, v4) >= v6;
+}
+
+// Address: 0x480590
+int __usercall sub_480590@<eax>(int a1@<eax>, size_t Size, int a3)
+{
+  size_t v3; // ebx
+  int result; // eax
+  size_t v6; // eax
+  char *v7; // edi
+  char *v8; // ebx
+  size_t v9; // ebp
+  char j; // al
+  char v11; // cl
+  _BYTE *v12; // eax
+  char v13; // dl
+  char v14; // cl
+  const void *v15; // ebx
+  FILE *v16; // eax
+  FILE *v17; // edi
+  FILE *v18; // eax
+  FILE *v19; // eax
+  int v20; // eax
+  FILE *v21; // eax
+  FILE *v22; // edi
+  FILE *v23; // eax
+  FILE *v24; // eax
+  int v25; // eax
+  int v26; // eax
+  const char *v27; // edi
+  _BYTE *v28; // eax
+  char v29; // cl
+  char v30; // dl
+  _BYTE *v31; // ebx
+  size_t v32; // eax
+  unsigned int v33; // eax
+  char v34; // al
+  _BYTE *v35; // eax
+  char v36; // cl
+  const char *v37; // eax
+  int v38; // eax
+  char *v39; // eax
+  int v40; // eax
+  bool v41; // zf
+  char i; // [esp+1Bh] [ebp-9h]
+  size_t v43; // [esp+1Ch] [ebp-8h]
+  size_t v44; // [esp+1Ch] [ebp-8h]
+  int v45; // [esp+20h] [ebp-4h]
+
+  v3 = Size;
+  v45 = 0;
+  if ( Size == 0 )
+    return 0;
+  switch ( a3 )
+  {
+    case 0:
+      goto LABEL_68;
+    case 1:
+    case 5:
+      v6 = Size;
+      v43 = Size;
+      break;
+    case 2:
+    case 6:
+      if ( Size < 0x104 )
+      {
+        v44 = 0;
+      }
+      else
+      {
+        v26 = sprintf((char *const)(a1 + 2268), "warning:  filename too long--truncating.\n");
+        (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v26, 1025);
+        Size = 259;
+        v44 = v3 - 259;
+        v3 = 259;
+        v45 = 1;
+      }
+      v27 = (const char *)(a1 + 68080);
+      if ( sub_47F890(v3, a1, (char *)(a1 + 68080)) == 0 )
+        return 51;
+      *(_BYTE *)(a1 + v3 + 68080) = 0;
+      v28 = *(_BYTE **)(a1 + 2264);
+      v29 = v28[19];
+      if ( v29 == 0 && (a3 != 6 && (v28[24] & 0x40) == 0 || (v30 = v28[18]) != 25 && v30 != 26 && v30 != 40)
+        || v29 == 6
+        || v29 == 11 && v28[18] == 50 )
+      {
+        OemToCharA((LPCSTR)(a1 + 68080), (LPSTR)(a1 + 68080));
+      }
+      if ( (*(_BYTE *)(*(_DWORD *)(a1 + 2264) + 24) & 0x10) != 0 )
+      {
+        v31 = (_BYTE *)(a1 + 68080);
+        for ( i = *v27; *v27 != 0; i = *v27 )
+        {
+          v32 = ___mb_cur_max_func();
+          v33 = mblen(v27, v32);
+          if ( v33 <= 1 )
+          {
+            if ( isupper(i) != 0 )
+              v34 = tolower(i);
+            else
+              v34 = i;
+            *v31++ = v34;
+            ++v27;
+          }
+          else
+          {
+            do
+            {
+              --v33;
+              *v31++ = *v27++;
+            }
+            while ( v33 != 0 );
+          }
+        }
+        *v31 = 0;
+        v3 = Size;
+      }
+      if ( (*(_BYTE *)(*(_DWORD *)(a1 + 2264) + 24) & 0x20) != 0 && v3 > 8 )
+      {
+        v35 = (_BYTE *)(a1 + 68088);
+        if ( *(_BYTE *)(a1 + 68088) == 46 && *v35 != 0 )
+        {
+          do
+          {
+            v36 = *++v35;
+            *(v35 - 1) = v36;
+          }
+          while ( v36 != 0 );
+        }
+      }
+      if ( v44 == 0 )
+        return v45;
+      v37 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 35036));
+      v38 = sprintf((char *const)(a1 + 2268), "[ %s ]\n", v37);
+      (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v38, 1025);
+      v3 = v44;
+LABEL_68:
+      sub_47FA60(
+        a1,
+        v3 + *(_DWORD *)(a1 + 67816) + *(_DWORD *)(a1 + 67856) - *(_DWORD *)(a1 + 67860) - *(_DWORD *)(a1 + 67812));
+      return v45;
+    case 3:
+      if ( *(_DWORD *)(a1 + 67864) != 0 )
+        free(*(void **)(a1 + 67864));
+      v39 = (char *)malloc(Size);
+      *(_DWORD *)(a1 + 67864) = v39;
+      if ( v39 != nullptr )
+      {
+        v41 = sub_47F890(Size, a1, v39) == 0;
+        result = 51;
+        if ( !v41 )
+          return v45;
+      }
+      else
+      {
+        v40 = sprintf((char *const)(a1 + 2268), "warning:  extra field too long (%d).  Ignoring...\n", Size);
+        (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v40, 1025);
+        sub_47FA60(
+          a1,
+          Size + *(_DWORD *)(a1 + 67816) + *(_DWORD *)(a1 + 67856) - *(_DWORD *)(a1 + 67860) - *(_DWORD *)(a1 + 67812));
+        return 0;
+      }
+      return result;
+    default:
+      return v45;
+  }
+  while ( 1 )
+  {
+    v7 = *(char **)(a1 + 68060);
+    v8 = v7;
+    if ( v6 > 0x20000 )
+      v6 = 0x20000;
+    v9 = sub_47F890(v6, a1, *(char **)(a1 + 68060));
+    if ( v9 == 0 )
+      break;
+    v43 -= v9;
+    *(_BYTE *)(*(_DWORD *)(a1 + 68060) + v9) = 0;
+    for ( j = *v7; *v7 != 0; ++v8 )
+    {
+      if ( j == 13 )
+      {
+        do
+          ++v7;
+        while ( *v7 == 13 );
+      }
+      v11 = *v7++;
+      *v8 = v11;
+      j = *v7;
+    }
+    *v8 = 0;
+    if ( a3 == 5 )
+    {
+      if ( (v12 = *(_BYTE **)(a1 + 2264), (v13 = v12[19]) == 0)
+        && ((v12[24] & 0x40) == 0 || (v14 = v12[18]) != 25 && v14 != 26 && v14 != 40)
+        || v13 == 6
+        || v13 == 11 && v12[18] == 50 )
+      {
+        OemToCharA(*(LPCSTR *)(a1 + 68060), *(LPSTR *)(a1 + 68060));
+      }
+    }
+    v15 = *(const void **)(a1 + 68060);
+    sub_4AB304();
+    v17 = v16 + 1;
+    sub_4AB304();
+    if ( v17 == &v18[2] || (sub_4AB304(), v17 == &v19[1]) )
+    {
+      if ( dword_543C9C == 0 )
+        (**(void (__stdcall ***)(const void *, size_t))(a1 + 68456))(v15, Size);
+    }
+    else
+    {
+      v20 = _fileno(v17);
+      _write(v20, v15, Size);
+    }
+    sub_4AB304();
+    v22 = v21 + 1;
+    sub_4AB304();
+    if ( v22 == &v23[2] || (sub_4AB304(), v22 == &v24[1]) )
+    {
+      if ( dword_543C9C == 0 )
+        (**(void (__stdcall ***)(const char *, int))(a1 + 68456))("\n\n", 2);
+    }
+    else
+    {
+      v25 = _fileno(v22);
+      _write(v25, "\n\n", 2u);
+    }
+    if ( v43 == 0 )
+    {
+      (*(void (__stdcall **)(int, int, _DWORD, int))(a1 + 68436))(a1, a1 + 2268, 0, 64);
+      return 0;
+    }
+    v6 = v43;
+  }
+  return 51;
 }
 
 // Address: 0x480A00
@@ -97579,6 +100501,12 @@ LABEL_13:
     }
   }
   return 0;
+}
+
+// Address: 0x480EA0
+BOOL __cdecl sub_480EA0(int a1, int a2, int a3, int a4, void *a5)
+{
+  return !sub_48C5F0(a5);
 }
 
 // Address: 0x480EC0
@@ -101279,6 +104207,528 @@ LABEL_158:
   }
 }
 
+// Address: 0x485950
+int __usercall sub_485950@<eax>(int a1@<eax>)
+{
+  int v2; // edi
+  const char *v3; // eax
+  int v4; // eax
+  FILE *v5; // eax
+  int v6; // eax
+  const char *v8; // ecx
+  const char *v9; // eax
+  const char *v10; // eax
+  int v11; // eax
+  int v12; // ebx
+  int v13; // eax
+  unsigned __int8 *v14; // ecx
+  int v15; // eax
+  unsigned int v16; // eax
+  int v17; // eax
+  unsigned int v18; // eax
+  const char *v19; // ecx
+  const char *v20; // eax
+  const char *v21; // eax
+  int v22; // eax
+  int v23; // eax
+  const char *v24; // eax
+  int v25; // eax
+  int v26; // eax
+  const char *v27; // ecx
+  const char *v28; // eax
+  const char *v29; // eax
+  int v30; // eax
+  int v31; // eax
+  int v32; // ebp
+  const char *v33; // eax
+  int v34; // eax
+  const char *v35; // eax
+  int v36; // eax
+  unsigned int v37; // eax
+  unsigned int v38; // ecx
+  BOOL v39; // ebp
+  const char *v40; // eax
+  int v41; // eax
+  const char *v42; // ebx
+  const char *v43; // edx
+  int v44; // eax
+  const char *v45; // ecx
+  const char *v46; // eax
+  const char *v47; // eax
+  int v48; // eax
+  int v49; // eax
+  int v50; // edi
+  const char *v51; // eax
+  int v52; // eax
+  const char *v53; // eax
+  int v54; // eax
+  int v55; // eax
+  const char *v56; // eax
+  int v57; // eax
+  int v58; // edi
+  const char *v59; // eax
+  int v60; // eax
+  int v61; // eax
+  int v62; // eax
+  unsigned __int16 *v63; // eax
+  int v64; // eax
+  int v65; // edi
+  int v66; // eax
+  int v67; // eax
+  const char *v68; // eax
+  int v69; // eax
+  const char *v70; // [esp+30h] [ebp-28h]
+  const char *v71; // [esp+30h] [ebp-28h]
+  const char *v72; // [esp+30h] [ebp-28h]
+  const char *v73; // [esp+30h] [ebp-28h]
+  const char *v74; // [esp+34h] [ebp-24h]
+  const char *v75; // [esp+34h] [ebp-24h]
+  const char *v76; // [esp+34h] [ebp-24h]
+  const char *v77; // [esp+34h] [ebp-24h]
+  int v78; // [esp+50h] [ebp-8h]
+  const char *v79; // [esp+50h] [ebp-8h]
+  const char *v80; // [esp+50h] [ebp-8h]
+  const char *v81; // [esp+54h] [ebp-4h]
+  const char *v82; // [esp+54h] [ebp-4h]
+
+  v2 = 0;
+  v78 = 0;
+  *(_DWORD *)(a1 + 67828) = 0;
+  *(_DWORD *)(a1 + 67824) = 0;
+  *(_DWORD *)(a1 + 67832) = 0;
+  *(_DWORD *)(a1 + 68036) = 1;
+  *(_DWORD *)(a1 + 67808) = 0;
+  if ( *(_DWORD *)(a1 + 68) != 0 )
+  {
+    if ( *(_DWORD *)(a1 + 56) == 0 )
+    {
+      v3 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 35036));
+      v4 = sprintf((char *const)(a1 + 2268), "%8sing: %-22s  %s%s", "test", v3, Locale, Locale);
+      (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v4, 0);
+    }
+  }
+  else if ( *(_DWORD *)(a1 + 20) == 0 || *(_DWORD *)(a1 + 160) != 0 )
+  {
+    if ( sub_47F6C0(a1) )
+      return 50;
+  }
+  else
+  {
+    sub_4AB304();
+    *(_DWORD *)(a1 + 68056) = v5 + 1;
+    v6 = _fileno(v5 + 1);
+    _setmode(v6, 0x8000);
+  }
+  sub_47F820((_DWORD *)a1);
+  switch ( *(_WORD *)(a1 + 67892) )
+  {
+    case 0:
+      if ( *(_DWORD *)(a1 + 68) == 0 && *(_DWORD *)(a1 + 56) == 0 )
+      {
+        v8 = "\r\n";
+        if ( *(_DWORD *)(a1 + 20) == 0 )
+          v8 = Locale;
+        if ( *(_DWORD *)(a1 + 16) == 1 )
+        {
+          if ( *(_DWORD *)(a1 + 67876) != 0 )
+          {
+            v9 = "[text]  ";
+            if ( (*(_BYTE *)(*(_DWORD *)(a1 + 2264) + 24) & 4) == 0 )
+              v9 = "[binary]";
+          }
+          else
+          {
+            v9 = "[empty] ";
+          }
+        }
+        else
+        {
+          v9 = Locale;
+        }
+        v74 = v8;
+        v70 = v9;
+        v10 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 35036));
+        v11 = sprintf((char *const)(a1 + 2268), "%8sing: %-22s  %s%s", "extract", v10, v70, v74);
+        (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v11, 0);
+      }
+      if ( *(_DWORD *)(a1 + 168) != 0 )
+      {
+        v12 = *(_DWORD *)(a1 + 176);
+        *(_DWORD *)(a1 + 188) = *(_DWORD *)(a1 + 180);
+      }
+      else
+      {
+        v12 = 0x10000;
+        *(_DWORD *)(a1 + 188) = a1 + 2268;
+      }
+      *(_DWORD *)(a1 + 68072) = *(_DWORD *)(a1 + 188);
+      *(_DWORD *)(a1 + 68076) = 0;
+      while ( 1 )
+      {
+        v13 = *(_DWORD *)(a1 + 67820);
+        *(_DWORD *)(a1 + 67820) = v13 - 1;
+        if ( v13 <= 0 )
+        {
+          v15 = sub_47F950(a1);
+        }
+        else
+        {
+          v14 = *(unsigned __int8 **)(a1 + 67816);
+          v15 = *v14;
+          *(_DWORD *)(a1 + 67816) = v14 + 1;
+        }
+        if ( v15 == -1 )
+          break;
+        **(_BYTE **)(a1 + 68072) = v15;
+        v16 = ++*(_DWORD *)(a1 + 68076);
+        ++*(_DWORD *)(a1 + 68072);
+        if ( v16 == v12 )
+        {
+          v17 = sub_47FB40(a1, *(_BYTE **)(a1 + 188), v16, 0);
+          v2 = v17;
+          *(_DWORD *)(a1 + 68072) = *(_DWORD *)(a1 + 188);
+          *(_DWORD *)(a1 + 68076) = 0;
+          if ( v17 != 0 )
+          {
+            v78 = v17;
+            goto LABEL_33;
+          }
+          if ( *(_DWORD *)(a1 + 68032) != 0 )
+            break;
+        }
+      }
+      v78 = 0;
+LABEL_33:
+      v18 = *(_DWORD *)(a1 + 68076);
+      if ( v18 == 0 )
+        goto LABEL_114;
+      sub_47FB40(a1, *(_BYTE **)(a1 + 188), v18, 0);
+      goto LABEL_115;
+    case 1:
+      if ( *(_DWORD *)(a1 + 68) == 0 && *(_DWORD *)(a1 + 56) == 0 )
+      {
+        v19 = "\r\n";
+        if ( *(_DWORD *)(a1 + 20) == 0 )
+          v19 = Locale;
+        if ( *(_DWORD *)(a1 + 16) == 1 )
+        {
+          v20 = "[text]  ";
+          if ( (*(_BYTE *)(*(_DWORD *)(a1 + 2264) + 24) & 4) == 0 )
+            v20 = "[binary]";
+        }
+        else
+        {
+          v20 = Locale;
+        }
+        v75 = v19;
+        v71 = v20;
+        v21 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 35036));
+        v22 = sprintf((char *const)(a1 + 2268), "%8sing: %-22s  %s%s", "unshrink", v21, v71, v75);
+        (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v22, 0);
+      }
+      v23 = sub_48DB30(a1);
+      v2 = v23;
+      if ( v23 == 0 )
+        goto LABEL_114;
+      if ( v23 < 50 )
+      {
+        if ( *(_DWORD *)(a1 + 68) == 0 )
+        {
+          if ( *(_DWORD *)(a1 + 56) == 0 )
+            goto LABEL_52;
+LABEL_51:
+          v24 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 35036));
+          v25 = sprintf((char *const)(a1 + 2268), "  error:  %s%s %s\n", "not enough memory to ", "unshrink", v24);
+          (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v25, 1025);
+          v78 = v2;
+          goto LABEL_115;
+        }
+        if ( *(_DWORD *)(a1 + 56) != 0 )
+          goto LABEL_51;
+LABEL_52:
+        v26 = sprintf((char *const)(a1 + 2268), "\n  error:  %s%s\n", "not enough memory to ", "unshrink");
+        (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v26, 1025);
+      }
+      v78 = v2;
+LABEL_115:
+      if ( *(_DWORD *)(a1 + 68) == 0 && (*(_DWORD *)(a1 + 20) == 0 || *(_DWORD *)(a1 + 160) != 0) )
+      {
+        if ( *(_DWORD *)(a1 + 160) != 0 )
+          sub_47DC00(a1);
+        else
+          sub_481350(a1);
+      }
+      v55 = *(_DWORD *)(a1 + 68032);
+      if ( v55 != 0 )
+      {
+        if ( v55 > 1 )
+        {
+          v56 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 35036));
+          v57 = sprintf((char *const)(a1 + 2268), "warning:  %s is probably truncated\n", v56);
+          (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v57, 1057);
+          sub_47F7D0((_DWORD *)a1);
+          return 50;
+        }
+        v58 = 1;
+      }
+      else
+      {
+        if ( v2 > 1 )
+        {
+          sub_47F7D0((_DWORD *)a1);
+          return v78;
+        }
+        v58 = v78;
+      }
+      if ( *(_DWORD *)(a1 + 67808) != *(_DWORD *)(a1 + 67884) )
+      {
+        if ( *(_DWORD *)(a1 + 68) != 0 )
+        {
+          if ( *(_DWORD *)(a1 + 56) == 0 )
+            goto LABEL_134;
+        }
+        else if ( *(_DWORD *)(a1 + 56) == 0 )
+        {
+LABEL_134:
+          v61 = sprintf(
+                  (char *const)(a1 + 2268),
+                  " bad CRC %08lx  (should be %08lx)\n",
+                  *(_DWORD *)(a1 + 67808),
+                  *(_DWORD *)(a1 + 67884));
+          (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v61, 1025);
+          if ( (*(_BYTE *)(*(_DWORD *)(a1 + 2264) + 24) & 1) != 0 )
+          {
+            v62 = sprintf((char *const)(a1 + 2268), "    (may instead be incorrect password)\n");
+            (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v62, 1025);
+          }
+          sub_47F7D0((_DWORD *)a1);
+          return 2;
+        }
+        v59 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 35036));
+        v60 = sprintf((char *const)(a1 + 2268), "%-22s ", v59);
+        (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v60, 1025);
+        goto LABEL_134;
+      }
+      if ( *(_DWORD *)(a1 + 68) != 0 )
+      {
+        v63 = *(unsigned __int16 **)(a1 + 67864);
+        if ( v63 != nullptr )
+        {
+          v64 = sub_486380(v63, a1, *(unsigned __int16 *)(a1 + 67896));
+          if ( v64 > v58 )
+          {
+            v65 = v64;
+            sub_47F7D0((_DWORD *)a1);
+            return v65;
+          }
+        }
+        else if ( *(_DWORD *)(a1 + 56) == 0 )
+        {
+          v66 = sprintf((char *const)(a1 + 2268), " OK\n");
+          (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v66, 0);
+          sub_47F7D0((_DWORD *)a1);
+          return v58;
+        }
+      }
+      else if ( *(_DWORD *)(a1 + 56) == 0 && v58 == 0 )
+      {
+        v67 = sprintf((char *const)(a1 + 2268), SubStr);
+        (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v67, 0);
+      }
+      sub_47F7D0((_DWORD *)a1);
+      return v58;
+    case 6:
+      if ( *(_DWORD *)(a1 + 68) == 0 && *(_DWORD *)(a1 + 56) == 0 )
+      {
+        v27 = "\r\n";
+        if ( *(_DWORD *)(a1 + 20) == 0 )
+          v27 = Locale;
+        if ( *(_DWORD *)(a1 + 16) == 1 )
+        {
+          v28 = "[text]  ";
+          if ( (*(_BYTE *)(*(_DWORD *)(a1 + 2264) + 24) & 4) == 0 )
+            v28 = "[binary]";
+        }
+        else
+        {
+          v28 = Locale;
+        }
+        v76 = v27;
+        v72 = v28;
+        v29 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 35036));
+        v30 = sprintf((char *const)(a1 + 2268), "%8sing: %-22s  %s%s", "explod", v29, v72, v76);
+        (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v30, 0);
+      }
+      v31 = sub_48D880(a1);
+      v32 = v31;
+      if ( v31 == 0 )
+        goto LABEL_78;
+      if ( v31 == 5 )
+        goto LABEL_79;
+      if ( v31 < 50 )
+      {
+        if ( *(_DWORD *)(a1 + 68) != 0 )
+        {
+          if ( *(_DWORD *)(a1 + 56) == 0 )
+            goto LABEL_73;
+        }
+        else if ( *(_DWORD *)(a1 + 56) == 0 )
+        {
+LABEL_73:
+          v35 = "not enough memory to ";
+          if ( v32 != 3 )
+            v35 = "invalid compressed data to ";
+          v36 = sprintf((char *const)(a1 + 2268), "\n  error:  %s%s\n", v35, "explode");
+          (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v36, 1025);
+LABEL_76:
+          v78 = 4 * (v32 == 3) + 2;
+          goto LABEL_78;
+        }
+        v79 = "not enough memory to ";
+        if ( v31 != 3 )
+          v79 = "invalid compressed data to ";
+        v33 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 35036));
+        v34 = sprintf((char *const)(a1 + 2268), "  error:  %s%s %s\n", v79, "explode", v33);
+        (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v34, 1025);
+        goto LABEL_76;
+      }
+      v78 = v31;
+LABEL_78:
+      if ( v32 != 5 )
+        goto LABEL_114;
+LABEL_79:
+      v37 = *(_DWORD *)(a1 + 148);
+      v38 = *(_DWORD *)(a1 + 67872);
+      v39 = v38 >= v37;
+      if ( *(_DWORD *)(a1 + 68) != 0 )
+      {
+        if ( *(_DWORD *)(a1 + 56) == 0 )
+          goto LABEL_87;
+      }
+      else if ( *(_DWORD *)(a1 + 56) == 0 )
+      {
+LABEL_87:
+        if ( v38 < v37 )
+        {
+          v42 = Locale;
+          v43 = "error";
+        }
+        else
+        {
+          v42 = "  ";
+          v43 = "warning";
+        }
+        v44 = sprintf(
+                (char *const)(a1 + 2268),
+                "%s  %s:  %ld bytes required to uncompress to %lu bytes;\n"
+                "    %s      supposed to require %lu bytes%s%s%s\n",
+                SubStr,
+                v43,
+                v37,
+                *(_DWORD *)(a1 + 67876),
+                v42,
+                v38,
+                Locale,
+                Locale,
+                word_4D8610);
+        (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v44, 1025);
+        v78 = 2 - v39;
+        goto LABEL_114;
+      }
+      if ( v38 < v37 )
+      {
+        v80 = Locale;
+        v81 = "error";
+      }
+      else
+      {
+        v80 = "  ";
+        v81 = "warning";
+      }
+      v40 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 35036));
+      v41 = sprintf(
+              (char *const)(a1 + 2268),
+              "%s  %s:  %ld bytes required to uncompress to %lu bytes;\n"
+              "    %s      supposed to require %lu bytes%s%s%s\n",
+              Locale,
+              v81,
+              *(_DWORD *)(a1 + 148),
+              *(_DWORD *)(a1 + 67876),
+              v80,
+              *(_DWORD *)(a1 + 67872),
+              " [",
+              v40,
+              "]");
+      (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v41, 1025);
+      v78 = 2 - v39;
+      goto LABEL_114;
+    case 8:
+    case 9:
+      if ( *(_DWORD *)(a1 + 68) == 0 && *(_DWORD *)(a1 + 56) == 0 )
+      {
+        v45 = "\r\n";
+        if ( *(_DWORD *)(a1 + 20) == 0 )
+          v45 = Locale;
+        if ( *(_DWORD *)(a1 + 16) == 1 )
+        {
+          v46 = "[text]  ";
+          if ( (*(_BYTE *)(*(_DWORD *)(a1 + 2264) + 24) & 4) == 0 )
+            v46 = "[binary]";
+        }
+        else
+        {
+          v46 = Locale;
+        }
+        v77 = v45;
+        v73 = v46;
+        v47 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 35036));
+        v48 = sprintf((char *const)(a1 + 2268), "%8sing: %-22s  %s%s", "inflat", v47, v73, v77);
+        (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v48, 0);
+      }
+      v49 = sub_488010(*(_WORD *)(a1 + 67892) == 9, a1);
+      v50 = v49;
+      if ( v49 == 0 )
+        goto LABEL_114;
+      if ( v49 >= 50 )
+      {
+        v78 = v49;
+LABEL_114:
+        v2 = v78;
+        goto LABEL_115;
+      }
+      if ( *(_DWORD *)(a1 + 68) != 0 )
+      {
+        if ( *(_DWORD *)(a1 + 56) == 0 )
+          goto LABEL_109;
+      }
+      else if ( *(_DWORD *)(a1 + 56) == 0 )
+      {
+LABEL_109:
+        v53 = "not enough memory to ";
+        if ( v50 != 3 )
+          v53 = "invalid compressed data to ";
+        v54 = sprintf((char *const)(a1 + 2268), "\n  error:  %s%s\n", v53, "inflate");
+        (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v54, 1025);
+LABEL_112:
+        v78 = 4 * (v50 == 3) + 2;
+        goto LABEL_114;
+      }
+      v82 = "not enough memory to ";
+      if ( v49 != 3 )
+        v82 = "invalid compressed data to ";
+      v51 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 35036));
+      v52 = sprintf((char *const)(a1 + 2268), "  error:  %s%s %s\n", v82, "inflate", v51);
+      (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v52, 1025);
+      goto LABEL_112;
+    default:
+      v68 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 35036));
+      v69 = sprintf((char *const)(a1 + 2268), "%s:  unknown compression method\n", v68);
+      (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v69, 1025);
+      sub_47F7D0((_DWORD *)a1);
+      return 1;
+  }
+}
+
 // Address: 0x486380
 int __usercall sub_486380@<eax>(unsigned __int16 *a1@<eax>, int a2@<esi>, unsigned int a3)
 {
@@ -104076,6 +107526,1539 @@ LABEL_56:
             "  appropriate BINARY mode and that you have compiled UnZip properly)\n");
     (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v31, 1025);
     return 3;
+  }
+}
+
+// Address: 0x489160
+int __cdecl sub_489160(int a1)
+{
+  _DWORD *v1; // ecx
+  int v2; // eax
+  _DWORD *v3; // edi
+  int v4; // ecx
+  int v5; // eax
+  size_t v6; // esi
+  char *v7; // eax
+  int v8; // eax
+  void *v9; // eax
+  int v10; // eax
+  unsigned int v11; // ecx
+  unsigned int v12; // edi
+  unsigned __int8 v13; // al
+  unsigned __int16 v14; // ax
+  const char *v15; // esi
+  int v16; // eax
+  char *v17; // eax
+  int v18; // eax
+  int v19; // eax
+  char *v20; // eax
+  int v21; // eax
+  int v22; // eax
+  char *v23; // eax
+  int v24; // eax
+  int v25; // eax
+  int v26; // eax
+  int v27; // eax
+  const char *v28; // eax
+  int v29; // eax
+  const char *v30; // eax
+  int v31; // eax
+  int v32; // eax
+  unsigned __int8 *v33; // eax
+  int v34; // eax
+  int v35; // eax
+  int v36; // eax
+  int v37; // eax
+  int v38; // eax
+  int v39; // eax
+  int v40; // eax
+  int v41; // eax
+  int v42; // eax
+  __int16 v43; // ax
+  const char *v44; // eax
+  bool v45; // zf
+  int v46; // eax
+  int v47; // edi
+  int v48; // eax
+  int v49; // edi
+  char *v50; // esi
+  char *v51; // edx
+  char v52; // cl
+  char v53; // cl
+  char v54; // cl
+  char *v55; // edi
+  char v56; // cl
+  int v57; // eax
+  int v58; // ecx
+  int v59; // eax
+  unsigned int v60; // ecx
+  const char *v61; // esi
+  char *v62; // edx
+  char v63; // cl
+  int v64; // eax
+  unsigned int v65; // ecx
+  int v66; // eax
+  int v67; // eax
+  int v68; // eax
+  int v69; // eax
+  int v70; // eax
+  const char *v71; // edi
+  const char *v72; // edx
+  const char *v73; // esi
+  const char *v74; // ecx
+  int v75; // eax
+  unsigned __int16 v76; // ax
+  unsigned __int8 *v77; // esi
+  unsigned __int16 v78; // di
+  int v80; // eax
+  unsigned __int16 v81; // dx
+  int v82; // eax
+  int v83; // edi
+  unsigned __int8 *v84; // esi
+  int v85; // eax
+  const char *v86; // eax
+  int v87; // eax
+  const char *v88; // eax
+  int v89; // eax
+  int v90; // ecx
+  unsigned __int8 *v91; // esi
+  int v92; // eax
+  int v93; // edi
+  const char *v94; // ecx
+  int v95; // eax
+  const char *v96; // ecx
+  int v97; // eax
+  unsigned __int8 *v98; // edi
+  int v99; // eax
+  int v100; // eax
+  int v101; // eax
+  int v102; // eax
+  int v103; // edi
+  int v104; // eax
+  const char *v105; // ecx
+  int v106; // eax
+  int v107; // eax
+  int v108; // edx
+  int v109; // eax
+  unsigned int v110; // eax
+  const char *v111; // edi
+  int v112; // eax
+  unsigned __int8 v113; // dl
+  int v114; // edi
+  int v115; // eax
+  char v116; // cl
+  unsigned int v117; // kr04_4
+  unsigned int v118; // ecx
+  const char *v119; // eax
+  char *v120; // edx
+  char v121; // cl
+  unsigned int v122; // kr08_4
+  unsigned int v123; // ecx
+  const char *v124; // eax
+  char *v125; // edx
+  char v126; // cl
+  const char *v127; // eax
+  int v128; // eax
+  int v129; // eax
+  unsigned __int16 v130; // ax
+  int v131; // eax
+  unsigned __int8 *v132; // edi
+  int v133; // eax
+  int v134; // eax
+  int v135; // edi
+  const char *v136; // edx
+  const char *v137; // ecx
+  int v138; // eax
+  const char *v139; // ecx
+  int v140; // esi
+  int v141; // eax
+  int v142; // eax
+  int v143; // eax
+  size_t v144; // eax
+  char *v145; // edi
+  size_t v146; // eax
+  char v147; // al
+  char *k; // ecx
+  char v149; // dl
+  _BYTE *v150; // eax
+  char v151; // dl
+  char v152; // cl
+  const void *v153; // esi
+  FILE *v154; // eax
+  FILE *v155; // edi
+  FILE *v156; // eax
+  FILE *v157; // eax
+  int v158; // eax
+  FILE *v159; // eax
+  FILE *v160; // edi
+  FILE *v161; // eax
+  FILE *v162; // eax
+  int v163; // eax
+  int v164; // eax
+  int v165; // [esp+218h] [ebp-104h]
+  const char *v166; // [esp+230h] [ebp-ECh]
+  int v167; // [esp+230h] [ebp-ECh]
+  int v168; // [esp+234h] [ebp-E8h]
+  unsigned __int16 v169; // [esp+234h] [ebp-E8h]
+  unsigned __int8 v170; // [esp+234h] [ebp-E8h]
+  char *v171; // [esp+234h] [ebp-E8h]
+  unsigned int v172; // [esp+234h] [ebp-E8h]
+  char *i; // [esp+234h] [ebp-E8h]
+  int v174; // [esp+234h] [ebp-E8h]
+  unsigned int v175; // [esp+238h] [ebp-E4h]
+  int v176; // [esp+238h] [ebp-E4h]
+  const char *v177; // [esp+238h] [ebp-E4h]
+  int j; // [esp+238h] [ebp-E4h]
+  unsigned int v179; // [esp+23Ch] [ebp-E0h]
+  char *v180; // [esp+23Ch] [ebp-E0h]
+  const char *v181; // [esp+23Ch] [ebp-E0h]
+  int v182; // [esp+23Ch] [ebp-E0h]
+  int v183; // [esp+23Ch] [ebp-E0h]
+  unsigned int v184; // [esp+23Ch] [ebp-E0h]
+  unsigned int v185; // [esp+240h] [ebp-DCh]
+  const char *v186; // [esp+240h] [ebp-DCh]
+  unsigned __int8 *v187; // [esp+240h] [ebp-DCh]
+  _DWORD *v188; // [esp+244h] [ebp-D8h]
+  unsigned int MaxCharCount; // [esp+248h] [ebp-D4h]
+  unsigned int MaxCharCounta; // [esp+248h] [ebp-D4h]
+  unsigned __int8 v191; // [esp+24Fh] [ebp-CDh]
+  int v192; // [esp+250h] [ebp-CCh]
+  char v193[8]; // [esp+254h] [ebp-C8h] BYREF
+  __time64_t v194[2]; // [esp+25Ch] [ebp-C0h] BYREF
+  char v195; // [esp+26Ch] [ebp-B0h] BYREF
+  char v196; // [esp+26Dh] [ebp-AFh] BYREF
+  char v197; // [esp+26Eh] [ebp-AEh]
+  char v198; // [esp+26Fh] [ebp-ADh]
+  char v199; // [esp+270h] [ebp-ACh]
+  char v200; // [esp+271h] [ebp-ABh]
+  char v201; // [esp+272h] [ebp-AAh]
+  char v202; // [esp+273h] [ebp-A9h]
+  char v203; // [esp+274h] [ebp-A8h]
+  char v204; // [esp+275h] [ebp-A7h]
+  char v205; // [esp+276h] [ebp-A6h]
+  char v206; // [esp+278h] [ebp-A4h]
+  char v207; // [esp+279h] [ebp-A3h]
+  char v208; // [esp+27Ah] [ebp-A2h]
+  char v209; // [esp+27Bh] [ebp-A1h]
+  char v210; // [esp+27Ch] [ebp-A0h]
+  char v211; // [esp+27Dh] [ebp-9Fh]
+  char v212; // [esp+27Eh] [ebp-9Eh]
+  char v213; // [esp+27Fh] [ebp-9Dh]
+  char v214; // [esp+280h] [ebp-9Ch]
+  char Destination[4]; // [esp+284h] [ebp-98h] BYREF
+  int v216; // [esp+288h] [ebp-94h]
+  int v217; // [esp+28Ch] [ebp-90h]
+  char Buffer[16]; // [esp+290h] [ebp-8Ch] BYREF
+  char v219[36]; // [esp+2A0h] [ebp-7Ch] BYREF
+  char v220[84]; // [esp+2C4h] [ebp-58h] BYREF
+
+  v2 = *(_DWORD *)(a1 + 67940);
+  v3 = v1;
+  v4 = *v1;
+  v188 = v3;
+  v192 = 0;
+  if ( v2 != v4 && v4 != 0 )
+  {
+    v5 = sprintf((char *const)(a1 + 2268), "  There are an extra %ld bytes preceding this file.\n\n", v2 - v4);
+    (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v5, 0);
+  }
+  *v3 = *(_DWORD *)(a1 + 67916)
+      + *(unsigned __int16 *)(a1 + 67924)
+      + *(unsigned __int16 *)(a1 + 67926)
+      + *(_DWORD *)(a1 + 67940)
+      + 30;
+  v6 = *(unsigned __int16 *)(a1 + 67926);
+  if ( *(_WORD *)(a1 + 67926) == 0 )
+    goto LABEL_5;
+  if ( *(_DWORD *)(a1 + 67864) != 0 )
+    free(*(void **)(a1 + 67864));
+  v7 = (char *)malloc(v6);
+  *(_DWORD *)(a1 + 67864) = v7;
+  if ( v7 != nullptr )
+  {
+    if ( sub_47F890(v6, a1, v7) != 0 )
+    {
+LABEL_5:
+      v168 = 0;
+      goto LABEL_14;
+    }
+    v9 = *(void **)(a1 + 67864);
+    v168 = 51;
+    if ( v9 != nullptr )
+    {
+      free(v9);
+      *(_DWORD *)(a1 + 67864) = 0;
+    }
+    v192 = 51;
+  }
+  else
+  {
+    v8 = sprintf((char *const)(a1 + 2268), "warning:  extra field too long (%d).  Ignoring...\n", v6);
+    (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v8, 1025);
+    sub_47FA60(
+      a1,
+      v6 + *(_DWORD *)(a1 + 67816) + *(_DWORD *)(a1 + 67856) - *(_DWORD *)(a1 + 67860) - *(_DWORD *)(a1 + 67812));
+    v168 = 0;
+  }
+LABEL_14:
+  v10 = *(_DWORD *)(a1 + 2264);
+  v11 = *(unsigned __int8 *)(v10 + 19);
+  v12 = *(unsigned __int8 *)(v10 + 18);
+  v13 = *(_BYTE *)(a1 + 67903);
+  MaxCharCount = v11;
+  if ( v13 >= 0x1Fu )
+    v179 = 31;
+  else
+    v179 = v13;
+  v185 = *(unsigned __int8 *)(a1 + 67902);
+  v14 = *(_WORD *)(a1 + 67906);
+  if ( v14 >= 0xDu )
+    v175 = 13;
+  else
+    v175 = v14;
+  (*(void (__stdcall **)(int, const char *, int, _DWORD))(a1 + 68436))(a1, "  ", 2, 0);
+  v15 = sub_486E50((const char *)(a1 + 68080), (_BYTE *)(a1 + 2268));
+  (*(void (__stdcall **)(int, const char *, unsigned int, _DWORD))(a1 + 68436))(a1, v15, strlen(v15), 0);
+  (*(void (__stdcall **)(int, const char *, int, _DWORD))(a1 + 68436))(a1, SubStr, 1, 0);
+  v16 = sprintf(
+          (char *const)(a1 + 2268),
+          "\n  offset of local header from start of archive:     %lu (%.8lXh) bytes\n",
+          *(_DWORD *)(a1 + 67940),
+          *(_DWORD *)(a1 + 67940));
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v16, 0);
+  if ( MaxCharCount < 0x1F )
+  {
+    v17 = off_4EA198[MaxCharCount];
+  }
+  else
+  {
+    sprintf(Buffer, "unknown (%d)", *(unsigned __int8 *)(a1 + 67901));
+    v17 = Buffer;
+  }
+  v18 = sprintf((char *const)(a1 + 2268), "  file system or operating system of origin:        %s\n", v17);
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v18, 0);
+  v19 = sprintf(
+          (char *const)(a1 + 2268),
+          "  version of encoding software:                     %u.%u\n",
+          v12 / 0xA,
+          v12 % 0xA);
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v19, 0);
+  if ( v179 >= 0x1F || (v20 = off_4EA198[v179]) == nullptr )
+  {
+    sprintf(Buffer, "unknown (%d)", *(unsigned __int8 *)(a1 + 67903));
+    v20 = Buffer;
+  }
+  v21 = sprintf((char *const)(a1 + 2268), "  minimum file system compatibility required:       %s\n", v20);
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v21, 0);
+  v22 = sprintf(
+          (char *const)(a1 + 2268),
+          "  minimum software version required to extract:     %u.%u\n",
+          v185 / 0xA,
+          v185 % 0xA);
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v22, 0);
+  if ( v175 < 0xD )
+  {
+    v23 = off_4EA214[v175];
+  }
+  else
+  {
+    sprintf(Buffer, "unknown (%d)", *(unsigned __int16 *)(a1 + 67906));
+    v23 = Buffer;
+  }
+  v24 = sprintf((char *const)(a1 + 2268), "  compression method:                               %s\n", v23);
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v24, 0);
+  if ( v175 == 6 )
+  {
+    v25 = sprintf(
+            (char *const)(a1 + 2268),
+            "  size of sliding dictionary (implosion):           %cK\n",
+            4 * ((*(_BYTE *)(a1 + 67904) & 2) != 0) + 52);
+    (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v25, 0);
+    v26 = sprintf(
+            (char *const)(a1 + 2268),
+            "  number of Shannon-Fano trees (implosion):         %c\n",
+            (*(_WORD *)(a1 + 67904) & 4 | 0xC8u) >> 2);
+    (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v26, 0);
+  }
+  else if ( v175 == 8 || v175 == 9 )
+  {
+    v27 = sprintf(
+            (char *const)(a1 + 2268),
+            "  compression sub-type (deflation):                 %s\n",
+            off_4EA248[(*(_WORD *)(a1 + 67904) >> 1) & 3]);
+    (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v27, 0);
+  }
+  v28 = (const char *)&unk_4CE3D8;
+  if ( (*(_BYTE *)(a1 + 67904) & 1) == 0 )
+    v28 = "not ";
+  v29 = sprintf((char *const)(a1 + 2268), "  file security status:                             %sencrypted\n", v28);
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v29, 0);
+  v30 = "yes";
+  if ( (*(_BYTE *)(a1 + 67904) & 8) == 0 )
+    v30 = "no";
+  v31 = sprintf((char *const)(a1 + 2268), "  extended local header:                            %s\n", v30);
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v31, 0);
+  sub_48B9E0(nullptr, a1, (_DWORD *)(a1 + 67908), &v195);
+  v32 = sprintf((char *const)(a1 + 2268), "  file last modified on (DOS date/time):            %s\n", &v195);
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v32, 0);
+  v33 = *(unsigned __int8 **)(a1 + 67864);
+  if ( v33 != nullptr
+    && (sub_47F350(v33, *(unsigned __int16 *)(a1 + 67926), 1, *(_DWORD *)(a1 + 67908), (int)v193) & 1) != 0 )
+  {
+    v195 = 0;
+    sub_48B9E0(v194, a1, (_DWORD *)(a1 + 67908), &v195);
+    v34 = sprintf(
+            (char *const)(a1 + 2268),
+            "  file last modified on (UT extra field modtime):   %s %s\n",
+            &v195,
+            "local");
+    (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v34, 0);
+    v195 = 1;
+    sub_48B9E0(v194, a1, (_DWORD *)(a1 + 67908), &v195);
+    v35 = sprintf((char *const)(a1 + 2268), "  file last modified on (UT extra field modtime):   %s %s\n", &v195, "UTC");
+    (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v35, 0);
+  }
+  v36 = sprintf(
+          (char *const)(a1 + 2268),
+          "  32-bit CRC value (hex):                           %.8lx\n",
+          *(_DWORD *)(a1 + 67912));
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v36, 0);
+  v37 = sprintf(
+          (char *const)(a1 + 2268),
+          "  compressed size:                                  %lu bytes\n",
+          *(_DWORD *)(a1 + 67916));
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v37, 0);
+  v38 = sprintf(
+          (char *const)(a1 + 2268),
+          "  uncompressed size:                                %lu bytes\n",
+          *(_DWORD *)(a1 + 67920));
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v38, 0);
+  v39 = sprintf(
+          (char *const)(a1 + 2268),
+          "  length of filename:                               %u characters\n",
+          *(unsigned __int16 *)(a1 + 67924));
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v39, 0);
+  v40 = sprintf(
+          (char *const)(a1 + 2268),
+          "  length of extra field:                            %u bytes\n",
+          *(unsigned __int16 *)(a1 + 67926));
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v40, 0);
+  v41 = sprintf(
+          (char *const)(a1 + 2268),
+          "  length of file comment:                           %u characters\n",
+          *(unsigned __int16 *)(a1 + 67928));
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v41, 0);
+  v42 = sprintf(
+          (char *const)(a1 + 2268),
+          "  disk number on which file begins:                 disk %u\n",
+          *(unsigned __int16 *)(a1 + 67930) + 1);
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v42, 0);
+  v43 = *(_WORD *)(a1 + 67932);
+  if ( (v43 & 1) != 0 )
+  {
+    v44 = "text";
+  }
+  else
+  {
+    v45 = (v43 & 2) == 0;
+    v44 = "ebcdic";
+    if ( v45 )
+      v44 = "binary";
+  }
+  v46 = sprintf((char *const)(a1 + 2268), "  apparent file type:                               %s\n", v44);
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v46, 0);
+  v47 = MaxCharCount;
+  v48 = *(unsigned __int16 *)(a1 + 67938);
+  if ( MaxCharCount != 2 )
+  {
+    switch ( MaxCharCount )
+    {
+      case 1u:
+        v58 = v48 & 0xC00;
+        if ( v58 == 1024 )
+          v195 = 45;
+        else
+          v195 = v58 == 2048 ? 100 : 63;
+        v196 = (v48 & 0x80u) != 0 ? 104 : 45;
+        v197 = (v48 & 0x40) != 0 ? 115 : 45;
+        v198 = (v48 & 0x20) != 0 ? 112 : 45;
+        v199 = (v48 & 0x10) != 0 ? 97 : 45;
+        v200 = (v48 & 8) != 0 ? 114 : 45;
+        v201 = (v48 & 4) != 0 ? 119 : 45;
+        v202 = (v48 & 2) != 0 ? 101 : 45;
+        v203 = (v48 & 1) != 0 ? 100 : 45;
+        v204 = 0;
+        v59 = sprintf((char *const)(a1 + 2268), "  Amiga file attributes (%06o octal):             %s\n", v48, &v195);
+        (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v59, 0);
+        goto LABEL_144;
+      case 0x12u:
+        v60 = v48 & 0xF000;
+        if ( v60 > 0xA000 )
+        {
+          if ( v60 > 0xE000 )
+          {
+            if ( v60 == 61440 )
+            {
+              v61 = "386 program ";
+LABEL_107:
+              v62 = (char *)(&v195 - v61);
+              do
+              {
+                v63 = *v61;
+                v62[(_DWORD)v61] = *v61;
+                ++v61;
+              }
+              while ( v63 != 0 );
+              v206 = (v48 & 0x400) != 0 ? 46 : 72;
+              v207 = (v48 & 0x800) != 0 ? 46 : 77;
+              v208 = (v48 & 2) != 0 ? 46 : 87;
+              v209 = (v48 & 4) != 0 ? 46 : 82;
+              v210 = (v48 & 0x200) != 0 ? 46 : 69;
+              v211 = (v48 & 0x40) != 0 ? 46 : 88;
+              v212 = (v48 & 0x80u) != 0 ? 46 : 87;
+              v213 = (v48 & 0x100) != 0 ? 46 : 82;
+              v214 = 0;
+              v64 = sprintf(
+                      (char *const)(a1 + 2268),
+                      "  Theos file attributes (%04X hex):                 %s\n",
+                      v48,
+                      &v195);
+              (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v64, 0);
+              goto LABEL_144;
+            }
+          }
+          else
+          {
+            switch ( v60 )
+            {
+              case 0xE000u:
+                v61 = "286 program ";
+                goto LABEL_107;
+              case 0xB000u:
+                v61 = "Indexed     ";
+                goto LABEL_107;
+              case 0xD000u:
+                v61 = " 86 program ";
+                goto LABEL_107;
+              default:
+                break;
+            }
+          }
+        }
+        else
+        {
+          if ( v60 == 40960 )
+          {
+            v61 = "Keyed       ";
+            goto LABEL_107;
+          }
+          if ( v60 > 0x8000 )
+          {
+            if ( v60 == 36864 )
+            {
+              v61 = "Direct      ";
+              goto LABEL_107;
+            }
+          }
+          else
+          {
+            switch ( v60 )
+            {
+              case 0x8000u:
+                v61 = "Sequential  ";
+                goto LABEL_107;
+              case 0x4000u:
+                v61 = "Directory   ";
+                goto LABEL_107;
+              case 0x5000u:
+                v61 = "Library     ";
+                goto LABEL_107;
+              default:
+                break;
+            }
+          }
+        }
+        v61 = "???         ";
+        goto LABEL_107;
+      case 0u:
+      case 6u:
+      case 0xBu:
+      case 0xEu:
+      case 0xDu:
+      case 4u:
+      case 0xFu:
+        v67 = sprintf(
+                (char *const)(a1 + 2268),
+                "  non-MSDOS external file attributes:               %06lX hex\n",
+                *(_DWORD *)(a1 + 67936) >> 8);
+        (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v67, 0);
+        goto LABEL_144;
+      default:
+        break;
+    }
+    v65 = v48 & 0xF000;
+    if ( v65 > 0x6000 )
+    {
+      switch ( v65 )
+      {
+        case 0x8000u:
+          v195 = 45;
+          goto LABEL_133;
+        case 0xA000u:
+          v195 = 108;
+          goto LABEL_133;
+        case 0xC000u:
+          v195 = 115;
+          goto LABEL_133;
+        default:
+          break;
+      }
+    }
+    else
+    {
+      switch ( v65 )
+      {
+        case 0x6000u:
+          v195 = 98;
+          goto LABEL_133;
+        case 0x1000u:
+          v195 = 112;
+          goto LABEL_133;
+        case 0x2000u:
+          v195 = 99;
+          goto LABEL_133;
+        case 0x4000u:
+          v195 = 100;
+LABEL_133:
+          v196 = (v48 & 0x100) != 0 ? 114 : 45;
+          v199 = (v48 & 0x20) != 0 ? 114 : 45;
+          v202 = (v48 & 4) != 0 ? 114 : 45;
+          v197 = (v48 & 0x80u) != 0 ? 119 : 45;
+          v200 = (v48 & 0x10) != 0 ? 119 : 45;
+          v203 = (v48 & 2) != 0 ? 119 : 45;
+          if ( (v48 & 0x40) != 0 )
+            v198 = (v48 & 0x800) != 0 ? 115 : 120;
+          else
+            v198 = (v48 & 0x800) != 0 ? 83 : 45;
+          if ( (v48 & 8) != 0 )
+            v201 = (v48 & 0x400) != 0 ? 115 : 120;
+          else
+            v201 = (v48 & 0x400) != 0 ? 108 : 45;
+          if ( (v48 & 1) != 0 )
+            v204 = 4 * ((v48 & 0x200) == 0) + 116;
+          else
+            v204 = (v48 & 0x200) != 0 ? 84 : 45;
+          v205 = 0;
+          v66 = sprintf((char *const)(a1 + 2268), "  Unix file attributes (%06o octal):              %s\n", v48, &v195);
+          (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v66, 0);
+          goto LABEL_144;
+        default:
+          break;
+      }
+    }
+    v195 = 63;
+    goto LABEL_133;
+  }
+  v180 = &v196;
+  *(_DWORD *)Destination = 0;
+  v216 = 0;
+  v217 = 0;
+  if ( (v48 & 0x100) != 0 )
+    Destination[0] = 82;
+  if ( (v48 & 0x80u) != 0 )
+  {
+    Destination[1] = 87;
+    Destination[3] = 68;
+  }
+  if ( (v48 & 0x40) != 0 )
+    Destination[2] = 69;
+  if ( (v48 & 0x20) != 0 )
+    LOBYTE(v216) = 82;
+  if ( (v48 & 0x10) != 0 )
+  {
+    BYTE1(v216) = 87;
+    HIBYTE(v216) = 68;
+  }
+  if ( (v48 & 8) != 0 )
+    BYTE2(v216) = 69;
+  if ( (v48 & 4) != 0 )
+    LOBYTE(v217) = 82;
+  if ( (v48 & 2) != 0 )
+  {
+    BYTE1(v217) = 87;
+    HIBYTE(v217) = 68;
+  }
+  if ( (v48 & 1) != 0 )
+    BYTE2(v217) = 69;
+  v49 = 0;
+  v195 = 40;
+  v50 = &v196;
+  v176 = 0;
+  v51 = &Destination[1];
+  do
+  {
+    v52 = *(v51 - 1);
+    if ( v52 != 0 )
+      *v50++ = v52;
+    if ( *v51 != 0 )
+      *v50++ = *v51;
+    v53 = v51[1];
+    if ( v53 != 0 )
+      *v50++ = v53;
+    v54 = v51[2];
+    if ( v54 != 0 )
+      *v50++ = v54;
+    *v50 = 44;
+    v51 += 4;
+    ++v50;
+    if ( v49 == 0 )
+    {
+      v55 = v180;
+      do
+      {
+        v56 = *v55;
+        *v50++ = *v55++;
+      }
+      while ( v56 != 44 );
+      v180 = v55;
+      v49 = v176;
+    }
+    v176 = ++v49;
+  }
+  while ( v49 < 3 );
+  *v50 = 0;
+  *(v50 - 1) = 41;
+  v57 = sprintf((char *const)(a1 + 2268), "  VMS file attributes (%06o octal):               %s\n", v48, &v195);
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v57, 0);
+  v47 = 2;
+LABEL_144:
+  v68 = *(unsigned __int8 *)(a1 + 67936);
+  if ( *(_BYTE *)(a1 + 67936) != 0 )
+  {
+    if ( v68 == 1 )
+    {
+      v70 = sprintf((char *const)(a1 + 2268), "  MS-DOS file attributes (%02X hex):                  read-only\n", 1);
+      (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v70, 0);
+    }
+    else
+    {
+      v71 = "exe";
+      if ( (v68 & 0x80u) == 0 )
+        v71 = (const char *)&unk_4CE3D8;
+      v72 = (const char *)&unk_4CE3D8;
+      v181 = "lnk ";
+      if ( (v68 & 0x40) == 0 )
+        v181 = (const char *)&unk_4CE3D8;
+      v177 = "arc ";
+      if ( (v68 & 0x20) == 0 )
+        v177 = (const char *)&unk_4CE3D8;
+      v186 = "dir ";
+      if ( (v68 & 0x10) == 0 )
+        v186 = (const char *)&unk_4CE3D8;
+      v166 = "lab ";
+      if ( (v68 & 8) == 0 )
+        v166 = (const char *)&unk_4CE3D8;
+      v73 = "sys ";
+      if ( (v68 & 4) == 0 )
+        v73 = (const char *)&unk_4CE3D8;
+      if ( (v68 & 2) != 0 )
+        v72 = "hid ";
+      v74 = "rdo ";
+      if ( (v68 & 1) == 0 )
+        v74 = (const char *)&unk_4CE3D8;
+      v75 = sprintf(
+              (char *const)(a1 + 2268),
+              "  MS-DOS file attributes (%02X hex):                  %s%s%s%s%s%s%s%s\n",
+              v68,
+              v74,
+              v72,
+              v73,
+              v166,
+              v186,
+              v177,
+              v181,
+              v71);
+      (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v75, 0);
+      v47 = MaxCharCount;
+    }
+  }
+  else
+  {
+    v165 = *(unsigned __int8 *)(a1 + 67936);
+    v69 = sprintf((char *const)(a1 + 2268), "  MS-DOS file attributes (%02X hex):                  none\n", v68);
+    (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v69, v165);
+  }
+  v76 = *(_WORD *)(a1 + 67926);
+  if ( v76 != 0 )
+  {
+    v77 = *(unsigned __int8 **)(a1 + 67864);
+    v78 = *(_WORD *)(a1 + 67926);
+    v182 = v76;
+    if ( v192 > 1 )
+      return v168;
+    if ( v77 == nullptr )
+      return 2;
+    v80 = sprintf((char *const)(a1 + 2268), "\n  The central-directory extra field contains:");
+    (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v80, 0);
+    if ( v78 >= 4u )
+    {
+      do
+      {
+        v81 = *(_WORD *)v77;
+        v82 = *((unsigned __int16 *)v77 + 1);
+        v83 = v182 + 65532;
+        v84 = v77 + 4;
+        v169 = v81;
+        v167 = v82;
+        v187 = v84;
+        v183 = v83;
+        if ( (unsigned __int16)v82 > (unsigned __int16)v83 )
+        {
+          v85 = sprintf(
+                  (char *const)(a1 + 2268),
+                  "\n"
+                  "  error: EF data block (type 0x%04x) size %u exceeds remaining extra field\n"
+                  "         space %u; block length has been truncated.\n",
+                  v81,
+                  (unsigned __int16)v82,
+                  (unsigned __int16)v83);
+          (*(void (__stdcall **)(int, int, int, int))(a1 + 68436))(a1, a1 + 2268, v85, 1057);
+          v167 = (unsigned __int16)v83;
+        }
+        if ( v169 > 0x470Fu )
+        {
+          if ( v169 <= 0x5855u )
+          {
+            if ( v169 != 22613 )
+            {
+              if ( v169 > 0x4D63u )
+              {
+                if ( v169 == 21334 )
+                {
+                  v86 = "AOS/VS";
+                  goto LABEL_238;
+                }
+                if ( v169 == 21589 )
+                {
+                  v86 = "universal time";
+                  goto LABEL_238;
+                }
+              }
+              else
+              {
+                switch ( v169 )
+                {
+                  case 0x4D63u:
+                    v86 = "SmartZip Macintosh";
+                    goto LABEL_238;
+                  case 0x4B46u:
+                    v86 = "Fred Kantor MD5";
+                    goto LABEL_238;
+                  case 0x4C41u:
+                    v86 = "OS/2 ACL";
+                    goto LABEL_238;
+                  case 0x4D49u:
+                    v86 = "Info-ZIP VMS";
+                    goto LABEL_238;
+                  default:
+                    break;
+                }
+              }
+              goto LABEL_233;
+            }
+            v86 = "old Info-ZIP Unix/OS2/NT";
+            if ( MaxCharCount != 3 )
+              goto LABEL_238;
+            goto LABEL_236;
+          }
+          if ( v169 <= 0x756Eu )
+          {
+            switch ( v169 )
+            {
+              case 0x756Eu:
+                v86 = "ASi Unix";
+                goto LABEL_238;
+              case 0x6542u:
+                v86 = "BeOS";
+                goto LABEL_238;
+              case 0x6854u:
+                v86 = "Theos";
+                goto LABEL_238;
+              case 0x7441u:
+                v86 = "AtheOS";
+                goto LABEL_238;
+              default:
+                break;
+            }
+            goto LABEL_233;
+          }
+          if ( v169 == 30805 )
+          {
+            v86 = "Unix UID/GID";
+LABEL_236:
+            if ( *v188 != 0 )
+              *v188 += 4;
+            goto LABEL_238;
+          }
+          if ( v169 != 64330 )
+            goto LABEL_233;
+          v86 = "SMS/QDOS";
+        }
+        else
+        {
+          if ( v169 == 18191 )
+          {
+            v86 = "MVS";
+            goto LABEL_238;
+          }
+          if ( v169 > 0x2605u )
+          {
+            if ( v169 > 0x4341u )
+            {
+              if ( v169 == 17491 )
+              {
+                v86 = "Security Descriptor";
+                goto LABEL_238;
+              }
+              if ( v169 == 18180 )
+              {
+                v86 = "VM/CMS";
+                goto LABEL_238;
+              }
+            }
+            else
+            {
+              switch ( v169 )
+              {
+                case 0x4341u:
+                  v86 = "Acorn SparkFS";
+                  goto LABEL_238;
+                case 0x2705u:
+                  v86 = "ZipIt Macintosh (short)";
+                  goto LABEL_238;
+                case 0x334Du:
+                  v86 = "new Info-ZIP Macintosh";
+                  goto LABEL_238;
+                case 0x4154u:
+                  v86 = "Tandem NSK";
+                  goto LABEL_238;
+                default:
+                  break;
+              }
+            }
+            goto LABEL_233;
+          }
+          if ( v169 == 9733 )
+          {
+            v86 = "ZipIt Macintosh";
+            goto LABEL_238;
+          }
+          if ( v169 <= 7u )
+          {
+            if ( v169 == 7 )
+            {
+              v86 = "PKWARE AV";
+              goto LABEL_238;
+            }
+            if ( v169 == 1 )
+            {
+              v86 = "PKWARE 64-bit sizes";
+              goto LABEL_238;
+            }
+LABEL_233:
+            v86 = "unknown";
+            goto LABEL_238;
+          }
+          if ( v169 > 0x7C8u )
+            goto LABEL_233;
+          if ( v169 == 1992 )
+          {
+            v86 = "old Info-ZIP Macintosh";
+          }
+          else
+          {
+            switch ( v169 )
+            {
+              case 9u:
+                v86 = "OS/2";
+                break;
+              case 0xAu:
+                v86 = "PKWARE Win32";
+                break;
+              case 0xCu:
+                v86 = "PKWARE VMS";
+                break;
+              case 0xDu:
+                v86 = "PKWARE Unix";
+                break;
+              default:
+                goto LABEL_233;
+            }
+          }
+        }
+LABEL_238:
+        v87 = sprintf(
+                (char *const)(a1 + 2268),
+                "\n  - A subfield with ID 0x%04x (%s) and %u data bytes",
+                v169,
+                v86,
+                (unsigned __int16)v167);
+        (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v87, 0);
+        if ( v169 > 0x4C41u )
+        {
+          if ( v169 > 0x5455u )
+          {
+            if ( v169 != 25922 && v169 != 29761 )
+            {
+              if ( v169 == 64330 )
+              {
+                if ( (unsigned __int16)v167 >= 4u )
+                {
+                  v134 = sprintf(
+                           (char *const)(a1 + 2268),
+                           ".\n    The QDOS extra field subtype is `%c%c%c%c'",
+                           *v84,
+                           v84[1],
+                           v84[2],
+                           v84[3]);
+                  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v134, 0);
+                }
+                goto LABEL_280;
+              }
+LABEL_360:
+              if ( (_WORD)v167 != 0 )
+              {
+                if ( (unsigned __int16)v167 > 0x18u )
+                {
+                  v131 = sprintf((char *const)(a1 + 2268), ".  The first\n    20 are:  ");
+                  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v131, 0);
+                  v130 = 20;
+                }
+                else
+                {
+                  v129 = sprintf((char *const)(a1 + 2268), ":\n   ");
+                  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v129, 0);
+                  v130 = v167;
+                }
+                v132 = v84;
+                for ( i = (char *)v130; i != nullptr; --i )
+                {
+                  v133 = sprintf((char *const)(a1 + 2268), " %02x", *v132);
+                  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v133, 0);
+                  ++v132;
+                }
+              }
+              goto LABEL_280;
+            }
+            if ( (unsigned __int16)v167 >= 5u )
+            {
+              v135 = v84[4] & 1;
+              v136 = ".\n    The local extra field has %lu bytes of %scompressed AtheOS file attributes";
+              if ( v169 != 29761 )
+                v136 = ".\n    The local extra field has %lu bytes of %scompressed BeOS file attributes";
+              v137 = "un";
+              if ( (v84[4] & 1) == 0 )
+                v137 = (const char *)&unk_4CE3D8;
+              v138 = sprintf(
+                       (char *const)(a1 + 2268),
+                       v136,
+                       *v84 + ((v84[1] + ((v84[2] + (v84[3] << 8)) << 8)) << 8),
+                       v137);
+              (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v138, 0);
+              if ( v135 != 0 )
+              {
+                if ( *v188 != 0 )
+                  *v188 += ((v84[1] + ((v84[2] + (v84[3] << 8)) << 8)) << 8) + *v84;
+                goto LABEL_280;
+              }
+              goto LABEL_279;
+            }
+          }
+          else
+          {
+            if ( v169 == 21589 )
+            {
+              if ( (_WORD)v167 != 0 )
+              {
+                v113 = *v84;
+                v114 = 0;
+                v220[0] = 0;
+                if ( (v113 & 1) != 0 )
+                {
+                  v115 = 0;
+                  do
+                  {
+                    v116 = byte_4CF7B0[v115];
+                    v220[v115++] = v116;
+                  }
+                  while ( v116 != 0 );
+                  v114 = 1;
+                }
+                if ( (v113 & 2) != 0 )
+                {
+                  v117 = strlen(v220);
+                  v118 = v117;
+                  if ( v114 != 0 )
+                  {
+                    v220[v117] = 47;
+                    v118 = v117 + 1;
+                  }
+                  v119 = "access";
+                  v120 = &v220[v118 - (_DWORD)"access"];
+                  do
+                  {
+                    v121 = *v119;
+                    v119[(_DWORD)v120] = *v119;
+                    ++v119;
+                  }
+                  while ( v121 != 0 );
+                  ++v114;
+                  if ( *v188 != 0 )
+                    *v188 += 4;
+                }
+                if ( (*v84 & 4) != 0 )
+                {
+                  v122 = strlen(v220);
+                  v123 = v122;
+                  if ( v114 != 0 )
+                  {
+                    v220[v122] = 47;
+                    v123 = v122 + 1;
+                  }
+                  v124 = "creation";
+                  v125 = &v220[v123 - (_DWORD)"creation"];
+                  do
+                  {
+                    v126 = *v124;
+                    v124[(_DWORD)v125] = *v124;
+                    ++v124;
+                  }
+                  while ( v126 != 0 );
+                  ++v114;
+                  if ( *v188 != 0 )
+                    *v188 += 4;
+                }
+                if ( v114 > 0 )
+                {
+                  v127 = (const char *)&unk_4CE3D8;
+                  if ( v114 != 1 )
+                    v127 = (const char *)&unk_4CE3DC;
+                  v128 = sprintf(
+                           (char *const)(a1 + 2268),
+                           ".\n    The local extra field has UTC/GMT %s time%s",
+                           v220,
+                           v127);
+                  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v128, 0);
+                }
+              }
+              goto LABEL_280;
+            }
+            if ( v169 != 19785 )
+            {
+              if ( v169 == 19811 )
+              {
+                if ( (_WORD)v167 == 64 && *v84 + ((v84[1] + ((v84[2] + (v84[3] << 8)) << 8)) << 8) == 1885952612 )
+                {
+                  sub_48B890(a1, v84 + 4);
+                  v108 = v84[32];
+                  qmemcpy(v219, v84 + 33, 0x1Fu);
+                  v219[v108] = 0;
+                  v109 = sprintf((char *const)(a1 + 2268), ".\n    The Mac long filename is %s", v219);
+                  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v109, 0);
+                }
+                goto LABEL_280;
+              }
+              if ( v169 == 21334 )
+              {
+                if ( (unsigned __int16)v167 >= 5u )
+                {
+                  v107 = sprintf(
+                           (char *const)(a1 + 2268),
+                           ".\n    The AOS/VS extra field revision is %d.%d",
+                           v84[4] / 10,
+                           v84[4] % 10);
+                  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v107, 0);
+                }
+                goto LABEL_280;
+              }
+              goto LABEL_360;
+            }
+            if ( (unsigned __int16)v167 >= 8u )
+            {
+              v172 = v84[4] & 7;
+              Destination[0] = 0;
+              if ( v172 > 3 )
+                v172 = 3;
+              v110 = *v84 + ((v84[1] + ((v84[2] + (v84[3] << 8)) << 8)) << 8);
+              if ( v110 > 0x54414456 )
+              {
+                switch ( v110 )
+                {
+                  case 0x54445256u:
+                    v111 = "XABRDT";
+                    goto LABEL_333;
+                  case 0x56534D56u:
+                    v111 = "version";
+                    if ( (unsigned __int16)v167 >= 0x10u )
+                    {
+                      HIBYTE(v216) = 0;
+                      qmemcpy(Destination, " (", 2);
+                      strncpy(&Destination[2], (const char *)v84 + 12, 4u);
+                      BYTE2(v216) = 41;
+                    }
+                    goto LABEL_333;
+                  case 0x59454B56u:
+                    v111 = "XABKEY";
+                    goto LABEL_333;
+                  default:
+                    break;
+                }
+              }
+              else
+              {
+                if ( v110 == 1413563478 )
+                {
+                  v111 = "XABDAT";
+                  goto LABEL_333;
+                }
+                if ( v110 > 0x4C4C4156 )
+                {
+                  if ( v110 == 1330794582 )
+                  {
+                    v111 = "XABPRO";
+                    goto LABEL_333;
+                  }
+                }
+                else
+                {
+                  switch ( v110 )
+                  {
+                    case 0x4C4C4156u:
+                      v111 = "XABALL";
+                      goto LABEL_333;
+                    case 0x42414656u:
+                      v111 = "FAB";
+                      goto LABEL_333;
+                    case 0x43484656u:
+                      v111 = "XABFHC";
+LABEL_333:
+                      v112 = sprintf(
+                               (char *const)(a1 + 2268),
+                               ".  The extra\n    field is %s and has %u bytes of VMS %s information%s",
+                               off_4EA170[v172],
+                               *((unsigned __int16 *)v84 + 3),
+                               v111,
+                               Destination);
+                      (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v112, 0);
+                      goto LABEL_280;
+                    default:
+                      break;
+                  }
+                }
+              }
+              v111 = "unknown";
+              goto LABEL_333;
+            }
+          }
+        }
+        else
+        {
+          if ( v169 == 19521 )
+            goto LABEL_296;
+          if ( v169 > 0x334Du )
+          {
+            if ( v169 == 16724 )
+            {
+              if ( (_WORD)v167 == 20 )
+              {
+                v102 = (v84[18] >> 5) & 3;
+                v103 = (*v84 << 8) | v84[1];
+                if ( v102 == 0 )
+                {
+                  if ( v103 == 101 )
+                  {
+                    v102 = 4;
+                  }
+                  else if ( v103 == 100 )
+                  {
+                    v102 = 5;
+                  }
+                }
+                v104 = sprintf(
+                         (char *const)(a1 + 2268),
+                         ".\n    The file was originally a Tandem %s file, with file code %u",
+                         off_4EA180[v102],
+                         v103);
+                (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v104, 0);
+              }
+              goto LABEL_280;
+            }
+            if ( v169 == 17491 )
+            {
+              if ( (unsigned __int16)v167 >= 4u )
+              {
+                v100 = sprintf(
+                         (char *const)(a1 + 2268),
+                         ".\n    The local extra field has %lu bytes of NT security descriptor data",
+                         *v84 + ((v84[1] + ((v84[2] + (v84[3] << 8)) << 8)) << 8));
+                (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v100, 0);
+LABEL_279:
+                *v188 = 0;
+              }
+            }
+            else
+            {
+              if ( v169 != 19270 || (unsigned __int16)v167 < 0x13u )
+                goto LABEL_360;
+              v171 = v219;
+              v98 = v84 + 15;
+              for ( j = 16; j != 0; --j )
+              {
+                sprintf(v171, "%02x", *v98);
+                v171 += 2;
+                --v98;
+              }
+              v219[32] = 0;
+              v99 = sprintf((char *const)(a1 + 2268), ".\n    The 128-bit MD5 signature is %s", v219);
+              (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v99, 0);
+            }
+          }
+          else
+          {
+            if ( v169 == 13133 )
+            {
+              if ( (unsigned __int16)v167 >= 0xEu )
+              {
+                v93 = v84[4] & 4;
+                v170 = v84[4];
+                v94 = "un";
+                if ( (v170 & 4) == 0 )
+                  v94 = (const char *)&unk_4CE3D8;
+                v95 = sprintf(
+                        (char *const)(a1 + 2268),
+                        ".\n    The local extra field has %lu bytes of %scompressed Macintosh\n    finder attributes",
+                        *v84 + ((v84[1] + ((v84[2] + (v84[3] << 8)) << 8)) << 8),
+                        v94);
+                (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v95, 0);
+                if ( v93 != 0 )
+                {
+                  if ( *v188 != 0 )
+                    *v188 += ((v84[1] + ((v84[2] + (v84[3] << 8)) << 8)) << 8) + *v84;
+                }
+                else
+                {
+                  *v188 = 0;
+                }
+                v96 = "Data-fork";
+                if ( (v170 & 1) == 0 )
+                  v96 = "Resource-fork";
+                v97 = sprintf(
+                        (char *const)(a1 + 2268),
+                        ".\n    File is marked as %s, File Dates are in %d Bit",
+                        v96,
+                        (v170 & 8) != 0 ? 64 : 32);
+                (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v97, 0);
+                sub_48B890(a1, v84 + 6);
+              }
+              goto LABEL_280;
+            }
+            if ( v169 > 0x2605u )
+            {
+              if ( v169 == 9989 )
+              {
+                if ( (unsigned __int16)v167 >= 5u
+                  && *v84 + ((v84[1] + ((v84[2] + (v84[3] << 8)) << 8)) << 8) == 1414090842
+                  && (unsigned __int16)v167 >= 0xCu )
+                {
+                  sub_48B890(a1, v84 + 4);
+                }
+                goto LABEL_280;
+              }
+              goto LABEL_360;
+            }
+            if ( v169 == 9733 )
+            {
+              if ( (unsigned __int16)v167 >= 5u
+                && *v84 + ((v84[1] + ((v84[2] + (v84[3] << 8)) << 8)) << 8) == 1414090842 )
+              {
+                v90 = v84[4];
+                if ( (unsigned __int16)v167 >= (unsigned int)(v90 + 13) )
+                {
+                  v91 = &v84[v90 + 5];
+                  v191 = *v91;
+                  *v91 = 0;
+                  v92 = sprintf((char *const)(a1 + 2268), ".\n    The Mac long filename is %s", (const char *)v187 + 5);
+                  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v92, 0);
+                  *v91 = v191;
+                  sub_48B890(a1, v91);
+                  v84 = v187;
+                }
+              }
+              goto LABEL_280;
+            }
+            if ( v169 == 9 )
+            {
+LABEL_296:
+              if ( (unsigned __int16)v167 >= 4u )
+              {
+                v105 = ".\n"
+                       "    The local extra field has %lu bytes of OS/2 extended attributes.\n"
+                       "    (May not match OS/2 \"dir\" amount due to storage method)";
+                if ( v169 != 9 )
+                  v105 = ".\n    The local extra field has %lu bytes of access control list information";
+                v106 = sprintf((char *const)(a1 + 2268), v105, *v84 + ((v84[1] + ((v84[2] + (v84[3] << 8)) << 8)) << 8));
+                (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v106, 0);
+                *v188 = 0;
+              }
+              goto LABEL_280;
+            }
+            if ( v169 != 1992 )
+              goto LABEL_360;
+            if ( (unsigned __int16)v167 >= 0x28u && sub_480A00(v84) == 1162169418 )
+            {
+              sub_48B890(a1, v84 + 4);
+              v88 = "Data-fork";
+              if ( (v84[31] & 1) == 0 )
+                v88 = "Resource-fork";
+              v89 = sprintf((char *const)(a1 + 2268), ".\n    File is marked as %s", v88);
+              (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v89, 0);
+            }
+          }
+        }
+LABEL_280:
+        (*(void (__stdcall **)(int, const CHAR *, int, _DWORD))(a1 + 68436))(a1, word_4D8610, 1, 0);
+        v77 = &v84[(unsigned __int16)v167];
+        v182 = v183 - v167;
+      }
+      while ( (unsigned __int16)v182 >= 4u );
+    }
+    (*(void (__stdcall **)(int, const char *, int, _DWORD))(a1 + 68436))(a1, SubStr, 1, 0);
+    v47 = MaxCharCount;
+  }
+  if ( ((*(_DWORD *)(a1 + 67936) >> 12) & 8) != 0 )
+  {
+    if ( v47 == 3 || v47 == 6 || v47 == 11 )
+    {
+      v139 = "GMT modification/access times and Unix UID/GID";
+      if ( ((*(_DWORD *)(a1 + 67936) >> 12) & 4) == 0 )
+        v139 = "GMT modification/access times only";
+      v140 = (*(_DWORD *)(a1 + 67936) >> 12) & 0xC;
+      v141 = sprintf(
+               (char *const)(a1 + 2268),
+               "\n  There %s a local extra field with ID 0x%04x (%s) and\n  %u data bytes (%s).\n",
+               "is",
+               22613,
+               "old Info-ZIP Unix/OS2/NT",
+               v140,
+               v139);
+      (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v141, 0);
+      if ( *v188 != 0 )
+        *v188 += v140;
+    }
+    else if ( v47 == 0 && ((*(_DWORD *)(a1 + 67936) >> 12) & 4) == 0 )
+    {
+      v101 = sprintf(
+               (char *const)(a1 + 2268),
+               "\n  There %s a local extra field with ID 0x%04x (%s) and\n  %u data bytes (%s).\n",
+               "may be",
+               22613,
+               "old Info-ZIP Unix/OS2/NT",
+               8,
+               "GMT modification/access times only");
+      (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v101, 0);
+    }
+  }
+  if ( *(_WORD *)(a1 + 67928) == 0 )
+  {
+    v142 = sprintf((char *const)(a1 + 2268), "\n  There is no file comment.\n");
+    (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v142, 0);
+    return v192;
+  }
+  v143 = sprintf(
+           (char *const)(a1 + 2268),
+           "\n------------------------- file comment begins ----------------------------\n");
+  (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v143, 0);
+  MaxCharCounta = *(unsigned __int16 *)(a1 + 67928);
+  if ( *(_WORD *)(a1 + 67928) == 0 )
+  {
+LABEL_414:
+    v164 = sprintf(
+             (char *const)(a1 + 2268),
+             "-------------------------- file comment ends -----------------------------\n");
+    (*(void (__stdcall **)(int, int, int, _DWORD))(a1 + 68436))(a1, a1 + 2268, v164, 0);
+    return v192;
+  }
+  v184 = *(unsigned __int16 *)(a1 + 67928);
+  v174 = 0x20000;
+  while ( 1 )
+  {
+    if ( v174 == 0 )
+    {
+LABEL_413:
+      (*(void (__stdcall **)(int, int, _DWORD, int))(a1 + 68436))(a1, a1 + 2268, 0, 64);
+      goto LABEL_414;
+    }
+    v144 = v184;
+    v145 = *(char **)(a1 + 68060);
+    if ( v184 > 0x20000 )
+      v144 = 0x20000;
+    v146 = sub_47F890(v144, a1, *(char **)(a1 + 68060));
+    v174 = v146;
+    if ( v146 == 0 )
+      return 51;
+    v184 -= v146;
+    *(_BYTE *)(v146 + *(_DWORD *)(a1 + 68060)) = 0;
+    v147 = *v145;
+    for ( k = v145; *v145 != 0; ++k )
+    {
+      if ( v147 == 13 )
+      {
+        do
+          ++v145;
+        while ( *v145 == 13 );
+      }
+      v149 = *v145++;
+      *k = v149;
+      v147 = *v145;
+    }
+    *k = 0;
+    v150 = *(_BYTE **)(a1 + 2264);
+    v151 = v150[19];
+    if ( v151 == 0 && ((v150[24] & 0x40) == 0 || (v152 = v150[18]) != 25 && v152 != 26 && v152 != 40)
+      || v151 == 6
+      || v151 == 11 && v150[18] == 50 )
+    {
+      OemToCharA(*(LPCSTR *)(a1 + 68060), *(LPSTR *)(a1 + 68060));
+    }
+    v153 = *(const void **)(a1 + 68060);
+    sub_4AB304();
+    v155 = v154 + 1;
+    sub_4AB304();
+    if ( v155 == &v156[2] || (sub_4AB304(), v155 == &v157[1]) )
+    {
+      if ( dword_543C9C == 0 )
+        (**(void (__stdcall ***)(const void *, unsigned int))(a1 + 68456))(v153, MaxCharCounta);
+    }
+    else
+    {
+      v158 = _fileno(v155);
+      _write(v158, v153, MaxCharCounta);
+    }
+    sub_4AB304();
+    v160 = v159 + 1;
+    sub_4AB304();
+    if ( v160 == &v161[2] || (sub_4AB304(), v160 == &v162[1]) )
+    {
+      if ( dword_543C9C == 0 )
+        (**(void (__stdcall ***)(const char *, int))(a1 + 68456))("\n\n", 2);
+    }
+    else
+    {
+      v163 = _fileno(v160);
+      _write(v163, "\n\n", 2u);
+    }
+    if ( v184 == 0 )
+      goto LABEL_413;
   }
 }
 
@@ -123394,6 +128377,41 @@ char *__cdecl _strupr(char *String)
   return result;
 }
 
+// Address: 0x4AA9FC
+int printf(const char *const Format, ...)
+{
+  int v2; // eax
+  FILE *v3; // eax
+  int v4; // edi
+  FILE *v5; // eax
+  FILE *v6; // eax
+  int v7; // eax
+  int v8; // [esp+10h] [ebp-1Ch]
+  va_list va; // [esp+38h] [ebp+Ch] BYREF
+
+  va_start(va, Format);
+  if ( Format != nullptr )
+  {
+    sub_4AB304();
+    _lock_file2(1, v2 + 32);
+    sub_4AB304();
+    v4 = _stbuf(v3 + 1);
+    sub_4AB304();
+    v8 = _output_l(v5 + 1, Format, nullptr, (int *)va);
+    sub_4AB304();
+    _ftbuf(v4, v6 + 1);
+    sub_4AB304();
+    _unlock_file2(1, v7 + 32);
+    return v8;
+  }
+  else
+  {
+    *_errno() = 22;
+    _invalid_parameter(nullptr, nullptr, nullptr, 0, 0);
+    return -1;
+  }
+}
+
 // Address: 0x4AAAAB
 int __cdecl _get_printf_count_output()
 {
@@ -123836,9 +128854,9 @@ void *__cdecl calloc(size_t Count, size_t Size)
 }
 
 // Address: 0x4AB304
-_UNKNOWN **sub_4AB304(const char *a1, ...)
+void __cdecl sub_4AB304()
 {
-  return &off_4E9080;
+  ;
 }
 
 // Address: 0x4AB30A
@@ -124191,8 +129209,10 @@ void __cdecl doexit(UINT uExitCode, int a2, int a3)
 }
 
 // Address: 0x4AB875
-void __cdecl __noreturn exit(int Code)
+void __cdecl __noreturn exit()
 {
+  UINT Code; // [esp+8h] [ebp+8h]
+
   doexit(Code, 0, 0);
 }
 
@@ -125323,16 +130343,15 @@ int __tmainCRTStartup()
   int v0; // eax
   CHAR *v1; // eax
   int wShowWindow; // ecx
-  int v3; // eax
   struct _STARTUPINFOA StartupInfo; // [esp+10h] [ebp-68h] BYREF
-  int v6; // [esp+58h] [ebp-20h]
-  BOOL v7; // [esp+5Ch] [ebp-1Ch]
+  int v5; // [esp+58h] [ebp-20h]
+  BOOL v6; // [esp+5Ch] [ebp-1Ch]
   CPPEH_RECORD ms_exc; // [esp+60h] [ebp-18h]
 
   ms_exc.registration.TryLevel = 0;
   GetStartupInfoA(&StartupInfo);
   ms_exc.registration.TryLevel = -2;
-  v7 = LOWORD(MEMORY[0x400000].unused) == 23117
+  v6 = LOWORD(MEMORY[0x400000].unused) == 23117
     && *(_DWORD *)(MEMORY[0x40003C] + 0x400000) == 17744
     && *(_WORD *)(MEMORY[0x40003C] + 4194328) == 267
     && *(_DWORD *)(MEMORY[0x40003C] + 4194420) > 0xEu
@@ -125346,7 +130365,7 @@ int __tmainCRTStartup()
   if ( _ioinit() < 0 )
     _amsg_exit(27);
   dword_547B24 = (int)GetCommandLineA();
-  dword_4ED110 = (char *)__crtGetEnvironmentStringsA();
+  dword_4ED110 = __crtGetEnvironmentStringsA();
   if ( _setargv() < 0 )
     _amsg_exit(8);
   if ( _setenvp() < 0 )
@@ -125359,12 +130378,11 @@ int __tmainCRTStartup()
     wShowWindow = StartupInfo.wShowWindow;
   else
     wShowWindow = 10;
-  v3 = WinMain((HINSTANCE)0x400000, nullptr, v1, wShowWindow);
-  v6 = v3;
-  if ( !v7 )
-    exit(v3);
+  v5 = WinMain((HINSTANCE)0x400000, nullptr, v1, wShowWindow);
+  if ( !v6 )
+    exit();
   _cexit();
-  return v6;
+  return v5;
 }
 
 // Address: 0x4ACA5C
@@ -131218,7 +136236,7 @@ void *__set_flsgetvalue()
   Value = TlsGetValue(dword_4E95B4);
   if ( Value == nullptr )
   {
-    Value = _decode_pointer(lpTlsValue);
+    Value = _decode_pointer(FlsGetValue);
     TlsSetValue(dword_4E95B4, Value);
   }
   return Value;
@@ -131229,7 +136247,7 @@ int __stdcall __fls_setvalue(int a1, int a2)
 {
   int (__stdcall *v2)(int, int); // eax
 
-  v2 = (int (__stdcall *)(int, int))_decode_pointer((void *)dword_4ED504);
+  v2 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
   return v2(a1, a2);
 }
 
@@ -131295,12 +136313,12 @@ DWORD *_getptd_noexit()
   DWORD v1; // edi
   int (__stdcall *v2)(int); // eax
   DWORD *v3; // esi
-  DWORD *v4; // eax
-  int (__stdcall *v5)(int, DWORD *); // eax
+  int v4; // eax
+  int (__stdcall *v5)(int, int); // eax
   DWORD CurrentThreadId; // eax
   int v8; // [esp-8h] [ebp-10h]
   int v9; // [esp-4h] [ebp-Ch]
-  DWORD *v10; // [esp-4h] [ebp-Ch]
+  int v10; // [esp-4h] [ebp-Ch]
 
   LastError = GetLastError();
   v9 = dword_4E95B0;
@@ -131309,13 +136327,13 @@ DWORD *_getptd_noexit()
   v3 = (DWORD *)v2(v9);
   if ( v3 == nullptr )
   {
-    v4 = (DWORD *)_calloc_crt(1u, 532);
-    v3 = v4;
-    if ( v4 != nullptr )
+    v4 = _calloc_crt(1u, 532);
+    v3 = (DWORD *)v4;
+    if ( v4 != 0 )
     {
       v10 = v4;
       v8 = dword_4E95B0;
-      v5 = (int (__stdcall *)(int, DWORD *))_decode_pointer((void *)dword_4ED504);
+      v5 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
       if ( v5(v8, v10) != 0 )
       {
         _initptd((int)v3, 0);
@@ -131407,7 +136425,7 @@ DWORD __cdecl _freeptd(void *Block)
       Block = (void *)Value(v4);
     }
     v5 = dword_4E95B0;
-    v2 = (void (__stdcall *)(int, _DWORD))_decode_pointer((void *)dword_4ED504);
+    v2 = (void (__stdcall *)(int, _DWORD))_decode_pointer(FlsSetValue);
     v2(v5, 0);
     _freefls(Block);
   }
@@ -131889,6 +136907,96 @@ unsigned int __stdcall _aulldiv(unsigned __int64 a1, __int64 a2)
     HIDWORD(v3) = HIDWORD(a1) % (unsigned int)a2;
     return v3 / (unsigned int)a2;
   }
+}
+
+// Address: 0x4B3EB8
+int __cdecl _flsbuf(int Ch, FILE *File)
+{
+  FILE *v2; // esi
+  int flag; // eax
+  unsigned int v5; // eax
+  FILE *v6; // eax
+  FILE *v7; // eax
+  char *base; // eax
+  char *ptr; // edi
+  signed int v10; // edi
+  _BYTE *v11; // eax
+  __int64 v12; // rax
+  int v13; // [esp+4h] [ebp-4h]
+
+  v2 = File;
+  File = (FILE *)_fileno(File);
+  flag = v2->_flag;
+  if ( (flag & 0x82) == 0 )
+  {
+    *_errno() = 9;
+LABEL_3:
+    v2->_flag |= 0x20u;
+    return -1;
+  }
+  if ( (flag & 0x40) != 0 )
+  {
+    *_errno() = 34;
+    goto LABEL_3;
+  }
+  if ( (flag & 1) != 0 )
+  {
+    v2->_cnt = 0;
+    if ( (flag & 0x10) == 0 )
+    {
+      v2->_flag = flag | 0x20;
+      return -1;
+    }
+    v2->_ptr = v2->_base;
+    v2->_flag = flag & 0xFFFFFFFE;
+  }
+  v5 = v2->_flag & 0xFFFFFFED | 2;
+  v2->_flag = v5;
+  v2->_cnt = 0;
+  v13 = 0;
+  if ( (v5 & 0x10C) == 0 )
+  {
+    if ( (sub_4AB304(), v2 != &v6[1]) && (sub_4AB304(), v2 != &v7[2]) || _isatty((int)File) == 0 )
+      _getbuf(v2);
+  }
+  if ( (v2->_flag & 0x108) != 0 )
+  {
+    base = v2->_base;
+    ptr = v2->_ptr;
+    v2->_ptr = base + 1;
+    v10 = ptr - base;
+    v2->_cnt = v2->_bufsiz - 1;
+    if ( v10 <= 0 )
+    {
+      if ( File == (FILE *)-1 || File == (FILE *)-2 )
+        v11 = &unk_4E9DD0;
+      else
+        v11 = (_BYTE *)(dword_547A00[(int)File >> 5] + (((unsigned __int8)File & 0x1F) << 6));
+      if ( (v11[4] & 0x20) != 0 )
+      {
+        v12 = _lseeki64((int)File, 0, 2);
+        if ( (HIDWORD(v12) & (unsigned int)v12) == 0xFFFFFFFF )
+          goto LABEL_27;
+      }
+    }
+    else
+    {
+      v13 = _write((int)File, base, v10);
+    }
+    *v2->_base = Ch;
+  }
+  else
+  {
+    v10 = 1;
+    v13 = _write((int)File, &Ch, 1u);
+  }
+  if ( v13 != v10 )
+  {
+LABEL_27:
+    v2->_flag |= 0x20u;
+    return -1;
+  }
+  return (unsigned __int8)Ch;
 }
 
 // Address: 0x4B401C
@@ -137213,6 +142321,55 @@ int _alloca_probe_16()
 int _alloca_probe_8()
 {
   return _alloca_probe();
+}
+
+// Address: 0x4B94DC
+int __cdecl _stbuf(FILE *Stream)
+{
+  int v1; // eax
+  FILE *v2; // eax
+  int v3; // eax
+  FILE *v4; // eax
+  char **v5; // edi
+  char *v6; // eax
+  char *v7; // edi
+
+  v1 = _fileno(Stream);
+  if ( _isatty(v1) == 0 )
+    return 0;
+  sub_4AB304();
+  if ( Stream == &v2[1] )
+  {
+    v3 = 0;
+  }
+  else
+  {
+    sub_4AB304();
+    if ( Stream != &v4[2] )
+      return 0;
+    v3 = 1;
+  }
+  ++dword_4ED0D8;
+  if ( (Stream->_flag & 0x10C) != 0 )
+    return 0;
+  v5 = (char **)((char *)&unk_4ED9E0 + 4 * v3);
+  if ( *v5 != nullptr || (v6 = (char *)_malloc_crt(0x1000u), *v5 = v6, v6 != nullptr) )
+  {
+    v7 = *v5;
+    Stream->_base = v7;
+    Stream->_ptr = v7;
+    Stream->_bufsiz = 4096;
+    Stream->_cnt = 4096;
+  }
+  else
+  {
+    Stream->_base = (char *)&Stream->_charbuf;
+    Stream->_ptr = (char *)&Stream->_charbuf;
+    Stream->_bufsiz = 2;
+    Stream->_cnt = 2;
+  }
+  Stream->_flag |= 0x1102u;
+  return 1;
 }
 
 // Address: 0x4B9578
@@ -144820,6 +149977,101 @@ wchar_t *__cdecl wcschr(const wchar_t *Str, wchar_t Ch)
   if ( *result != Ch )
     return nullptr;
   return result;
+}
+
+// Address: 0x4C138C
+int __cdecl _flswbuf(unsigned __int16 a1, FILE *Stream)
+{
+  int flag; // eax
+  int v5; // eax
+  unsigned int v6; // eax
+  FILE *v7; // eax
+  FILE *v8; // eax
+  char *base; // eax
+  char *ptr; // edi
+  signed int v11; // edi
+  _BYTE *v12; // eax
+  __int64 v13; // rax
+  unsigned __int16 v14; // bx
+  int Buf; // [esp+4h] [ebp-4h] BYREF
+  int Streama; // [esp+14h] [ebp+Ch]
+
+  Streama = _fileno(Stream);
+  flag = Stream->_flag;
+  if ( (flag & 0x82) == 0 )
+  {
+    *_errno() = 9;
+LABEL_3:
+    Stream->_flag |= 0x20u;
+    return 0xFFFF;
+  }
+  if ( (flag & 0x40) != 0 )
+  {
+    *_errno() = 34;
+    goto LABEL_3;
+  }
+  if ( (flag & 1) != 0 )
+  {
+    Stream->_cnt = 0;
+    if ( (flag & 0x10) == 0 )
+    {
+      Stream->_flag = flag | 0x20;
+      return 0xFFFF;
+    }
+    Stream->_ptr = Stream->_base;
+    Stream->_flag = flag & 0xFFFFFFFE;
+  }
+  v5 = Stream->_flag;
+  Stream->_cnt = 0;
+  Buf = 0;
+  v6 = v5 & 0xFFFFFFED | 2;
+  Stream->_flag = v6;
+  if ( (v6 & 0x10C) == 0 )
+  {
+    if ( (sub_4AB304(), Stream != &v7[1]) && (sub_4AB304(), Stream != &v8[2]) || _isatty(Streama) == 0 )
+      _getbuf(Stream);
+  }
+  if ( (Stream->_flag & 0x108) != 0 )
+  {
+    base = Stream->_base;
+    ptr = Stream->_ptr;
+    Stream->_ptr = base + 2;
+    v11 = ptr - base;
+    Stream->_cnt = Stream->_bufsiz - 2;
+    if ( v11 <= 0 )
+    {
+      if ( Streama == -1 || Streama == -2 )
+        v12 = &unk_4E9DD0;
+      else
+        v12 = (_BYTE *)(dword_547A00[Streama >> 5] + ((Streama & 0x1F) << 6));
+      if ( (v12[4] & 0x20) != 0 )
+      {
+        v13 = _lseeki64(Streama, 0, 2);
+        if ( (HIDWORD(v13) & (unsigned int)v13) == 0xFFFFFFFF )
+          goto LABEL_28;
+      }
+    }
+    else
+    {
+      Buf = _write(Streama, base, v11);
+    }
+    v14 = a1;
+    *(_WORD *)Stream->_base = a1;
+  }
+  else
+  {
+    v11 = 2;
+    v14 = a1;
+    LOWORD(Buf) = a1;
+    Buf = _write(Streama, &Buf, 2u);
+  }
+  if ( Buf != v11 )
+  {
+LABEL_28:
+    Stream->_flag |= 0x20u;
+    return 0xFFFF;
+  }
+  return v14;
 }
 
 // Address: 0x4C1500

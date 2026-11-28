@@ -454,6 +454,15 @@ CFrameWnd *__stdcall sub_401810(CFrameWnd *a1)
   return a1;
 }
 
+// Address: 0x401870
+CFrameWnd *__thiscall sub_401870(CFrameWnd *this, char a2)
+{
+  sub_401890(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x401890
 void __thiscall sub_401890(CFrameWnd *this)
 {
@@ -782,6 +791,15 @@ int __thiscall sub_401EA0(CWnd **this)
   }
 }
 
+// Address: 0x402150
+HWND__ *__thiscall sub_402150(HWND__ *this, char a2)
+{
+  sub_412D6F(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x402170
 // attributes: thunk
 int __cdecl sub_402170(int a1, int a2)
@@ -1044,6 +1062,16 @@ char **sub_4025D0()
 int (**sub_4025E0())()
 {
   return &off_454918;
+}
+
+// Address: 0x4025F0
+HWND__ *__thiscall sub_4025F0(HWND__ *this, char a2)
+{
+  *(_DWORD *)this = &CSysCtrlView::`vftable';
+  sub_415206(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
 }
 
 // Address: 0x402620
@@ -34192,7 +34220,7 @@ int __thiscall COleControlSite::ConnectSink(COleControlSite *this, const struct 
   int v6; // [esp+8h] [ebp-4h] BYREF
 
   if ( *((_DWORD *)this + 20) == 0
-    || (***((int (__stdcall ****)(_DWORD, void *, int *))this + 20))(*((_DWORD *)this + 20), &unk_45394C, &v5) < 0 )
+    || (***((int (__stdcall ****)(_DWORD, void *, int *))this + 20))(*((_DWORD *)this + 20), &stru_45394C, &v5) < 0 )
   {
     return 0;
   }
@@ -34215,7 +34243,7 @@ void __thiscall COleControlSite::DisconnectSink(COleControlSite *this, const str
 
   if ( a3 != 0
     && *((_DWORD *)this + 20) != 0
-    && (***((int (__stdcall ****)(_DWORD, void *, int *))this + 20))(*((_DWORD *)this + 20), &unk_45394C, &v3) >= 0 )
+    && (***((int (__stdcall ****)(_DWORD, void *, int *))this + 20))(*((_DWORD *)this + 20), &stru_45394C, &v3) >= 0 )
   {
     v4 = 0;
     if ( (*(int (__stdcall **)(int, const struct _GUID *, int *))(*(_DWORD *)v3 + 16))(v3, a2, &v4) >= 0 )
@@ -35201,7 +35229,7 @@ int __stdcall sub_424D08(int (__stdcall ***a1)(_DWORD, void *, int), int a2)
 // Address: 0x424D21
 int __stdcall sub_424D21(int (__stdcall ***a1)(_DWORD, void *, int), int a2)
 {
-  return (**a1)(a1, &unk_44FED4, a2);
+  return (**a1)(a1, &stru_44FED4, a2);
 }
 
 // Address: 0x424D3A
@@ -56142,7 +56170,7 @@ void *__set_flsgetvalue()
   Value = TlsGetValue(dwTlsIndex);
   if ( Value == nullptr )
   {
-    Value = _decode_pointer(lpTlsValue);
+    Value = _decode_pointer(FlsGetValue);
     TlsSetValue(dwTlsIndex, Value);
   }
   return Value;
@@ -56210,12 +56238,12 @@ DWORD *_getptd_noexit()
   DWORD v1; // edi
   int (__stdcall *v2)(int); // eax
   DWORD *v3; // esi
-  DWORD *v4; // eax
-  int (__stdcall *v5)(int, DWORD *); // eax
+  int v4; // eax
+  int (__stdcall *v5)(int, int); // eax
   DWORD CurrentThreadId; // eax
   int v8; // [esp-8h] [ebp-10h]
   int v9; // [esp-4h] [ebp-Ch]
-  DWORD *v10; // [esp-4h] [ebp-Ch]
+  int v10; // [esp-4h] [ebp-Ch]
 
   LastError = GetLastError();
   v9 = dword_460DC8;
@@ -56224,13 +56252,13 @@ DWORD *_getptd_noexit()
   v3 = (DWORD *)v2(v9);
   if ( v3 == nullptr )
   {
-    v4 = (DWORD *)_calloc_crt(1u, 532);
-    v3 = v4;
-    if ( v4 != nullptr )
+    v4 = _calloc_crt(1u, 532);
+    v3 = (DWORD *)v4;
+    if ( v4 != 0 )
     {
       v10 = v4;
       v8 = dword_460DC8;
-      v5 = (int (__stdcall *)(int, DWORD *))_decode_pointer((void *)dword_46452C);
+      v5 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
       if ( v5(v8, v10) != 0 )
       {
         _initptd((int)v3, 0);

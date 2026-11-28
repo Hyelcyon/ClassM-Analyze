@@ -672,44 +672,45 @@ BOOL __usercall sub_10001B30@<eax>(const WCHAR *a1@<eax>)
 }
 
 // Address: 0x10001B70
-HANDLE __cdecl sub_10001B70(wchar_t *Format, int ArgList)
+void __cdecl sub_10001B70()
 {
-  HANDLE result; // eax
-  HANDLE v3; // esi
-  LPCWSTR v4; // edi
-  int v5; // eax
+  HANDLE v0; // esi
+  LPCWSTR v1; // edi
+  int v2; // eax
   DWORD NumberOfBytesWritten; // [esp+Ch] [ebp-10h] BYREF
-  int v7; // [esp+18h] [ebp-4h]
+  int v4; // [esp+18h] [ebp-4h]
+  wchar_t *Format; // [esp+20h] [ebp+4h]
+  int ArgList; // [esp+24h] [ebp+8h] BYREF
 
   if ( hObject == nullptr )
   {
-    result = (HANDLE)(timeGetTime() - dword_100C6CD4);
-    if ( (unsigned int)result < 0x3E8 )
-      return result;
+    if ( timeGetTime() - dword_100C6CD4 < 0x3E8 )
+      return;
     dword_100C6CD4 = timeGetTime();
-    result = CreateFileW(L"\\\\.\\pipe\\SENUL_DEBUG_PIPE", 0x40000000u, 3u, nullptr, 3u, 0, nullptr);
-    hObject = result;
-    if ( result == (HANDLE)-1 )
+    hObject = CreateFileW(L"\\\\.\\pipe\\SENUL_DEBUG_PIPE", 0x40000000u, 3u, nullptr, 3u, 0, nullptr);
+    if ( hObject == (HANDLE)-1 )
       goto LABEL_10;
     sub_10001B30(L"Logging Start...");
   }
   if ( (dword_100C6CDC & 1) == 0 )
   {
     dword_100C6CDC |= 1u;
-    v7 = 0;
+    v4 = 0;
     lpBuffer = (LPCWSTR)operator new(0x20000u);
     atexit(sub_1002C9E0);
   }
   _vswprintf_c_l((wchar_t *const)lpBuffer, 0x10000u, Format, nullptr, (va_list)&ArgList);
-  v3 = hObject;
-  v4 = lpBuffer;
-  v5 = lstrlenW(lpBuffer);
-  if ( WriteFile(v3, v4, 2 * v5 + 2, &NumberOfBytesWritten, nullptr) )
-    return (HANDLE)FlushFileBuffers(v3);
-  result = (HANDLE)CloseHandle(hObject);
+  v0 = hObject;
+  v1 = lpBuffer;
+  v2 = lstrlenW(lpBuffer);
+  if ( WriteFile(v0, v1, 2 * v2 + 2, &NumberOfBytesWritten, nullptr) )
+  {
+    FlushFileBuffers(v0);
+    return;
+  }
+  CloseHandle(hObject);
 LABEL_10:
   hObject = nullptr;
-  return result;
 }
 
 // Address: 0x10001CC0
@@ -2447,6 +2448,15 @@ _DWORD *__stdcall sub_10003DC0(_DWORD *a1)
   return a1;
 }
 
+// Address: 0x10003F20
+volatile signed __int32 **__thiscall sub_10003F20(volatile signed __int32 **this, char a2)
+{
+  sub_10003F40(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x10003F40
 int __thiscall sub_10003F40(volatile signed __int32 **this)
 {
@@ -2502,6 +2512,20 @@ int __thiscall sub_10003F40(volatile signed __int32 **this)
     }
   }
   return result;
+}
+
+// Address: 0x10004060
+_DWORD *SheriffCreate()
+{
+  _DWORD *v0; // eax
+  _DWORD *v1; // eax
+
+  sub_10001B70();
+  v0 = operator new(0x38u);
+  if ( v0 != nullptr && (v1 = sub_10003DC0(v0)) != nullptr )
+    return v1 + 1;
+  else
+    return nullptr;
 }
 
 // Address: 0x10004090
@@ -10006,6 +10030,15 @@ _DWORD *__stdcall sub_1000EB00(int a1, int a2)
   result[1] = v2;
   *result = a2;
   return result;
+}
+
+// Address: 0x1000EBD0
+void *__thiscall sub_1000EBD0(void *this, char a2)
+{
+  sub_1000EBF0(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
 }
 
 // Address: 0x1000EBF0
@@ -21442,12 +21475,12 @@ LABEL_19:
 // Address: 0x1001B1DB
 int __stdcall _CRT_INIT(int a1, int a2, int a3)
 {
-  DWORD *v4; // eax
+  int v4; // eax
   DWORD *v5; // esi
-  int (__stdcall *v6)(int, DWORD *); // eax
+  int (__stdcall *v6)(int, int); // eax
   DWORD CurrentThreadId; // eax
   int v8; // [esp-8h] [ebp-10h]
-  DWORD *v9; // [esp-4h] [ebp-Ch]
+  int v9; // [esp-4h] [ebp-Ch]
 
   if ( a2 == 1 )
   {
@@ -21461,7 +21494,7 @@ LABEL_5:
     }
     sub_100223DE();
     dword_100C7E54 = (int)GetCommandLineA();
-    dword_100C6238 = (char *)__crtGetEnvironmentStringsA();
+    dword_100C6238 = __crtGetEnvironmentStringsA();
     if ( _ioinit() < 0 )
     {
 LABEL_7:
@@ -21480,19 +21513,19 @@ LABEL_7:
     if ( a2 == 2 )
     {
       __set_flsgetvalue();
-      v4 = (DWORD *)_calloc_crt(1u, 532);
-      v5 = v4;
-      if ( v4 == nullptr )
+      v4 = _calloc_crt(1u, 532);
+      v5 = (DWORD *)v4;
+      if ( v4 == 0 )
         return 0;
       v9 = v4;
       v8 = dword_1003A1E0;
-      v6 = (int (__stdcall *)(int, DWORD *))_decode_pointer(dword_100C6574);
+      v6 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
       if ( v6(v8, v9) == 0 )
       {
         free(v5);
         return 0;
       }
-      _initptd(v5, 0);
+      _initptd((int)v5, 0);
       CurrentThreadId = GetCurrentThreadId();
       v5[1] = -1;
       *v5 = CurrentThreadId;
@@ -22282,7 +22315,7 @@ void *__set_flsgetvalue()
   Value = TlsGetValue(dwTlsIndex);
   if ( Value == nullptr )
   {
-    Value = _decode_pointer(lpTlsValue);
+    Value = _decode_pointer(FlsGetValue);
     TlsSetValue(dwTlsIndex, Value);
   }
   return Value;
@@ -22350,12 +22383,12 @@ DWORD *_getptd_noexit()
   DWORD v1; // edi
   int (__stdcall *v2)(int); // eax
   DWORD *v3; // esi
-  DWORD *v4; // eax
-  int (__stdcall *v5)(int, DWORD *); // eax
+  int v4; // eax
+  int (__stdcall *v5)(int, int); // eax
   DWORD CurrentThreadId; // eax
   int v8; // [esp-8h] [ebp-10h]
   int v9; // [esp-4h] [ebp-Ch]
-  DWORD *v10; // [esp-4h] [ebp-Ch]
+  int v10; // [esp-4h] [ebp-Ch]
 
   LastError = GetLastError();
   v9 = dword_1003A1E0;
@@ -22364,13 +22397,13 @@ DWORD *_getptd_noexit()
   v3 = (DWORD *)v2(v9);
   if ( v3 == nullptr )
   {
-    v4 = (DWORD *)_calloc_crt(1u, 532);
-    v3 = v4;
-    if ( v4 != nullptr )
+    v4 = _calloc_crt(1u, 532);
+    v3 = (DWORD *)v4;
+    if ( v4 != 0 )
     {
       v10 = v4;
       v8 = dword_1003A1E0;
-      v5 = (int (__stdcall *)(int, DWORD *))_decode_pointer((void *)dword_100C6574);
+      v5 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
       if ( v5(v8, v10) != 0 )
       {
         _initptd((int)v3, 0);
@@ -22462,7 +22495,7 @@ DWORD __cdecl _freeptd(void *Block)
       Block = (void *)Value(v4);
     }
     v5 = dword_1003A1E0;
-    v2 = (void (__stdcall *)(int, _DWORD))_decode_pointer((void *)dword_100C6574);
+    v2 = (void (__stdcall *)(int, _DWORD))_decode_pointer(FlsSetValue);
     v2(v5, 0);
     _freefls(Block);
   }
@@ -23319,7 +23352,7 @@ LABEL_3:
     if ( v8 <= 0 )
     {
       if ( File == (FILE *)-1 || File == (FILE *)-2 )
-        v9 = &unk_1003AA08;
+        v9 = &dword_1003AA08;
       else
         v9 = (_BYTE *)(dword_100C7D20[(int)File >> 5] + (((unsigned __int8)File & 0x1F) << 6));
       if ( (v9[4] & 0x20) != 0 )
@@ -33644,6 +33677,12 @@ int __cdecl _freebuf(int a1)
 int __fastcall found_bx(int a1, int a2)
 {
   return a2 - 1;
+}
+
+// Address: 0x10027DF0
+char *__cdecl strchr(const char *Str, int Val)
+{
+  return __from_strstr_to_strchr((unsigned __int8)Val, Str);
 }
 
 // Address: 0x10027DF6

@@ -1,5 +1,216 @@
 // Decompiled from mvncv.exe (ClassM_3.0.500\ClassM_x64_unpacked\ClassM Main\mvncv.exe)
 
+// Address: 0x401000
+int *__usercall sub_401000@<eax>(__int32 a1@<edi>, int a2, __int32 a3, _DWORD *a4, int a5, __m64 **a6, int a7)
+{
+  int *result; // eax
+  __m64 **v8; // esi
+  __m64 **v9; // ebx
+  __m64 **v10; // edx
+  unsigned __int32 v11; // ecx
+  __m64 *v13; // esi
+  __m64 *v14; // ebx
+  __m64 *v15; // edx
+  __m64 *i; // edi
+  __m64 v17; // mm7
+  __m64 v18; // mm0
+  __m64 v19; // mm2
+  __m64 v20; // mm3
+  __m64 v21; // mm6
+  __m64 v22; // mm7
+  __m64 v23; // mm4
+  __m64 v24; // mm5
+  __m64 v25; // mm0
+  __m64 v26; // mm1
+  __m64 v27; // mm2
+  __m64 v28; // mm3
+  __m64 v29; // mm4
+  __m64 v30; // mm5
+  __m64 v31; // mm4
+  __m64 v32; // mm7
+  __m64 v33; // mm0
+  __m64 v34; // mm6
+  __m64 v35; // mm7
+  __m64 v36; // mm1
+  __m64 v37; // mm3
+  __m64 v38; // mm2
+  __m64 v39; // mm1
+  __m64 v40; // mm5
+  __m64 v41; // mm0
+  __m64 v42; // mm4
+  __m64 v43; // mm2
+  unsigned int v44; // ecx
+  unsigned int v45; // eax
+  __m64 v46; // [esp+0h] [ebp-8h]
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  v46.m64_i32[1] = a1;
+  if ( a3 != 0 )
+  {
+    v46.m64_i32[1] = a3;
+    v8 = (__m64 **)(*a4 + 4 * a5);
+    v9 = (__m64 **)(a4[1] + 4 * a5);
+    v10 = (__m64 **)(a4[2] + 4 * a5);
+    v11 = retaddr;
+    result = (int *)a7;
+    if ( a7 > 0 )
+    {
+      do
+      {
+        v46.m64_i32[1] = v11;
+        v13 = *v8;
+        v14 = *v9;
+        v15 = *v10;
+        for ( i = *a6; ; i += 3 )
+        {
+          v17 = _m_psllwi((__m64)-1LL, 7u);
+          v18 = _m_psrlwi((__m64)-1LL, 8u);
+          v19 = _m_paddw(_m_pand(v18, (__m64)v14->m64_u64), v17);
+          v20 = _m_paddw(_m_psrlwi((__m64)v14->m64_u64, 8u), v17);
+          v21 = _m_paddw(_m_pand(v18, (__m64)v15->m64_u64), v17);
+          v22 = _m_paddw(_m_psrlwi((__m64)v15->m64_u64, 8u), v17);
+          *((__m64 *)&retaddr - 2) = _m_paddw(
+                                       _m_paddw(
+                                         _m_psrawi(
+                                           _m_paddw(
+                                             _m_pmulhw(_m_paddw(v19, v19), (__m64)0xC5A2C5A2C5A2C5A2uLL),
+                                             (__m64)0x1000100010001LL),
+                                           1u),
+                                         v19),
+                                       v19);
+          v46 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v20, v20), (__m64)0xC5A2C5A2C5A2C5A2uLL), (__m64)0x1000100010001LL),
+                      1u),
+                    v20),
+                  v20);
+          v23 = _m_pand(v18, (__m64)v13->m64_u64);
+          v24 = _m_psrlwi((__m64)v13->m64_u64, 8u);
+          v25 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v21, v21), (__m64)0x66E966E966E966E9LL), (__m64)0x1000100010001LL),
+                      1u),
+                    v21),
+                  v23);
+          v26 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v22, v22), (__m64)0x66E966E966E966E9LL), (__m64)0x1000100010001LL),
+                      1u),
+                    v22),
+                  v24);
+          v27 = _m_paddw(
+                  _m_psubw(
+                    _m_packssdw(
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpcklwd(v19, v21), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u),
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpckhwd(v19, v21), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u)),
+                    v21),
+                  v23);
+          v28 = _m_paddw(
+                  _m_psubw(
+                    _m_packssdw(
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpcklwd(v20, v22), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u),
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpckhwd(v20, v22), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u)),
+                    v22),
+                  v24);
+          v29 = _m_paddw(v23, *((__m64 *)&retaddr - 2));
+          v30 = _m_paddw(v24, v46);
+          v31 = _m_punpcklbw(_m_packuswb(v29, v29), _m_packuswb(v26, v26));
+          v32 = _m_punpcklbw(_m_packuswb(v25, v25), _m_packuswb(v27, v27));
+          v33 = _m_punpcklwd(v32, v31);
+          v34 = _m_punpckhwd(v32, v31);
+          v35 = _m_psrlqi(v32, 0x10u);
+          v36 = _m_punpcklbw(_m_packuswb(v28, v28), _m_packuswb(v30, v30));
+          v37 = _m_punpcklwd(v36, v35);
+          v38 = _m_punpckhwd(v36, v35);
+          v39 = _m_psrlqi(v36, 0x10u);
+          v40 = _m_psrlqi(v31, 0x10u);
+          v41 = _m_punpckldq(v33, v37);
+          v42 = _m_punpckldq(_m_punpcklwd(v40, v39), v34);
+          v43 = _m_punpckldq(v38, _m_punpckhwd(v40, v39));
+          if ( v11 < 8 )
+            break;
+          i->m64_u64 = (unsigned __int64)v41;
+          i[1].m64_u64 = (unsigned __int64)v42;
+          i[2].m64_u64 = (unsigned __int64)v43;
+          v11 -= 8;
+          if ( v11 == 0 )
+            goto LABEL_17;
+          ++v13;
+          ++v14;
+          ++v15;
+        }
+        v44 = 3 * v11;
+        if ( v44 < 0x10 )
+        {
+          if ( v44 >= 8 )
+          {
+            i->m64_u64 = (unsigned __int64)v41;
+            v41 = v42;
+            v44 -= 8;
+            ++i;
+          }
+        }
+        else
+        {
+          i->m64_u64 = (unsigned __int64)v41;
+          i[1].m64_u64 = (unsigned __int64)v42;
+          v41 = v43;
+          v44 -= 16;
+          i += 2;
+        }
+        v45 = _mm_cvtsi64_si32(v41);
+        if ( v44 >= 4 )
+        {
+          i->m64_i32[0] = v45;
+          v45 = _mm_cvtsi64_si32(_m_psrlqi(v41, 0x20u));
+          v44 -= 4;
+          i = (__m64 *)((char *)i + 4);
+        }
+        if ( v44 >= 2 )
+        {
+          i->m64_i16[0] = v45;
+          v45 >>= 16;
+          v44 -= 2;
+          i = (__m64 *)((char *)i + 2);
+        }
+        if ( v44 != 0 )
+          i->m64_i8[0] = v45;
+LABEL_17:
+        v11 = retaddr;
+        v8 = (__m64 **)(retaddr + 4);
+        v9 = (__m64 **)(retaddr + 4);
+        v10 = (__m64 **)(retaddr + 4);
+        a6 = (__m64 **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _m_empty();
+    }
+  }
+  return result;
+}
+
 // Address: 0x4012A0
 int *__cdecl sub_4012A0(unsigned int a1, _DWORD *a2, int a3, __m64 **a4, int a5)
 {
@@ -212,6 +423,977 @@ LABEL_17:
         result = (int *)(v49 - 1);
       }
       while ( v49 > 1 );
+      _m_empty();
+    }
+  }
+  return result;
+}
+
+// Address: 0x401540
+int *__usercall sub_401540@<eax>(__int32 a1@<edi>, int a2, __int32 a3, _DWORD *a4, int a5, __m64 **a6, int a7)
+{
+  int *result; // eax
+  __m64 **v8; // esi
+  __m64 **v9; // ebx
+  __m64 **v10; // edx
+  unsigned __int32 v11; // ecx
+  __m64 *v13; // esi
+  __m64 *v14; // ebx
+  __m64 *v15; // edx
+  __m64 *i; // edi
+  __m64 v17; // mm7
+  __m64 v18; // mm0
+  __m64 v19; // mm2
+  __m64 v20; // mm3
+  __m64 v21; // mm6
+  __m64 v22; // mm7
+  __m64 v23; // mm4
+  __m64 v24; // mm5
+  __m64 v25; // mm0
+  __m64 v26; // mm1
+  __m64 v27; // mm2
+  __m64 v28; // mm3
+  __m64 v29; // mm4
+  __m64 v30; // mm5
+  __m64 v31; // mm4
+  __m64 v32; // mm5
+  __m64 v33; // mm2
+  __m64 v34; // mm6
+  __m64 v35; // mm1
+  __m64 v36; // mm6
+  __m64 v37; // mm3
+  __m64 v38; // mm0
+  __m64 v39; // mm3
+  __m64 v40; // mm7
+  __m64 v41; // mm2
+  __m64 v42; // mm7
+  __m64 v43; // [esp+0h] [ebp-8h]
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  v43.m64_i32[1] = a1;
+  if ( a3 != 0 )
+  {
+    v43.m64_i32[1] = a3;
+    v8 = (__m64 **)(*a4 + 4 * a5);
+    v9 = (__m64 **)(a4[1] + 4 * a5);
+    v10 = (__m64 **)(a4[2] + 4 * a5);
+    v11 = retaddr;
+    result = (int *)a7;
+    if ( a7 > 0 )
+    {
+      do
+      {
+        v43.m64_i32[1] = v11;
+        v13 = *v8;
+        v14 = *v9;
+        v15 = *v10;
+        for ( i = *a6; ; i += 4 )
+        {
+          v17 = _m_psllwi((__m64)-1LL, 7u);
+          v18 = _m_psrlwi((__m64)-1LL, 8u);
+          v19 = _m_paddw(_m_pand(v18, (__m64)v14->m64_u64), v17);
+          v20 = _m_paddw(_m_psrlwi((__m64)v14->m64_u64, 8u), v17);
+          v21 = _m_paddw(_m_pand(v18, (__m64)v15->m64_u64), v17);
+          v22 = _m_paddw(_m_psrlwi((__m64)v15->m64_u64, 8u), v17);
+          *((__m64 *)&retaddr - 2) = _m_paddw(
+                                       _m_paddw(
+                                         _m_psrawi(
+                                           _m_paddw(
+                                             _m_pmulhw(_m_paddw(v19, v19), (__m64)0xC5A2C5A2C5A2C5A2uLL),
+                                             (__m64)0x1000100010001LL),
+                                           1u),
+                                         v19),
+                                       v19);
+          v43 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v20, v20), (__m64)0xC5A2C5A2C5A2C5A2uLL), (__m64)0x1000100010001LL),
+                      1u),
+                    v20),
+                  v20);
+          v23 = _m_pand(v18, (__m64)v13->m64_u64);
+          v24 = _m_psrlwi((__m64)v13->m64_u64, 8u);
+          v25 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v21, v21), (__m64)0x66E966E966E966E9LL), (__m64)0x1000100010001LL),
+                      1u),
+                    v21),
+                  v23);
+          v26 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v22, v22), (__m64)0x66E966E966E966E9LL), (__m64)0x1000100010001LL),
+                      1u),
+                    v22),
+                  v24);
+          v27 = _m_paddw(
+                  _m_psubw(
+                    _m_packssdw(
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpcklwd(v19, v21), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u),
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpckhwd(v19, v21), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u)),
+                    v21),
+                  v23);
+          v28 = _m_paddw(
+                  _m_psubw(
+                    _m_packssdw(
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpcklwd(v20, v22), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u),
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpckhwd(v20, v22), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u)),
+                    v22),
+                  v24);
+          v29 = _m_paddw(v23, *((__m64 *)&retaddr - 2));
+          v30 = _m_paddw(v24, v43);
+          v31 = _m_punpcklbw(_m_packuswb(v29, v29), (__m64)-1LL);
+          v32 = _m_punpcklbw(_m_packuswb(v30, v30), (__m64)-1LL);
+          v33 = _m_punpcklbw(_m_packuswb(v25, v25), _m_packuswb(v27, v27));
+          v34 = _m_punpcklbw(_m_packuswb(v26, v26), _m_packuswb(v28, v28));
+          v35 = _m_punpcklwd(v34, v32);
+          v36 = _m_punpckhwd(v34, v32);
+          v37 = _m_punpcklwd(v33, v31);
+          v38 = _m_punpckldq(v37, v35);
+          v39 = _m_punpckhdq(v37, v35);
+          v40 = _m_punpckhwd(v33, v31);
+          v41 = _m_punpckldq(v40, v36);
+          v42 = _m_punpckhdq(v40, v36);
+          if ( v11 < 8 )
+            break;
+          i->m64_u64 = (unsigned __int64)v38;
+          i[1].m64_u64 = (unsigned __int64)v39;
+          i[2].m64_u64 = (unsigned __int64)v41;
+          i[3].m64_u64 = (unsigned __int64)v42;
+          v11 -= 8;
+          if ( v11 == 0 )
+            goto LABEL_13;
+          ++v13;
+          ++v14;
+          ++v15;
+        }
+        if ( v11 >= 4 )
+        {
+          i->m64_u64 = (unsigned __int64)v38;
+          i[1].m64_u64 = (unsigned __int64)v39;
+          v38 = v41;
+          v39 = v42;
+          v11 -= 4;
+          i += 2;
+        }
+        if ( v11 >= 2 )
+        {
+          i->m64_u64 = (unsigned __int64)v38;
+          v38 = v39;
+          v11 -= 2;
+          ++i;
+        }
+        if ( v11 != 0 )
+          i->m64_i32[0] = _mm_cvtsi64_si32(v38);
+LABEL_13:
+        v11 = retaddr;
+        v8 = (__m64 **)(retaddr + 4);
+        v9 = (__m64 **)(retaddr + 4);
+        v10 = (__m64 **)(retaddr + 4);
+        a6 = (__m64 **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _m_empty();
+    }
+  }
+  return result;
+}
+
+// Address: 0x4017A0
+int *__usercall sub_4017A0@<eax>(__int32 a1@<edi>, int a2, __int32 a3, _DWORD *a4, int a5, __m64 **a6, int a7)
+{
+  int *result; // eax
+  __m64 **v8; // esi
+  __m64 **v9; // ebx
+  __m64 **v10; // edx
+  unsigned __int32 v11; // ecx
+  __m64 *v13; // esi
+  __m64 *v14; // ebx
+  __m64 *v15; // edx
+  __m64 *i; // edi
+  __m64 v17; // mm7
+  __m64 v18; // mm0
+  __m64 v19; // mm2
+  __m64 v20; // mm3
+  __m64 v21; // mm6
+  __m64 v22; // mm7
+  __m64 v23; // mm4
+  __m64 v24; // mm5
+  __m64 v25; // mm0
+  __m64 v26; // mm1
+  __m64 v27; // mm2
+  __m64 v28; // mm3
+  __m64 v29; // mm4
+  __m64 v30; // mm5
+  __m64 v31; // mm0
+  __m64 v32; // mm7
+  __m64 v33; // mm4
+  __m64 v34; // mm6
+  __m64 v35; // mm7
+  __m64 v36; // mm5
+  __m64 v37; // mm3
+  __m64 v38; // mm2
+  __m64 v39; // mm5
+  __m64 v40; // mm1
+  __m64 v41; // mm4
+  __m64 v42; // mm0
+  __m64 v43; // mm2
+  unsigned int v44; // ecx
+  unsigned int v45; // eax
+  __m64 v46; // [esp+0h] [ebp-8h]
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  v46.m64_i32[1] = a1;
+  if ( a3 != 0 )
+  {
+    v46.m64_i32[1] = a3;
+    v8 = (__m64 **)(*a4 + 4 * a5);
+    v9 = (__m64 **)(a4[1] + 4 * a5);
+    v10 = (__m64 **)(a4[2] + 4 * a5);
+    v11 = retaddr;
+    result = (int *)a7;
+    if ( a7 > 0 )
+    {
+      do
+      {
+        v46.m64_i32[1] = v11;
+        v13 = *v8;
+        v14 = *v9;
+        v15 = *v10;
+        for ( i = *a6; ; i += 3 )
+        {
+          v17 = _m_psllwi((__m64)-1LL, 7u);
+          v18 = _m_psrlwi((__m64)-1LL, 8u);
+          v19 = _m_paddw(_m_pand(v18, (__m64)v14->m64_u64), v17);
+          v20 = _m_paddw(_m_psrlwi((__m64)v14->m64_u64, 8u), v17);
+          v21 = _m_paddw(_m_pand(v18, (__m64)v15->m64_u64), v17);
+          v22 = _m_paddw(_m_psrlwi((__m64)v15->m64_u64, 8u), v17);
+          *((__m64 *)&retaddr - 2) = _m_paddw(
+                                       _m_paddw(
+                                         _m_psrawi(
+                                           _m_paddw(
+                                             _m_pmulhw(_m_paddw(v19, v19), (__m64)0xC5A2C5A2C5A2C5A2uLL),
+                                             (__m64)0x1000100010001LL),
+                                           1u),
+                                         v19),
+                                       v19);
+          v46 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v20, v20), (__m64)0xC5A2C5A2C5A2C5A2uLL), (__m64)0x1000100010001LL),
+                      1u),
+                    v20),
+                  v20);
+          v23 = _m_pand(v18, (__m64)v13->m64_u64);
+          v24 = _m_psrlwi((__m64)v13->m64_u64, 8u);
+          v25 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v21, v21), (__m64)0x66E966E966E966E9LL), (__m64)0x1000100010001LL),
+                      1u),
+                    v21),
+                  v23);
+          v26 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v22, v22), (__m64)0x66E966E966E966E9LL), (__m64)0x1000100010001LL),
+                      1u),
+                    v22),
+                  v24);
+          v27 = _m_paddw(
+                  _m_psubw(
+                    _m_packssdw(
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpcklwd(v19, v21), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u),
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpckhwd(v19, v21), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u)),
+                    v21),
+                  v23);
+          v28 = _m_paddw(
+                  _m_psubw(
+                    _m_packssdw(
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpcklwd(v20, v22), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u),
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpckhwd(v20, v22), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u)),
+                    v22),
+                  v24);
+          v29 = _m_paddw(v23, *((__m64 *)&retaddr - 2));
+          v30 = _m_paddw(v24, v46);
+          v31 = _m_punpcklbw(_m_packuswb(v25, v25), _m_packuswb(v30, v30));
+          v32 = _m_punpcklbw(_m_packuswb(v29, v29), _m_packuswb(v27, v27));
+          v33 = _m_punpcklwd(v32, v31);
+          v34 = _m_punpckhwd(v32, v31);
+          v35 = _m_psrlqi(v32, 0x10u);
+          v36 = _m_punpcklbw(_m_packuswb(v28, v28), _m_packuswb(v26, v26));
+          v37 = _m_punpcklwd(v36, v35);
+          v38 = _m_punpckhwd(v36, v35);
+          v39 = _m_psrlqi(v36, 0x10u);
+          v40 = _m_psrlqi(v31, 0x10u);
+          v41 = _m_punpckldq(v33, v37);
+          v42 = _m_punpckldq(_m_punpcklwd(v40, v39), v34);
+          v43 = _m_punpckldq(v38, _m_punpckhwd(v40, v39));
+          if ( v11 < 8 )
+            break;
+          i->m64_u64 = (unsigned __int64)v41;
+          i[1].m64_u64 = (unsigned __int64)v42;
+          i[2].m64_u64 = (unsigned __int64)v43;
+          v11 -= 8;
+          if ( v11 == 0 )
+            goto LABEL_17;
+          ++v13;
+          ++v14;
+          ++v15;
+        }
+        v44 = 3 * v11;
+        if ( v44 < 0x10 )
+        {
+          if ( v44 >= 8 )
+          {
+            i->m64_u64 = (unsigned __int64)v41;
+            v41 = v42;
+            v44 -= 8;
+            ++i;
+          }
+        }
+        else
+        {
+          i->m64_u64 = (unsigned __int64)v41;
+          i[1].m64_u64 = (unsigned __int64)v42;
+          v41 = v43;
+          v44 -= 16;
+          i += 2;
+        }
+        v45 = _mm_cvtsi64_si32(v41);
+        if ( v44 >= 4 )
+        {
+          i->m64_i32[0] = v45;
+          v45 = _mm_cvtsi64_si32(_m_psrlqi(v41, 0x20u));
+          v44 -= 4;
+          i = (__m64 *)((char *)i + 4);
+        }
+        if ( v44 >= 2 )
+        {
+          i->m64_i16[0] = v45;
+          v45 >>= 16;
+          v44 -= 2;
+          i = (__m64 *)((char *)i + 2);
+        }
+        if ( v44 != 0 )
+          i->m64_i8[0] = v45;
+LABEL_17:
+        v11 = retaddr;
+        v8 = (__m64 **)(retaddr + 4);
+        v9 = (__m64 **)(retaddr + 4);
+        v10 = (__m64 **)(retaddr + 4);
+        a6 = (__m64 **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _m_empty();
+    }
+  }
+  return result;
+}
+
+// Address: 0x401A40
+int *__usercall sub_401A40@<eax>(__int32 a1@<edi>, int a2, __int32 a3, _DWORD *a4, int a5, __m64 **a6, int a7)
+{
+  int *result; // eax
+  __m64 **v8; // esi
+  __m64 **v9; // ebx
+  __m64 **v10; // edx
+  unsigned __int32 v11; // ecx
+  __m64 *v13; // esi
+  __m64 *v14; // ebx
+  __m64 *v15; // edx
+  __m64 *i; // edi
+  __m64 v17; // mm7
+  __m64 v18; // mm0
+  __m64 v19; // mm2
+  __m64 v20; // mm3
+  __m64 v21; // mm6
+  __m64 v22; // mm7
+  __m64 v23; // mm4
+  __m64 v24; // mm5
+  __m64 v25; // mm0
+  __m64 v26; // mm1
+  __m64 v27; // mm2
+  __m64 v28; // mm3
+  __m64 v29; // mm4
+  __m64 v30; // mm5
+  __m64 v31; // mm0
+  __m64 v32; // mm1
+  __m64 v33; // mm2
+  __m64 v34; // mm6
+  __m64 v35; // mm5
+  __m64 v36; // mm6
+  __m64 v37; // mm3
+  __m64 v38; // mm4
+  __m64 v39; // mm3
+  __m64 v40; // mm7
+  __m64 v41; // mm2
+  __m64 v42; // mm7
+  __m64 v43; // [esp+0h] [ebp-8h]
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  v43.m64_i32[1] = a1;
+  if ( a3 != 0 )
+  {
+    v43.m64_i32[1] = a3;
+    v8 = (__m64 **)(*a4 + 4 * a5);
+    v9 = (__m64 **)(a4[1] + 4 * a5);
+    v10 = (__m64 **)(a4[2] + 4 * a5);
+    v11 = retaddr;
+    result = (int *)a7;
+    if ( a7 > 0 )
+    {
+      do
+      {
+        v43.m64_i32[1] = v11;
+        v13 = *v8;
+        v14 = *v9;
+        v15 = *v10;
+        for ( i = *a6; ; i += 4 )
+        {
+          v17 = _m_psllwi((__m64)-1LL, 7u);
+          v18 = _m_psrlwi((__m64)-1LL, 8u);
+          v19 = _m_paddw(_m_pand(v18, (__m64)v14->m64_u64), v17);
+          v20 = _m_paddw(_m_psrlwi((__m64)v14->m64_u64, 8u), v17);
+          v21 = _m_paddw(_m_pand(v18, (__m64)v15->m64_u64), v17);
+          v22 = _m_paddw(_m_psrlwi((__m64)v15->m64_u64, 8u), v17);
+          *((__m64 *)&retaddr - 2) = _m_paddw(
+                                       _m_paddw(
+                                         _m_psrawi(
+                                           _m_paddw(
+                                             _m_pmulhw(_m_paddw(v19, v19), (__m64)0xC5A2C5A2C5A2C5A2uLL),
+                                             (__m64)0x1000100010001LL),
+                                           1u),
+                                         v19),
+                                       v19);
+          v43 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v20, v20), (__m64)0xC5A2C5A2C5A2C5A2uLL), (__m64)0x1000100010001LL),
+                      1u),
+                    v20),
+                  v20);
+          v23 = _m_pand(v18, (__m64)v13->m64_u64);
+          v24 = _m_psrlwi((__m64)v13->m64_u64, 8u);
+          v25 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v21, v21), (__m64)0x66E966E966E966E9LL), (__m64)0x1000100010001LL),
+                      1u),
+                    v21),
+                  v23);
+          v26 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v22, v22), (__m64)0x66E966E966E966E9LL), (__m64)0x1000100010001LL),
+                      1u),
+                    v22),
+                  v24);
+          v27 = _m_paddw(
+                  _m_psubw(
+                    _m_packssdw(
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpcklwd(v19, v21), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u),
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpckhwd(v19, v21), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u)),
+                    v21),
+                  v23);
+          v28 = _m_paddw(
+                  _m_psubw(
+                    _m_packssdw(
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpcklwd(v20, v22), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u),
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpckhwd(v20, v22), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u)),
+                    v22),
+                  v24);
+          v29 = _m_paddw(v23, *((__m64 *)&retaddr - 2));
+          v30 = _m_paddw(v24, v43);
+          v31 = _m_punpcklbw(_m_packuswb(v25, v25), (__m64)-1LL);
+          v32 = _m_punpcklbw(_m_packuswb(v26, v26), (__m64)-1LL);
+          v33 = _m_punpcklbw(_m_packuswb(v29, v29), _m_packuswb(v27, v27));
+          v34 = _m_punpcklbw(_m_packuswb(v30, v30), _m_packuswb(v28, v28));
+          v35 = _m_punpcklwd(v34, v32);
+          v36 = _m_punpckhwd(v34, v32);
+          v37 = _m_punpcklwd(v33, v31);
+          v38 = _m_punpckldq(v37, v35);
+          v39 = _m_punpckhdq(v37, v35);
+          v40 = _m_punpckhwd(v33, v31);
+          v41 = _m_punpckldq(v40, v36);
+          v42 = _m_punpckhdq(v40, v36);
+          if ( v11 < 8 )
+            break;
+          i->m64_u64 = (unsigned __int64)v38;
+          i[1].m64_u64 = (unsigned __int64)v39;
+          i[2].m64_u64 = (unsigned __int64)v41;
+          i[3].m64_u64 = (unsigned __int64)v42;
+          v11 -= 8;
+          if ( v11 == 0 )
+            goto LABEL_13;
+          ++v13;
+          ++v14;
+          ++v15;
+        }
+        if ( v11 >= 4 )
+        {
+          i->m64_u64 = (unsigned __int64)v38;
+          i[1].m64_u64 = (unsigned __int64)v39;
+          v38 = v41;
+          v39 = v42;
+          v11 -= 4;
+          i += 2;
+        }
+        if ( v11 >= 2 )
+        {
+          i->m64_u64 = (unsigned __int64)v38;
+          v38 = v39;
+          v11 -= 2;
+          ++i;
+        }
+        if ( v11 != 0 )
+          i->m64_i32[0] = _mm_cvtsi64_si32(v38);
+LABEL_13:
+        v11 = retaddr;
+        v8 = (__m64 **)(retaddr + 4);
+        v9 = (__m64 **)(retaddr + 4);
+        v10 = (__m64 **)(retaddr + 4);
+        a6 = (__m64 **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _m_empty();
+    }
+  }
+  return result;
+}
+
+// Address: 0x401CA0
+int *__usercall sub_401CA0@<eax>(__int32 a1@<edi>, int a2, __int32 a3, _DWORD *a4, int a5, __m64 **a6, int a7)
+{
+  int *result; // eax
+  __m64 **v8; // esi
+  __m64 **v9; // ebx
+  __m64 **v10; // edx
+  unsigned __int32 v11; // ecx
+  __m64 *v13; // esi
+  __m64 *v14; // ebx
+  __m64 *v15; // edx
+  __m64 *i; // edi
+  __m64 v17; // mm7
+  __m64 v18; // mm0
+  __m64 v19; // mm2
+  __m64 v20; // mm3
+  __m64 v21; // mm6
+  __m64 v22; // mm7
+  __m64 v23; // mm4
+  __m64 v24; // mm5
+  __m64 v25; // mm0
+  __m64 v26; // mm1
+  __m64 v27; // mm2
+  __m64 v28; // mm3
+  __m64 v29; // mm4
+  __m64 v30; // mm5
+  __m64 v31; // mm2
+  __m64 v32; // mm3
+  __m64 v33; // mm4
+  __m64 v34; // mm0
+  __m64 v35; // mm7
+  __m64 v36; // mm0
+  __m64 v37; // mm5
+  __m64 v38; // mm6
+  __m64 v39; // mm5
+  __m64 v40; // mm1
+  __m64 v41; // mm4
+  __m64 v42; // mm1
+  __m64 v43; // [esp+0h] [ebp-8h]
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  v43.m64_i32[1] = a1;
+  if ( a3 != 0 )
+  {
+    v43.m64_i32[1] = a3;
+    v8 = (__m64 **)(*a4 + 4 * a5);
+    v9 = (__m64 **)(a4[1] + 4 * a5);
+    v10 = (__m64 **)(a4[2] + 4 * a5);
+    v11 = retaddr;
+    result = (int *)a7;
+    if ( a7 > 0 )
+    {
+      do
+      {
+        v43.m64_i32[1] = v11;
+        v13 = *v8;
+        v14 = *v9;
+        v15 = *v10;
+        for ( i = *a6; ; i += 4 )
+        {
+          v17 = _m_psllwi((__m64)-1LL, 7u);
+          v18 = _m_psrlwi((__m64)-1LL, 8u);
+          v19 = _m_paddw(_m_pand(v18, (__m64)v14->m64_u64), v17);
+          v20 = _m_paddw(_m_psrlwi((__m64)v14->m64_u64, 8u), v17);
+          v21 = _m_paddw(_m_pand(v18, (__m64)v15->m64_u64), v17);
+          v22 = _m_paddw(_m_psrlwi((__m64)v15->m64_u64, 8u), v17);
+          *((__m64 *)&retaddr - 2) = _m_paddw(
+                                       _m_paddw(
+                                         _m_psrawi(
+                                           _m_paddw(
+                                             _m_pmulhw(_m_paddw(v19, v19), (__m64)0xC5A2C5A2C5A2C5A2uLL),
+                                             (__m64)0x1000100010001LL),
+                                           1u),
+                                         v19),
+                                       v19);
+          v43 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v20, v20), (__m64)0xC5A2C5A2C5A2C5A2uLL), (__m64)0x1000100010001LL),
+                      1u),
+                    v20),
+                  v20);
+          v23 = _m_pand(v18, (__m64)v13->m64_u64);
+          v24 = _m_psrlwi((__m64)v13->m64_u64, 8u);
+          v25 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v21, v21), (__m64)0x66E966E966E966E9LL), (__m64)0x1000100010001LL),
+                      1u),
+                    v21),
+                  v23);
+          v26 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v22, v22), (__m64)0x66E966E966E966E9LL), (__m64)0x1000100010001LL),
+                      1u),
+                    v22),
+                  v24);
+          v27 = _m_paddw(
+                  _m_psubw(
+                    _m_packssdw(
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpcklwd(v19, v21), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u),
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpckhwd(v19, v21), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u)),
+                    v21),
+                  v23);
+          v28 = _m_paddw(
+                  _m_psubw(
+                    _m_packssdw(
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpcklwd(v20, v22), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u),
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpckhwd(v20, v22), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u)),
+                    v22),
+                  v24);
+          v29 = _m_paddw(v23, *((__m64 *)&retaddr - 2));
+          v30 = _m_paddw(v24, v43);
+          v31 = _m_punpcklbw(_m_packuswb(v27, v27), _m_packuswb(v25, v25));
+          v32 = _m_punpcklbw(_m_packuswb(v28, v28), _m_packuswb(v26, v26));
+          v33 = _m_punpcklbw((__m64)-1LL, _m_packuswb(v29, v29));
+          v34 = _m_punpcklbw((__m64)-1LL, _m_packuswb(v30, v30));
+          v35 = _m_punpcklwd(v34, v32);
+          v36 = _m_punpckhwd(v34, v32);
+          v37 = _m_punpcklwd(v33, v31);
+          v38 = _m_punpckldq(v37, v35);
+          v39 = _m_punpckhdq(v37, v35);
+          v40 = _m_punpckhwd(v33, v31);
+          v41 = _m_punpckldq(v40, v36);
+          v42 = _m_punpckhdq(v40, v36);
+          if ( v11 < 8 )
+            break;
+          i->m64_u64 = (unsigned __int64)v38;
+          i[1].m64_u64 = (unsigned __int64)v39;
+          i[2].m64_u64 = (unsigned __int64)v41;
+          i[3].m64_u64 = (unsigned __int64)v42;
+          v11 -= 8;
+          if ( v11 == 0 )
+            goto LABEL_13;
+          ++v13;
+          ++v14;
+          ++v15;
+        }
+        if ( v11 >= 4 )
+        {
+          i->m64_u64 = (unsigned __int64)v38;
+          i[1].m64_u64 = (unsigned __int64)v39;
+          v38 = v41;
+          v39 = v42;
+          v11 -= 4;
+          i += 2;
+        }
+        if ( v11 >= 2 )
+        {
+          i->m64_u64 = (unsigned __int64)v38;
+          v38 = v39;
+          v11 -= 2;
+          ++i;
+        }
+        if ( v11 != 0 )
+          i->m64_i32[0] = _mm_cvtsi64_si32(v38);
+LABEL_13:
+        v11 = retaddr;
+        v8 = (__m64 **)(retaddr + 4);
+        v9 = (__m64 **)(retaddr + 4);
+        v10 = (__m64 **)(retaddr + 4);
+        a6 = (__m64 **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _m_empty();
+    }
+  }
+  return result;
+}
+
+// Address: 0x401F00
+int *__usercall sub_401F00@<eax>(__int32 a1@<edi>, int a2, __int32 a3, _DWORD *a4, int a5, __m64 **a6, int a7)
+{
+  int *result; // eax
+  __m64 **v8; // esi
+  __m64 **v9; // ebx
+  __m64 **v10; // edx
+  unsigned __int32 v11; // ecx
+  __m64 *v13; // esi
+  __m64 *v14; // ebx
+  __m64 *v15; // edx
+  __m64 *i; // edi
+  __m64 v17; // mm7
+  __m64 v18; // mm0
+  __m64 v19; // mm2
+  __m64 v20; // mm3
+  __m64 v21; // mm6
+  __m64 v22; // mm7
+  __m64 v23; // mm4
+  __m64 v24; // mm5
+  __m64 v25; // mm0
+  __m64 v26; // mm1
+  __m64 v27; // mm2
+  __m64 v28; // mm3
+  __m64 v29; // mm4
+  __m64 v30; // mm5
+  __m64 v31; // mm2
+  __m64 v32; // mm3
+  __m64 v33; // mm0
+  __m64 v34; // mm4
+  __m64 v35; // mm7
+  __m64 v36; // mm4
+  __m64 v37; // mm1
+  __m64 v38; // mm6
+  __m64 v39; // mm1
+  __m64 v40; // mm5
+  __m64 v41; // mm0
+  __m64 v42; // mm5
+  __m64 v43; // [esp+0h] [ebp-8h]
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  v43.m64_i32[1] = a1;
+  if ( a3 != 0 )
+  {
+    v43.m64_i32[1] = a3;
+    v8 = (__m64 **)(*a4 + 4 * a5);
+    v9 = (__m64 **)(a4[1] + 4 * a5);
+    v10 = (__m64 **)(a4[2] + 4 * a5);
+    v11 = retaddr;
+    result = (int *)a7;
+    if ( a7 > 0 )
+    {
+      do
+      {
+        v43.m64_i32[1] = v11;
+        v13 = *v8;
+        v14 = *v9;
+        v15 = *v10;
+        for ( i = *a6; ; i += 4 )
+        {
+          v17 = _m_psllwi((__m64)-1LL, 7u);
+          v18 = _m_psrlwi((__m64)-1LL, 8u);
+          v19 = _m_paddw(_m_pand(v18, (__m64)v14->m64_u64), v17);
+          v20 = _m_paddw(_m_psrlwi((__m64)v14->m64_u64, 8u), v17);
+          v21 = _m_paddw(_m_pand(v18, (__m64)v15->m64_u64), v17);
+          v22 = _m_paddw(_m_psrlwi((__m64)v15->m64_u64, 8u), v17);
+          *((__m64 *)&retaddr - 2) = _m_paddw(
+                                       _m_paddw(
+                                         _m_psrawi(
+                                           _m_paddw(
+                                             _m_pmulhw(_m_paddw(v19, v19), (__m64)0xC5A2C5A2C5A2C5A2uLL),
+                                             (__m64)0x1000100010001LL),
+                                           1u),
+                                         v19),
+                                       v19);
+          v43 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v20, v20), (__m64)0xC5A2C5A2C5A2C5A2uLL), (__m64)0x1000100010001LL),
+                      1u),
+                    v20),
+                  v20);
+          v23 = _m_pand(v18, (__m64)v13->m64_u64);
+          v24 = _m_psrlwi((__m64)v13->m64_u64, 8u);
+          v25 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v21, v21), (__m64)0x66E966E966E966E9LL), (__m64)0x1000100010001LL),
+                      1u),
+                    v21),
+                  v23);
+          v26 = _m_paddw(
+                  _m_paddw(
+                    _m_psrawi(
+                      _m_paddw(_m_pmulhw(_m_paddw(v22, v22), (__m64)0x66E966E966E966E9LL), (__m64)0x1000100010001LL),
+                      1u),
+                    v22),
+                  v24);
+          v27 = _m_paddw(
+                  _m_psubw(
+                    _m_packssdw(
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpcklwd(v19, v21), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u),
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpckhwd(v19, v21), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u)),
+                    v21),
+                  v23);
+          v28 = _m_paddw(
+                  _m_psubw(
+                    _m_packssdw(
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpcklwd(v20, v22), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u),
+                      _m_psradi(
+                        _m_paddd(
+                          _m_pmaddwd(_m_punpckhwd(v20, v22), (__m64)0x492EA7E6492EA7E6LL),
+                          (__m64)0x800000008000LL),
+                        0x10u)),
+                    v22),
+                  v24);
+          v29 = _m_paddw(v23, *((__m64 *)&retaddr - 2));
+          v30 = _m_paddw(v24, v43);
+          v31 = _m_punpcklbw(_m_packuswb(v27, v27), _m_packuswb(v29, v29));
+          v32 = _m_punpcklbw(_m_packuswb(v28, v28), _m_packuswb(v30, v30));
+          v33 = _m_punpcklbw((__m64)-1LL, _m_packuswb(v25, v25));
+          v34 = _m_punpcklbw((__m64)-1LL, _m_packuswb(v26, v26));
+          v35 = _m_punpcklwd(v34, v32);
+          v36 = _m_punpckhwd(v34, v32);
+          v37 = _m_punpcklwd(v33, v31);
+          v38 = _m_punpckldq(v37, v35);
+          v39 = _m_punpckhdq(v37, v35);
+          v40 = _m_punpckhwd(v33, v31);
+          v41 = _m_punpckldq(v40, v36);
+          v42 = _m_punpckhdq(v40, v36);
+          if ( v11 < 8 )
+            break;
+          i->m64_u64 = (unsigned __int64)v38;
+          i[1].m64_u64 = (unsigned __int64)v39;
+          i[2].m64_u64 = (unsigned __int64)v41;
+          i[3].m64_u64 = (unsigned __int64)v42;
+          v11 -= 8;
+          if ( v11 == 0 )
+            goto LABEL_13;
+          ++v13;
+          ++v14;
+          ++v15;
+        }
+        if ( v11 >= 4 )
+        {
+          i->m64_u64 = (unsigned __int64)v38;
+          i[1].m64_u64 = (unsigned __int64)v39;
+          v38 = v41;
+          v39 = v42;
+          v11 -= 4;
+          i += 2;
+        }
+        if ( v11 >= 2 )
+        {
+          i->m64_u64 = (unsigned __int64)v38;
+          v38 = v39;
+          v11 -= 2;
+          ++i;
+        }
+        if ( v11 != 0 )
+          i->m64_i32[0] = _mm_cvtsi64_si32(v38);
+LABEL_13:
+        v11 = retaddr;
+        v8 = (__m64 **)(retaddr + 4);
+        v9 = (__m64 **)(retaddr + 4);
+        v10 = (__m64 **)(retaddr + 4);
+        a6 = (__m64 **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
       _m_empty();
     }
   }
@@ -1897,6 +3079,257 @@ char __cdecl sub_408840(unsigned int a1, _DWORD *a2, int a3, __m128i **a4)
   return sub_408540((__int32)v10, v7, v8, v9, a4 + 1);
 }
 
+// Address: 0x4088A0
+int *__usercall sub_4088A0@<eax>(
+        unsigned int a1@<edi>,
+        int a2,
+        unsigned int a3,
+        _DWORD *a4,
+        int a5,
+        __m128i **a6,
+        int a7)
+{
+  int *result; // eax
+  const __m128i **v8; // esi
+  const __m128i **v9; // ebx
+  const __m128i **v10; // edx
+  unsigned int v11; // ecx
+  const __m128i *v13; // esi
+  const __m128i *v14; // ebx
+  const __m128i *v15; // edx
+  __m128i *v16; // edi
+  __m128i si128; // xmm5
+  __m128i v18; // xmm1
+  __m128i v19; // xmm7
+  __m128i v20; // xmm0
+  __m128i v21; // xmm2
+  __m128i v22; // xmm3
+  __m128i v23; // xmm6
+  __m128i v24; // xmm7
+  __m128i v25; // xmm5
+  __m128i v26; // xmm4
+  __m128i v27; // xmm5
+  __m128i v28; // xmm0
+  __m128i v29; // xmm1
+  __m128i v30; // xmm2
+  __m128i v31; // xmm3
+  __m128i v32; // xmm4
+  __m128i v33; // xmm5
+  __m128i v34; // xmm4
+  __m128i v35; // xmm7
+  __m128i v36; // xmm0
+  __m128i v37; // xmm6
+  __m128i v38; // xmm7
+  __m128i v39; // xmm1
+  __m128i v40; // xmm3
+  __m128i v41; // xmm2
+  __m128i v42; // xmm1
+  __m128i v43; // xmm5
+  __m128i v44; // xmm4
+  __m128i v45; // xmm5
+  __m128i v46; // xmm0
+  __m128i v47; // xmm3
+  __m128i v48; // xmm5
+  unsigned int v49; // ecx
+  unsigned int v50; // eax
+  unsigned int v51; // [esp+4h] [ebp-4h]
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  v51 = a1;
+  if ( a3 != 0 )
+  {
+    v51 = a3;
+    v8 = (const __m128i **)(*a4 + 4 * a5);
+    v9 = (const __m128i **)(a4[1] + 4 * a5);
+    v10 = (const __m128i **)(a4[2] + 4 * a5);
+    v11 = retaddr;
+    result = (int *)a7;
+    if ( a7 > 0 )
+    {
+      do
+      {
+        v51 = v11;
+        v13 = *v8;
+        v14 = *v9;
+        v15 = *v10;
+        v16 = *a6;
+        while ( 1 )
+        {
+          si128 = _mm_load_si128(v14);
+          v18 = _mm_load_si128(v15);
+          v19 = _mm_slli_epi16((__m128i)-1LL, 7u);
+          v20 = _mm_srli_epi16((__m128i)-1LL, 8u);
+          v21 = _mm_add_epi16(_mm_and_si128(v20, si128), v19);
+          v22 = _mm_add_epi16(_mm_srli_epi16(si128, 8u), v19);
+          v23 = _mm_add_epi16(_mm_and_si128(v20, v18), v19);
+          v24 = _mm_add_epi16(_mm_srli_epi16(v18, 8u), v19);
+          *((__m128i *)&retaddr - 2) = _mm_add_epi16(
+                                         _mm_add_epi16(
+                                           _mm_srai_epi16(
+                                             _mm_add_epi16(
+                                               _mm_mulhi_epi16(_mm_add_epi16(v21, v21), (__m128i)xmmword_527C30),
+                                               (__m128i)xmmword_527C50),
+                                             1u),
+                                           v21),
+                                         v21);
+          *((__m128i *)&retaddr - 1) = _mm_add_epi16(
+                                         _mm_add_epi16(
+                                           _mm_srai_epi16(
+                                             _mm_add_epi16(
+                                               _mm_mulhi_epi16(_mm_add_epi16(v22, v22), (__m128i)xmmword_527C30),
+                                               (__m128i)xmmword_527C50),
+                                             1u),
+                                           v22),
+                                         v22);
+          v25 = _mm_load_si128(v13);
+          v26 = _mm_and_si128(v20, v25);
+          v27 = _mm_srli_epi16(v25, 8u);
+          v28 = _mm_add_epi16(
+                  _mm_add_epi16(
+                    _mm_srai_epi16(
+                      _mm_add_epi16(
+                        _mm_mulhi_epi16(_mm_add_epi16(v23, v23), (__m128i)xmmword_527C20),
+                        (__m128i)xmmword_527C50),
+                      1u),
+                    v23),
+                  v26);
+          v29 = _mm_add_epi16(
+                  _mm_add_epi16(
+                    _mm_srai_epi16(
+                      _mm_add_epi16(
+                        _mm_mulhi_epi16(_mm_add_epi16(v24, v24), (__m128i)xmmword_527C20),
+                        (__m128i)xmmword_527C50),
+                      1u),
+                    v24),
+                  v27);
+          v30 = _mm_add_epi16(
+                  _mm_sub_epi16(
+                    _mm_packs_epi32(
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpacklo_epi16(v21, v23), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u),
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpackhi_epi16(v21, v23), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u)),
+                    v23),
+                  v26);
+          v31 = _mm_add_epi16(
+                  _mm_sub_epi16(
+                    _mm_packs_epi32(
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpacklo_epi16(v22, v24), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u),
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpackhi_epi16(v22, v24), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u)),
+                    v24),
+                  v27);
+          v32 = _mm_add_epi16(v26, *((__m128i *)&retaddr - 2));
+          v33 = _mm_add_epi16(v27, *((__m128i *)&retaddr - 1));
+          v34 = _mm_unpacklo_epi8(_mm_packus_epi16(v32, v32), _mm_packus_epi16(v29, v29));
+          v35 = _mm_unpacklo_epi8(_mm_packus_epi16(v28, v28), _mm_packus_epi16(v30, v30));
+          v36 = _mm_unpacklo_epi16(v35, v34);
+          v37 = _mm_unpackhi_epi16(v35, v34);
+          v38 = _mm_srli_si128(v35, 2);
+          v39 = _mm_unpacklo_epi8(_mm_packus_epi16(v31, v31), _mm_packus_epi16(v33, v33));
+          v40 = _mm_unpacklo_epi16(v39, v38);
+          v41 = _mm_unpackhi_epi16(v39, v38);
+          v42 = _mm_srli_si128(v39, 2);
+          v43 = _mm_srli_si128(v34, 2);
+          v44 = _mm_unpacklo_epi16(v43, v42);
+          v45 = _mm_unpackhi_epi16(v43, v42);
+          v46 = _mm_unpacklo_epi64(_mm_unpacklo_epi32(v36, v40), _mm_unpacklo_epi32(v44, _mm_shuffle_epi32(v36, 78)));
+          v47 = _mm_unpacklo_epi64(_mm_unpackhi_epi32(v40, v44), _mm_unpacklo_epi32(v37, v41));
+          v48 = _mm_unpacklo_epi64(_mm_unpacklo_epi32(v45, _mm_shuffle_epi32(v37, 78)), _mm_unpackhi_epi32(v41, v45));
+          if ( v11 < 0x10 )
+            break;
+          if ( ((unsigned __int8)v16 & 0xF) != 0 )
+          {
+            *v16 = v46;
+            v16[1] = v47;
+            v16[2] = v48;
+          }
+          else
+          {
+            _mm_stream_si128(v16, v46);
+            _mm_stream_si128(v16 + 1, v47);
+            _mm_stream_si128(v16 + 2, v48);
+          }
+          v16 += 3;
+          v11 -= 16;
+          if ( v11 == 0 )
+            goto LABEL_22;
+          ++v13;
+          ++v14;
+          ++v15;
+        }
+        v49 = 3 * v11;
+        if ( v49 < 0x20 )
+        {
+          if ( v49 >= 0x10 )
+          {
+            *v16++ = v46;
+            v46 = v47;
+            v49 -= 16;
+          }
+        }
+        else
+        {
+          *v16 = v46;
+          v16[1] = v47;
+          v16 += 2;
+          v46 = v48;
+          v49 -= 32;
+        }
+        if ( v49 >= 8 )
+        {
+          v16->m128i_i64[0] = v46.m128i_i64[0];
+          v16 = (__m128i *)((char *)v16 + 8);
+          v49 -= 8;
+          v46 = _mm_srli_si128(v46, 8);
+        }
+        if ( v49 >= 4 )
+        {
+          v16->m128i_i32[0] = _mm_cvtsi128_si32(v46);
+          v16 = (__m128i *)((char *)v16 + 4);
+          v49 -= 4;
+          v46 = _mm_srli_si128(v46, 4);
+        }
+        v50 = _mm_cvtsi128_si32(v46);
+        if ( v49 >= 2 )
+        {
+          v16->m128i_i16[0] = v50;
+          v16 = (__m128i *)((char *)v16 + 2);
+          v49 -= 2;
+          v50 >>= 16;
+        }
+        if ( v49 != 0 )
+          v16->m128i_i8[0] = v50;
+LABEL_22:
+        v11 = retaddr;
+        v8 = (const __m128i **)(retaddr + 4);
+        v9 = (const __m128i **)(retaddr + 4);
+        v10 = (const __m128i **)(retaddr + 4);
+        a6 = (__m128i **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _mm_sfence();
+    }
+  }
+  return result;
+}
+
 // Address: 0x408C00
 int *__cdecl sub_408C00(unsigned int a1, _DWORD *a2, int a3, __m128i **a4, int a5)
 {
@@ -2144,6 +3577,1165 @@ LABEL_22:
         result = (int *)(v54 - 1);
       }
       while ( v54 > 1 );
+      _mm_sfence();
+    }
+  }
+  return result;
+}
+
+// Address: 0x408F60
+int *__usercall sub_408F60@<eax>(
+        unsigned int a1@<edi>,
+        int a2,
+        unsigned int a3,
+        _DWORD *a4,
+        int a5,
+        __m128i **a6,
+        int a7)
+{
+  int *result; // eax
+  const __m128i **v8; // esi
+  const __m128i **v9; // ebx
+  const __m128i **v10; // edx
+  unsigned int v11; // ecx
+  const __m128i *v13; // esi
+  const __m128i *v14; // ebx
+  const __m128i *v15; // edx
+  __m128i *v16; // edi
+  __m128i si128; // xmm5
+  __m128i v18; // xmm1
+  __m128i v19; // xmm7
+  __m128i v20; // xmm0
+  __m128i v21; // xmm2
+  __m128i v22; // xmm3
+  __m128i v23; // xmm6
+  __m128i v24; // xmm7
+  __m128i v25; // xmm5
+  __m128i v26; // xmm4
+  __m128i v27; // xmm5
+  __m128i v28; // xmm0
+  __m128i v29; // xmm1
+  __m128i v30; // xmm2
+  __m128i v31; // xmm3
+  __m128i v32; // xmm4
+  __m128i v33; // xmm5
+  __m128i v34; // xmm4
+  __m128i v35; // xmm5
+  __m128i v36; // xmm2
+  __m128i v37; // xmm6
+  __m128i v38; // xmm1
+  __m128i v39; // xmm6
+  __m128i v40; // xmm3
+  __m128i v41; // xmm0
+  __m128i v42; // xmm3
+  __m128i v43; // xmm7
+  __m128i v44; // xmm2
+  __m128i v45; // xmm7
+  unsigned int v46; // [esp+4h] [ebp-4h]
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  v46 = a1;
+  if ( a3 != 0 )
+  {
+    v46 = a3;
+    v8 = (const __m128i **)(*a4 + 4 * a5);
+    v9 = (const __m128i **)(a4[1] + 4 * a5);
+    v10 = (const __m128i **)(a4[2] + 4 * a5);
+    v11 = retaddr;
+    result = (int *)a7;
+    if ( a7 > 0 )
+    {
+      do
+      {
+        v46 = v11;
+        v13 = *v8;
+        v14 = *v9;
+        v15 = *v10;
+        v16 = *a6;
+        while ( 1 )
+        {
+          si128 = _mm_load_si128(v14);
+          v18 = _mm_load_si128(v15);
+          v19 = _mm_slli_epi16((__m128i)-1LL, 7u);
+          v20 = _mm_srli_epi16((__m128i)-1LL, 8u);
+          v21 = _mm_add_epi16(_mm_and_si128(v20, si128), v19);
+          v22 = _mm_add_epi16(_mm_srli_epi16(si128, 8u), v19);
+          v23 = _mm_add_epi16(_mm_and_si128(v20, v18), v19);
+          v24 = _mm_add_epi16(_mm_srli_epi16(v18, 8u), v19);
+          *((__m128i *)&retaddr - 2) = _mm_add_epi16(
+                                         _mm_add_epi16(
+                                           _mm_srai_epi16(
+                                             _mm_add_epi16(
+                                               _mm_mulhi_epi16(_mm_add_epi16(v21, v21), (__m128i)xmmword_527C30),
+                                               (__m128i)xmmword_527C50),
+                                             1u),
+                                           v21),
+                                         v21);
+          *((__m128i *)&retaddr - 1) = _mm_add_epi16(
+                                         _mm_add_epi16(
+                                           _mm_srai_epi16(
+                                             _mm_add_epi16(
+                                               _mm_mulhi_epi16(_mm_add_epi16(v22, v22), (__m128i)xmmword_527C30),
+                                               (__m128i)xmmword_527C50),
+                                             1u),
+                                           v22),
+                                         v22);
+          v25 = _mm_load_si128(v13);
+          v26 = _mm_and_si128(v20, v25);
+          v27 = _mm_srli_epi16(v25, 8u);
+          v28 = _mm_add_epi16(
+                  _mm_add_epi16(
+                    _mm_srai_epi16(
+                      _mm_add_epi16(
+                        _mm_mulhi_epi16(_mm_add_epi16(v23, v23), (__m128i)xmmword_527C20),
+                        (__m128i)xmmword_527C50),
+                      1u),
+                    v23),
+                  v26);
+          v29 = _mm_add_epi16(
+                  _mm_add_epi16(
+                    _mm_srai_epi16(
+                      _mm_add_epi16(
+                        _mm_mulhi_epi16(_mm_add_epi16(v24, v24), (__m128i)xmmword_527C20),
+                        (__m128i)xmmword_527C50),
+                      1u),
+                    v24),
+                  v27);
+          v30 = _mm_add_epi16(
+                  _mm_sub_epi16(
+                    _mm_packs_epi32(
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpacklo_epi16(v21, v23), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u),
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpackhi_epi16(v21, v23), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u)),
+                    v23),
+                  v26);
+          v31 = _mm_add_epi16(
+                  _mm_sub_epi16(
+                    _mm_packs_epi32(
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpacklo_epi16(v22, v24), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u),
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpackhi_epi16(v22, v24), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u)),
+                    v24),
+                  v27);
+          v32 = _mm_add_epi16(v26, *((__m128i *)&retaddr - 2));
+          v33 = _mm_add_epi16(v27, *((__m128i *)&retaddr - 1));
+          v34 = _mm_unpacklo_epi8(_mm_packus_epi16(v32, v32), (__m128i)-1LL);
+          v35 = _mm_unpacklo_epi8(_mm_packus_epi16(v33, v33), (__m128i)-1LL);
+          v36 = _mm_unpacklo_epi8(_mm_packus_epi16(v28, v28), _mm_packus_epi16(v30, v30));
+          v37 = _mm_unpacklo_epi8(_mm_packus_epi16(v29, v29), _mm_packus_epi16(v31, v31));
+          v38 = _mm_unpacklo_epi16(v37, v35);
+          v39 = _mm_unpackhi_epi16(v37, v35);
+          v40 = _mm_unpacklo_epi16(v36, v34);
+          v41 = _mm_unpacklo_epi32(v40, v38);
+          v42 = _mm_unpackhi_epi32(v40, v38);
+          v43 = _mm_unpackhi_epi16(v36, v34);
+          v44 = _mm_unpacklo_epi32(v43, v39);
+          v45 = _mm_unpackhi_epi32(v43, v39);
+          if ( v11 < 0x10 )
+            break;
+          if ( ((unsigned __int8)v16 & 0xF) != 0 )
+          {
+            *v16 = v41;
+            v16[1] = v42;
+            v16[2] = v44;
+            v16[3] = v45;
+          }
+          else
+          {
+            _mm_stream_si128(v16, v41);
+            _mm_stream_si128(v16 + 1, v42);
+            _mm_stream_si128(v16 + 2, v44);
+            _mm_stream_si128(v16 + 3, v45);
+          }
+          v16 += 4;
+          v11 -= 16;
+          if ( v11 == 0 )
+            goto LABEL_18;
+          ++v13;
+          ++v14;
+          ++v15;
+        }
+        if ( v11 >= 8 )
+        {
+          *v16 = v41;
+          v16[1] = v42;
+          v16 += 2;
+          v41 = v44;
+          v42 = v45;
+          v11 -= 8;
+        }
+        if ( v11 >= 4 )
+        {
+          *v16++ = v41;
+          v41 = v42;
+          v11 -= 4;
+        }
+        if ( v11 >= 2 )
+        {
+          v16->m128i_i64[0] = v41.m128i_i64[0];
+          v16 = (__m128i *)((char *)v16 + 8);
+          v11 -= 2;
+          v41 = _mm_srli_si128(v41, 8);
+        }
+        if ( v11 != 0 )
+          v16->m128i_i32[0] = _mm_cvtsi128_si32(v41);
+LABEL_18:
+        v11 = retaddr;
+        v8 = (const __m128i **)(retaddr + 4);
+        v9 = (const __m128i **)(retaddr + 4);
+        v10 = (const __m128i **)(retaddr + 4);
+        a6 = (__m128i **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _mm_sfence();
+    }
+  }
+  return result;
+}
+
+// Address: 0x409260
+int *__usercall sub_409260@<eax>(
+        unsigned int a1@<edi>,
+        int a2,
+        unsigned int a3,
+        _DWORD *a4,
+        int a5,
+        __m128i **a6,
+        int a7)
+{
+  int *result; // eax
+  const __m128i **v8; // esi
+  const __m128i **v9; // ebx
+  const __m128i **v10; // edx
+  unsigned int v11; // ecx
+  const __m128i *v13; // esi
+  const __m128i *v14; // ebx
+  const __m128i *v15; // edx
+  __m128i *v16; // edi
+  __m128i si128; // xmm5
+  __m128i v18; // xmm1
+  __m128i v19; // xmm7
+  __m128i v20; // xmm0
+  __m128i v21; // xmm2
+  __m128i v22; // xmm3
+  __m128i v23; // xmm6
+  __m128i v24; // xmm7
+  __m128i v25; // xmm5
+  __m128i v26; // xmm4
+  __m128i v27; // xmm5
+  __m128i v28; // xmm0
+  __m128i v29; // xmm1
+  __m128i v30; // xmm2
+  __m128i v31; // xmm3
+  __m128i v32; // xmm4
+  __m128i v33; // xmm5
+  __m128i v34; // xmm0
+  __m128i v35; // xmm7
+  __m128i v36; // xmm4
+  __m128i v37; // xmm6
+  __m128i v38; // xmm7
+  __m128i v39; // xmm5
+  __m128i v40; // xmm3
+  __m128i v41; // xmm2
+  __m128i v42; // xmm5
+  __m128i v43; // xmm1
+  __m128i v44; // xmm0
+  __m128i v45; // xmm1
+  __m128i v46; // xmm4
+  __m128i v47; // xmm3
+  __m128i v48; // xmm1
+  unsigned int v49; // ecx
+  unsigned int v50; // eax
+  unsigned int v51; // [esp+4h] [ebp-4h]
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  v51 = a1;
+  if ( a3 != 0 )
+  {
+    v51 = a3;
+    v8 = (const __m128i **)(*a4 + 4 * a5);
+    v9 = (const __m128i **)(a4[1] + 4 * a5);
+    v10 = (const __m128i **)(a4[2] + 4 * a5);
+    v11 = retaddr;
+    result = (int *)a7;
+    if ( a7 > 0 )
+    {
+      do
+      {
+        v51 = v11;
+        v13 = *v8;
+        v14 = *v9;
+        v15 = *v10;
+        v16 = *a6;
+        while ( 1 )
+        {
+          si128 = _mm_load_si128(v14);
+          v18 = _mm_load_si128(v15);
+          v19 = _mm_slli_epi16((__m128i)-1LL, 7u);
+          v20 = _mm_srli_epi16((__m128i)-1LL, 8u);
+          v21 = _mm_add_epi16(_mm_and_si128(v20, si128), v19);
+          v22 = _mm_add_epi16(_mm_srli_epi16(si128, 8u), v19);
+          v23 = _mm_add_epi16(_mm_and_si128(v20, v18), v19);
+          v24 = _mm_add_epi16(_mm_srli_epi16(v18, 8u), v19);
+          *((__m128i *)&retaddr - 2) = _mm_add_epi16(
+                                         _mm_add_epi16(
+                                           _mm_srai_epi16(
+                                             _mm_add_epi16(
+                                               _mm_mulhi_epi16(_mm_add_epi16(v21, v21), (__m128i)xmmword_527C30),
+                                               (__m128i)xmmword_527C50),
+                                             1u),
+                                           v21),
+                                         v21);
+          *((__m128i *)&retaddr - 1) = _mm_add_epi16(
+                                         _mm_add_epi16(
+                                           _mm_srai_epi16(
+                                             _mm_add_epi16(
+                                               _mm_mulhi_epi16(_mm_add_epi16(v22, v22), (__m128i)xmmword_527C30),
+                                               (__m128i)xmmword_527C50),
+                                             1u),
+                                           v22),
+                                         v22);
+          v25 = _mm_load_si128(v13);
+          v26 = _mm_and_si128(v20, v25);
+          v27 = _mm_srli_epi16(v25, 8u);
+          v28 = _mm_add_epi16(
+                  _mm_add_epi16(
+                    _mm_srai_epi16(
+                      _mm_add_epi16(
+                        _mm_mulhi_epi16(_mm_add_epi16(v23, v23), (__m128i)xmmword_527C20),
+                        (__m128i)xmmword_527C50),
+                      1u),
+                    v23),
+                  v26);
+          v29 = _mm_add_epi16(
+                  _mm_add_epi16(
+                    _mm_srai_epi16(
+                      _mm_add_epi16(
+                        _mm_mulhi_epi16(_mm_add_epi16(v24, v24), (__m128i)xmmword_527C20),
+                        (__m128i)xmmword_527C50),
+                      1u),
+                    v24),
+                  v27);
+          v30 = _mm_add_epi16(
+                  _mm_sub_epi16(
+                    _mm_packs_epi32(
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpacklo_epi16(v21, v23), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u),
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpackhi_epi16(v21, v23), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u)),
+                    v23),
+                  v26);
+          v31 = _mm_add_epi16(
+                  _mm_sub_epi16(
+                    _mm_packs_epi32(
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpacklo_epi16(v22, v24), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u),
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpackhi_epi16(v22, v24), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u)),
+                    v24),
+                  v27);
+          v32 = _mm_add_epi16(v26, *((__m128i *)&retaddr - 2));
+          v33 = _mm_add_epi16(v27, *((__m128i *)&retaddr - 1));
+          v34 = _mm_unpacklo_epi8(_mm_packus_epi16(v28, v28), _mm_packus_epi16(v33, v33));
+          v35 = _mm_unpacklo_epi8(_mm_packus_epi16(v32, v32), _mm_packus_epi16(v30, v30));
+          v36 = _mm_unpacklo_epi16(v35, v34);
+          v37 = _mm_unpackhi_epi16(v35, v34);
+          v38 = _mm_srli_si128(v35, 2);
+          v39 = _mm_unpacklo_epi8(_mm_packus_epi16(v31, v31), _mm_packus_epi16(v29, v29));
+          v40 = _mm_unpacklo_epi16(v39, v38);
+          v41 = _mm_unpackhi_epi16(v39, v38);
+          v42 = _mm_srli_si128(v39, 2);
+          v43 = _mm_srli_si128(v34, 2);
+          v44 = _mm_unpacklo_epi16(v43, v42);
+          v45 = _mm_unpackhi_epi16(v43, v42);
+          v46 = _mm_unpacklo_epi64(_mm_unpacklo_epi32(v36, v40), _mm_unpacklo_epi32(v44, _mm_shuffle_epi32(v36, 78)));
+          v47 = _mm_unpacklo_epi64(_mm_unpackhi_epi32(v40, v44), _mm_unpacklo_epi32(v37, v41));
+          v48 = _mm_unpacklo_epi64(_mm_unpacklo_epi32(v45, _mm_shuffle_epi32(v37, 78)), _mm_unpackhi_epi32(v41, v45));
+          if ( v11 < 0x10 )
+            break;
+          if ( ((unsigned __int8)v16 & 0xF) != 0 )
+          {
+            *v16 = v46;
+            v16[1] = v47;
+            v16[2] = v48;
+          }
+          else
+          {
+            _mm_stream_si128(v16, v46);
+            _mm_stream_si128(v16 + 1, v47);
+            _mm_stream_si128(v16 + 2, v48);
+          }
+          v16 += 3;
+          v11 -= 16;
+          if ( v11 == 0 )
+            goto LABEL_22;
+          ++v13;
+          ++v14;
+          ++v15;
+        }
+        v49 = 3 * v11;
+        if ( v49 < 0x20 )
+        {
+          if ( v49 >= 0x10 )
+          {
+            *v16++ = v46;
+            v46 = v47;
+            v49 -= 16;
+          }
+        }
+        else
+        {
+          *v16 = v46;
+          v16[1] = v47;
+          v16 += 2;
+          v46 = v48;
+          v49 -= 32;
+        }
+        if ( v49 >= 8 )
+        {
+          v16->m128i_i64[0] = v46.m128i_i64[0];
+          v16 = (__m128i *)((char *)v16 + 8);
+          v49 -= 8;
+          v46 = _mm_srli_si128(v46, 8);
+        }
+        if ( v49 >= 4 )
+        {
+          v16->m128i_i32[0] = _mm_cvtsi128_si32(v46);
+          v16 = (__m128i *)((char *)v16 + 4);
+          v49 -= 4;
+          v46 = _mm_srli_si128(v46, 4);
+        }
+        v50 = _mm_cvtsi128_si32(v46);
+        if ( v49 >= 2 )
+        {
+          v16->m128i_i16[0] = v50;
+          v16 = (__m128i *)((char *)v16 + 2);
+          v49 -= 2;
+          v50 >>= 16;
+        }
+        if ( v49 != 0 )
+          v16->m128i_i8[0] = v50;
+LABEL_22:
+        v11 = retaddr;
+        v8 = (const __m128i **)(retaddr + 4);
+        v9 = (const __m128i **)(retaddr + 4);
+        v10 = (const __m128i **)(retaddr + 4);
+        a6 = (__m128i **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _mm_sfence();
+    }
+  }
+  return result;
+}
+
+// Address: 0x4095C0
+int *__usercall sub_4095C0@<eax>(
+        unsigned int a1@<edi>,
+        int a2,
+        unsigned int a3,
+        _DWORD *a4,
+        int a5,
+        __m128i **a6,
+        int a7)
+{
+  int *result; // eax
+  const __m128i **v8; // esi
+  const __m128i **v9; // ebx
+  const __m128i **v10; // edx
+  unsigned int v11; // ecx
+  const __m128i *v13; // esi
+  const __m128i *v14; // ebx
+  const __m128i *v15; // edx
+  __m128i *v16; // edi
+  __m128i si128; // xmm5
+  __m128i v18; // xmm1
+  __m128i v19; // xmm7
+  __m128i v20; // xmm0
+  __m128i v21; // xmm2
+  __m128i v22; // xmm3
+  __m128i v23; // xmm6
+  __m128i v24; // xmm7
+  __m128i v25; // xmm5
+  __m128i v26; // xmm4
+  __m128i v27; // xmm5
+  __m128i v28; // xmm0
+  __m128i v29; // xmm1
+  __m128i v30; // xmm2
+  __m128i v31; // xmm3
+  __m128i v32; // xmm4
+  __m128i v33; // xmm5
+  __m128i v34; // xmm0
+  __m128i v35; // xmm1
+  __m128i v36; // xmm2
+  __m128i v37; // xmm6
+  __m128i v38; // xmm5
+  __m128i v39; // xmm6
+  __m128i v40; // xmm3
+  __m128i v41; // xmm4
+  __m128i v42; // xmm3
+  __m128i v43; // xmm7
+  __m128i v44; // xmm2
+  __m128i v45; // xmm7
+  unsigned int v46; // [esp+4h] [ebp-4h]
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  v46 = a1;
+  if ( a3 != 0 )
+  {
+    v46 = a3;
+    v8 = (const __m128i **)(*a4 + 4 * a5);
+    v9 = (const __m128i **)(a4[1] + 4 * a5);
+    v10 = (const __m128i **)(a4[2] + 4 * a5);
+    v11 = retaddr;
+    result = (int *)a7;
+    if ( a7 > 0 )
+    {
+      do
+      {
+        v46 = v11;
+        v13 = *v8;
+        v14 = *v9;
+        v15 = *v10;
+        v16 = *a6;
+        while ( 1 )
+        {
+          si128 = _mm_load_si128(v14);
+          v18 = _mm_load_si128(v15);
+          v19 = _mm_slli_epi16((__m128i)-1LL, 7u);
+          v20 = _mm_srli_epi16((__m128i)-1LL, 8u);
+          v21 = _mm_add_epi16(_mm_and_si128(v20, si128), v19);
+          v22 = _mm_add_epi16(_mm_srli_epi16(si128, 8u), v19);
+          v23 = _mm_add_epi16(_mm_and_si128(v20, v18), v19);
+          v24 = _mm_add_epi16(_mm_srli_epi16(v18, 8u), v19);
+          *((__m128i *)&retaddr - 2) = _mm_add_epi16(
+                                         _mm_add_epi16(
+                                           _mm_srai_epi16(
+                                             _mm_add_epi16(
+                                               _mm_mulhi_epi16(_mm_add_epi16(v21, v21), (__m128i)xmmword_527C30),
+                                               (__m128i)xmmword_527C50),
+                                             1u),
+                                           v21),
+                                         v21);
+          *((__m128i *)&retaddr - 1) = _mm_add_epi16(
+                                         _mm_add_epi16(
+                                           _mm_srai_epi16(
+                                             _mm_add_epi16(
+                                               _mm_mulhi_epi16(_mm_add_epi16(v22, v22), (__m128i)xmmword_527C30),
+                                               (__m128i)xmmword_527C50),
+                                             1u),
+                                           v22),
+                                         v22);
+          v25 = _mm_load_si128(v13);
+          v26 = _mm_and_si128(v20, v25);
+          v27 = _mm_srli_epi16(v25, 8u);
+          v28 = _mm_add_epi16(
+                  _mm_add_epi16(
+                    _mm_srai_epi16(
+                      _mm_add_epi16(
+                        _mm_mulhi_epi16(_mm_add_epi16(v23, v23), (__m128i)xmmword_527C20),
+                        (__m128i)xmmword_527C50),
+                      1u),
+                    v23),
+                  v26);
+          v29 = _mm_add_epi16(
+                  _mm_add_epi16(
+                    _mm_srai_epi16(
+                      _mm_add_epi16(
+                        _mm_mulhi_epi16(_mm_add_epi16(v24, v24), (__m128i)xmmword_527C20),
+                        (__m128i)xmmword_527C50),
+                      1u),
+                    v24),
+                  v27);
+          v30 = _mm_add_epi16(
+                  _mm_sub_epi16(
+                    _mm_packs_epi32(
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpacklo_epi16(v21, v23), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u),
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpackhi_epi16(v21, v23), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u)),
+                    v23),
+                  v26);
+          v31 = _mm_add_epi16(
+                  _mm_sub_epi16(
+                    _mm_packs_epi32(
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpacklo_epi16(v22, v24), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u),
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpackhi_epi16(v22, v24), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u)),
+                    v24),
+                  v27);
+          v32 = _mm_add_epi16(v26, *((__m128i *)&retaddr - 2));
+          v33 = _mm_add_epi16(v27, *((__m128i *)&retaddr - 1));
+          v34 = _mm_unpacklo_epi8(_mm_packus_epi16(v28, v28), (__m128i)-1LL);
+          v35 = _mm_unpacklo_epi8(_mm_packus_epi16(v29, v29), (__m128i)-1LL);
+          v36 = _mm_unpacklo_epi8(_mm_packus_epi16(v32, v32), _mm_packus_epi16(v30, v30));
+          v37 = _mm_unpacklo_epi8(_mm_packus_epi16(v33, v33), _mm_packus_epi16(v31, v31));
+          v38 = _mm_unpacklo_epi16(v37, v35);
+          v39 = _mm_unpackhi_epi16(v37, v35);
+          v40 = _mm_unpacklo_epi16(v36, v34);
+          v41 = _mm_unpacklo_epi32(v40, v38);
+          v42 = _mm_unpackhi_epi32(v40, v38);
+          v43 = _mm_unpackhi_epi16(v36, v34);
+          v44 = _mm_unpacklo_epi32(v43, v39);
+          v45 = _mm_unpackhi_epi32(v43, v39);
+          if ( v11 < 0x10 )
+            break;
+          if ( ((unsigned __int8)v16 & 0xF) != 0 )
+          {
+            *v16 = v41;
+            v16[1] = v42;
+            v16[2] = v44;
+            v16[3] = v45;
+          }
+          else
+          {
+            _mm_stream_si128(v16, v41);
+            _mm_stream_si128(v16 + 1, v42);
+            _mm_stream_si128(v16 + 2, v44);
+            _mm_stream_si128(v16 + 3, v45);
+          }
+          v16 += 4;
+          v11 -= 16;
+          if ( v11 == 0 )
+            goto LABEL_18;
+          ++v13;
+          ++v14;
+          ++v15;
+        }
+        if ( v11 >= 8 )
+        {
+          *v16 = v41;
+          v16[1] = v42;
+          v16 += 2;
+          v41 = v44;
+          v42 = v45;
+          v11 -= 8;
+        }
+        if ( v11 >= 4 )
+        {
+          *v16++ = v41;
+          v41 = v42;
+          v11 -= 4;
+        }
+        if ( v11 >= 2 )
+        {
+          v16->m128i_i64[0] = v41.m128i_i64[0];
+          v16 = (__m128i *)((char *)v16 + 8);
+          v11 -= 2;
+          v41 = _mm_srli_si128(v41, 8);
+        }
+        if ( v11 != 0 )
+          v16->m128i_i32[0] = _mm_cvtsi128_si32(v41);
+LABEL_18:
+        v11 = retaddr;
+        v8 = (const __m128i **)(retaddr + 4);
+        v9 = (const __m128i **)(retaddr + 4);
+        v10 = (const __m128i **)(retaddr + 4);
+        a6 = (__m128i **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _mm_sfence();
+    }
+  }
+  return result;
+}
+
+// Address: 0x4098C0
+int *__usercall sub_4098C0@<eax>(
+        unsigned int a1@<edi>,
+        int a2,
+        unsigned int a3,
+        _DWORD *a4,
+        int a5,
+        __m128i **a6,
+        int a7)
+{
+  int *result; // eax
+  const __m128i **v8; // esi
+  const __m128i **v9; // ebx
+  const __m128i **v10; // edx
+  unsigned int v11; // ecx
+  const __m128i *v13; // esi
+  const __m128i *v14; // ebx
+  const __m128i *v15; // edx
+  __m128i *v16; // edi
+  __m128i si128; // xmm5
+  __m128i v18; // xmm1
+  __m128i v19; // xmm7
+  __m128i v20; // xmm0
+  __m128i v21; // xmm2
+  __m128i v22; // xmm3
+  __m128i v23; // xmm6
+  __m128i v24; // xmm7
+  __m128i v25; // xmm5
+  __m128i v26; // xmm4
+  __m128i v27; // xmm5
+  __m128i v28; // xmm0
+  __m128i v29; // xmm1
+  __m128i v30; // xmm2
+  __m128i v31; // xmm3
+  __m128i v32; // xmm4
+  __m128i v33; // xmm5
+  __m128i v34; // xmm2
+  __m128i v35; // xmm3
+  __m128i v36; // xmm4
+  __m128i v37; // xmm0
+  __m128i v38; // xmm7
+  __m128i v39; // xmm0
+  __m128i v40; // xmm5
+  __m128i v41; // xmm6
+  __m128i v42; // xmm5
+  __m128i v43; // xmm1
+  __m128i v44; // xmm4
+  __m128i v45; // xmm1
+  unsigned int v46; // [esp+4h] [ebp-4h]
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  v46 = a1;
+  if ( a3 != 0 )
+  {
+    v46 = a3;
+    v8 = (const __m128i **)(*a4 + 4 * a5);
+    v9 = (const __m128i **)(a4[1] + 4 * a5);
+    v10 = (const __m128i **)(a4[2] + 4 * a5);
+    v11 = retaddr;
+    result = (int *)a7;
+    if ( a7 > 0 )
+    {
+      do
+      {
+        v46 = v11;
+        v13 = *v8;
+        v14 = *v9;
+        v15 = *v10;
+        v16 = *a6;
+        while ( 1 )
+        {
+          si128 = _mm_load_si128(v14);
+          v18 = _mm_load_si128(v15);
+          v19 = _mm_slli_epi16((__m128i)-1LL, 7u);
+          v20 = _mm_srli_epi16((__m128i)-1LL, 8u);
+          v21 = _mm_add_epi16(_mm_and_si128(v20, si128), v19);
+          v22 = _mm_add_epi16(_mm_srli_epi16(si128, 8u), v19);
+          v23 = _mm_add_epi16(_mm_and_si128(v20, v18), v19);
+          v24 = _mm_add_epi16(_mm_srli_epi16(v18, 8u), v19);
+          *((__m128i *)&retaddr - 2) = _mm_add_epi16(
+                                         _mm_add_epi16(
+                                           _mm_srai_epi16(
+                                             _mm_add_epi16(
+                                               _mm_mulhi_epi16(_mm_add_epi16(v21, v21), (__m128i)xmmword_527C30),
+                                               (__m128i)xmmword_527C50),
+                                             1u),
+                                           v21),
+                                         v21);
+          *((__m128i *)&retaddr - 1) = _mm_add_epi16(
+                                         _mm_add_epi16(
+                                           _mm_srai_epi16(
+                                             _mm_add_epi16(
+                                               _mm_mulhi_epi16(_mm_add_epi16(v22, v22), (__m128i)xmmword_527C30),
+                                               (__m128i)xmmword_527C50),
+                                             1u),
+                                           v22),
+                                         v22);
+          v25 = _mm_load_si128(v13);
+          v26 = _mm_and_si128(v20, v25);
+          v27 = _mm_srli_epi16(v25, 8u);
+          v28 = _mm_add_epi16(
+                  _mm_add_epi16(
+                    _mm_srai_epi16(
+                      _mm_add_epi16(
+                        _mm_mulhi_epi16(_mm_add_epi16(v23, v23), (__m128i)xmmword_527C20),
+                        (__m128i)xmmword_527C50),
+                      1u),
+                    v23),
+                  v26);
+          v29 = _mm_add_epi16(
+                  _mm_add_epi16(
+                    _mm_srai_epi16(
+                      _mm_add_epi16(
+                        _mm_mulhi_epi16(_mm_add_epi16(v24, v24), (__m128i)xmmword_527C20),
+                        (__m128i)xmmword_527C50),
+                      1u),
+                    v24),
+                  v27);
+          v30 = _mm_add_epi16(
+                  _mm_sub_epi16(
+                    _mm_packs_epi32(
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpacklo_epi16(v21, v23), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u),
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpackhi_epi16(v21, v23), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u)),
+                    v23),
+                  v26);
+          v31 = _mm_add_epi16(
+                  _mm_sub_epi16(
+                    _mm_packs_epi32(
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpacklo_epi16(v22, v24), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u),
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpackhi_epi16(v22, v24), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u)),
+                    v24),
+                  v27);
+          v32 = _mm_add_epi16(v26, *((__m128i *)&retaddr - 2));
+          v33 = _mm_add_epi16(v27, *((__m128i *)&retaddr - 1));
+          v34 = _mm_unpacklo_epi8(_mm_packus_epi16(v30, v30), _mm_packus_epi16(v28, v28));
+          v35 = _mm_unpacklo_epi8(_mm_packus_epi16(v31, v31), _mm_packus_epi16(v29, v29));
+          v36 = _mm_unpacklo_epi8((__m128i)-1LL, _mm_packus_epi16(v32, v32));
+          v37 = _mm_unpacklo_epi8((__m128i)-1LL, _mm_packus_epi16(v33, v33));
+          v38 = _mm_unpacklo_epi16(v37, v35);
+          v39 = _mm_unpackhi_epi16(v37, v35);
+          v40 = _mm_unpacklo_epi16(v36, v34);
+          v41 = _mm_unpacklo_epi32(v40, v38);
+          v42 = _mm_unpackhi_epi32(v40, v38);
+          v43 = _mm_unpackhi_epi16(v36, v34);
+          v44 = _mm_unpacklo_epi32(v43, v39);
+          v45 = _mm_unpackhi_epi32(v43, v39);
+          if ( v11 < 0x10 )
+            break;
+          if ( ((unsigned __int8)v16 & 0xF) != 0 )
+          {
+            *v16 = v41;
+            v16[1] = v42;
+            v16[2] = v44;
+            v16[3] = v45;
+          }
+          else
+          {
+            _mm_stream_si128(v16, v41);
+            _mm_stream_si128(v16 + 1, v42);
+            _mm_stream_si128(v16 + 2, v44);
+            _mm_stream_si128(v16 + 3, v45);
+          }
+          v16 += 4;
+          v11 -= 16;
+          if ( v11 == 0 )
+            goto LABEL_18;
+          ++v13;
+          ++v14;
+          ++v15;
+        }
+        if ( v11 >= 8 )
+        {
+          *v16 = v41;
+          v16[1] = v42;
+          v16 += 2;
+          v41 = v44;
+          v42 = v45;
+          v11 -= 8;
+        }
+        if ( v11 >= 4 )
+        {
+          *v16++ = v41;
+          v41 = v42;
+          v11 -= 4;
+        }
+        if ( v11 >= 2 )
+        {
+          v16->m128i_i64[0] = v41.m128i_i64[0];
+          v16 = (__m128i *)((char *)v16 + 8);
+          v11 -= 2;
+          v41 = _mm_srli_si128(v41, 8);
+        }
+        if ( v11 != 0 )
+          v16->m128i_i32[0] = _mm_cvtsi128_si32(v41);
+LABEL_18:
+        v11 = retaddr;
+        v8 = (const __m128i **)(retaddr + 4);
+        v9 = (const __m128i **)(retaddr + 4);
+        v10 = (const __m128i **)(retaddr + 4);
+        a6 = (__m128i **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _mm_sfence();
+    }
+  }
+  return result;
+}
+
+// Address: 0x409BC0
+int *__usercall sub_409BC0@<eax>(
+        unsigned int a1@<edi>,
+        int a2,
+        unsigned int a3,
+        _DWORD *a4,
+        int a5,
+        __m128i **a6,
+        int a7)
+{
+  int *result; // eax
+  const __m128i **v8; // esi
+  const __m128i **v9; // ebx
+  const __m128i **v10; // edx
+  unsigned int v11; // ecx
+  const __m128i *v13; // esi
+  const __m128i *v14; // ebx
+  const __m128i *v15; // edx
+  __m128i *v16; // edi
+  __m128i si128; // xmm5
+  __m128i v18; // xmm1
+  __m128i v19; // xmm7
+  __m128i v20; // xmm0
+  __m128i v21; // xmm2
+  __m128i v22; // xmm3
+  __m128i v23; // xmm6
+  __m128i v24; // xmm7
+  __m128i v25; // xmm5
+  __m128i v26; // xmm4
+  __m128i v27; // xmm5
+  __m128i v28; // xmm0
+  __m128i v29; // xmm1
+  __m128i v30; // xmm2
+  __m128i v31; // xmm3
+  __m128i v32; // xmm4
+  __m128i v33; // xmm5
+  __m128i v34; // xmm2
+  __m128i v35; // xmm3
+  __m128i v36; // xmm0
+  __m128i v37; // xmm4
+  __m128i v38; // xmm7
+  __m128i v39; // xmm4
+  __m128i v40; // xmm1
+  __m128i v41; // xmm6
+  __m128i v42; // xmm1
+  __m128i v43; // xmm5
+  __m128i v44; // xmm0
+  __m128i v45; // xmm5
+  unsigned int v46; // [esp+4h] [ebp-4h]
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  v46 = a1;
+  if ( a3 != 0 )
+  {
+    v46 = a3;
+    v8 = (const __m128i **)(*a4 + 4 * a5);
+    v9 = (const __m128i **)(a4[1] + 4 * a5);
+    v10 = (const __m128i **)(a4[2] + 4 * a5);
+    v11 = retaddr;
+    result = (int *)a7;
+    if ( a7 > 0 )
+    {
+      do
+      {
+        v46 = v11;
+        v13 = *v8;
+        v14 = *v9;
+        v15 = *v10;
+        v16 = *a6;
+        while ( 1 )
+        {
+          si128 = _mm_load_si128(v14);
+          v18 = _mm_load_si128(v15);
+          v19 = _mm_slli_epi16((__m128i)-1LL, 7u);
+          v20 = _mm_srli_epi16((__m128i)-1LL, 8u);
+          v21 = _mm_add_epi16(_mm_and_si128(v20, si128), v19);
+          v22 = _mm_add_epi16(_mm_srli_epi16(si128, 8u), v19);
+          v23 = _mm_add_epi16(_mm_and_si128(v20, v18), v19);
+          v24 = _mm_add_epi16(_mm_srli_epi16(v18, 8u), v19);
+          *((__m128i *)&retaddr - 2) = _mm_add_epi16(
+                                         _mm_add_epi16(
+                                           _mm_srai_epi16(
+                                             _mm_add_epi16(
+                                               _mm_mulhi_epi16(_mm_add_epi16(v21, v21), (__m128i)xmmword_527C30),
+                                               (__m128i)xmmword_527C50),
+                                             1u),
+                                           v21),
+                                         v21);
+          *((__m128i *)&retaddr - 1) = _mm_add_epi16(
+                                         _mm_add_epi16(
+                                           _mm_srai_epi16(
+                                             _mm_add_epi16(
+                                               _mm_mulhi_epi16(_mm_add_epi16(v22, v22), (__m128i)xmmword_527C30),
+                                               (__m128i)xmmword_527C50),
+                                             1u),
+                                           v22),
+                                         v22);
+          v25 = _mm_load_si128(v13);
+          v26 = _mm_and_si128(v20, v25);
+          v27 = _mm_srli_epi16(v25, 8u);
+          v28 = _mm_add_epi16(
+                  _mm_add_epi16(
+                    _mm_srai_epi16(
+                      _mm_add_epi16(
+                        _mm_mulhi_epi16(_mm_add_epi16(v23, v23), (__m128i)xmmword_527C20),
+                        (__m128i)xmmword_527C50),
+                      1u),
+                    v23),
+                  v26);
+          v29 = _mm_add_epi16(
+                  _mm_add_epi16(
+                    _mm_srai_epi16(
+                      _mm_add_epi16(
+                        _mm_mulhi_epi16(_mm_add_epi16(v24, v24), (__m128i)xmmword_527C20),
+                        (__m128i)xmmword_527C50),
+                      1u),
+                    v24),
+                  v27);
+          v30 = _mm_add_epi16(
+                  _mm_sub_epi16(
+                    _mm_packs_epi32(
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpacklo_epi16(v21, v23), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u),
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpackhi_epi16(v21, v23), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u)),
+                    v23),
+                  v26);
+          v31 = _mm_add_epi16(
+                  _mm_sub_epi16(
+                    _mm_packs_epi32(
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpacklo_epi16(v22, v24), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u),
+                      _mm_srai_epi32(
+                        _mm_add_epi32(
+                          _mm_madd_epi16(_mm_unpackhi_epi16(v22, v24), (__m128i)xmmword_527C40),
+                          (__m128i)xmmword_527C60),
+                        0x10u)),
+                    v24),
+                  v27);
+          v32 = _mm_add_epi16(v26, *((__m128i *)&retaddr - 2));
+          v33 = _mm_add_epi16(v27, *((__m128i *)&retaddr - 1));
+          v34 = _mm_unpacklo_epi8(_mm_packus_epi16(v30, v30), _mm_packus_epi16(v32, v32));
+          v35 = _mm_unpacklo_epi8(_mm_packus_epi16(v31, v31), _mm_packus_epi16(v33, v33));
+          v36 = _mm_unpacklo_epi8((__m128i)-1LL, _mm_packus_epi16(v28, v28));
+          v37 = _mm_unpacklo_epi8((__m128i)-1LL, _mm_packus_epi16(v29, v29));
+          v38 = _mm_unpacklo_epi16(v37, v35);
+          v39 = _mm_unpackhi_epi16(v37, v35);
+          v40 = _mm_unpacklo_epi16(v36, v34);
+          v41 = _mm_unpacklo_epi32(v40, v38);
+          v42 = _mm_unpackhi_epi32(v40, v38);
+          v43 = _mm_unpackhi_epi16(v36, v34);
+          v44 = _mm_unpacklo_epi32(v43, v39);
+          v45 = _mm_unpackhi_epi32(v43, v39);
+          if ( v11 < 0x10 )
+            break;
+          if ( ((unsigned __int8)v16 & 0xF) != 0 )
+          {
+            *v16 = v41;
+            v16[1] = v42;
+            v16[2] = v44;
+            v16[3] = v45;
+          }
+          else
+          {
+            _mm_stream_si128(v16, v41);
+            _mm_stream_si128(v16 + 1, v42);
+            _mm_stream_si128(v16 + 2, v44);
+            _mm_stream_si128(v16 + 3, v45);
+          }
+          v16 += 4;
+          v11 -= 16;
+          if ( v11 == 0 )
+            goto LABEL_18;
+          ++v13;
+          ++v14;
+          ++v15;
+        }
+        if ( v11 >= 8 )
+        {
+          *v16 = v41;
+          v16[1] = v42;
+          v16 += 2;
+          v41 = v44;
+          v42 = v45;
+          v11 -= 8;
+        }
+        if ( v11 >= 4 )
+        {
+          *v16++ = v41;
+          v41 = v42;
+          v11 -= 4;
+        }
+        if ( v11 >= 2 )
+        {
+          v16->m128i_i64[0] = v41.m128i_i64[0];
+          v16 = (__m128i *)((char *)v16 + 8);
+          v11 -= 2;
+          v41 = _mm_srli_si128(v41, 8);
+        }
+        if ( v11 != 0 )
+          v16->m128i_i32[0] = _mm_cvtsi128_si32(v41);
+LABEL_18:
+        v11 = retaddr;
+        v8 = (const __m128i **)(retaddr + 4);
+        v9 = (const __m128i **)(retaddr + 4);
+        v10 = (const __m128i **)(retaddr + 4);
+        a6 = (__m128i **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
       _mm_sfence();
     }
   }
@@ -2629,6 +5221,237 @@ LABEL_9:
   __asm { vzeroupper }
 }
 
+// Address: 0x40B6A0
+int *__cdecl sub_40B6A0(int a1, int a2, _DWORD *a3, int a4, _WORD **a5, int a6)
+{
+  int *result; // eax
+  int *v10; // esi
+  int *v11; // ebx
+  int *v12; // edx
+  unsigned int v13; // ecx
+  unsigned int v116; // ecx
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  _EBP = &retaddr;
+  if ( a2 != 0 )
+  {
+    v10 = (int *)(*a3 + 4 * a4);
+    v11 = (int *)(a3[1] + 4 * a4);
+    v12 = (int *)(a3[2] + 4 * a4);
+    v13 = retaddr;
+    result = (int *)a6;
+    if ( a6 > 0 )
+    {
+      do
+      {
+        _ESI = *v10;
+        _EBX = *v11;
+        _EDX = *v12;
+        _EDI = *a5;
+        while ( 1 )
+        {
+          __asm
+          {
+            vmovdqu ymm5, ymmword ptr [ebx]
+            vmovdqu ymm1, ymmword ptr [edx]
+            vpcmpeqw ymm0, ymm0, ymm0
+            vpcmpeqw ymm7, ymm7, ymm7
+            vpsrlw  ymm0, ymm0, 8
+            vpsllw  ymm7, ymm7, 7
+            vpand   ymm4, ymm0, ymm5
+            vpsrlw  ymm5, ymm5, 8
+            vpand   ymm0, ymm0, ymm1
+            vpsrlw  ymm1, ymm1, 8
+            vpaddw  ymm2, ymm4, ymm7
+            vpaddw  ymm3, ymm5, ymm7
+            vpaddw  ymm6, ymm0, ymm7
+            vpaddw  ymm7, ymm1, ymm7
+            vpaddw  ymm4, ymm2, ymm2
+            vpaddw  ymm5, ymm3, ymm3
+            vpaddw  ymm0, ymm6, ymm6
+            vpaddw  ymm1, ymm7, ymm7
+            vpmulhw ymm4, ymm4, ds:ymmword_527D80
+            vpmulhw ymm5, ymm5, ds:ymmword_527D80
+            vpmulhw ymm0, ymm0, ds:ymmword_527D60
+            vpmulhw ymm1, ymm1, ds:ymmword_527D60
+            vpaddw  ymm4, ymm4, ds:ymmword_527DC0
+            vpaddw  ymm5, ymm5, ds:ymmword_527DC0
+            vpsraw  ymm4, ymm4, 1
+            vpsraw  ymm5, ymm5, 1
+            vpaddw  ymm0, ymm0, ds:ymmword_527DC0
+            vpaddw  ymm1, ymm1, ds:ymmword_527DC0
+            vpsraw  ymm0, ymm0, 1
+            vpsraw  ymm1, ymm1, 1
+            vpaddw  ymm4, ymm4, ymm2
+            vpaddw  ymm5, ymm5, ymm3
+            vpaddw  ymm4, ymm4, ymm2
+            vpaddw  ymm5, ymm5, ymm3
+            vpaddw  ymm0, ymm0, ymm6
+            vpaddw  ymm1, ymm1, ymm7
+            vmovdqa ymmword ptr [ebp-40h], ymm4
+            vmovdqa ymmword ptr [ebp-20h], ymm5
+            vpunpckhwd ymm4, ymm2, ymm6
+            vpunpcklwd ymm2, ymm2, ymm6
+            vpmaddwd ymm2, ymm2, ds:ymmword_527DA0
+            vpmaddwd ymm4, ymm4, ds:ymmword_527DA0
+            vpunpckhwd ymm5, ymm3, ymm7
+            vpunpcklwd ymm3, ymm3, ymm7
+            vpmaddwd ymm3, ymm3, ds:ymmword_527DA0
+            vpmaddwd ymm5, ymm5, ds:ymmword_527DA0
+            vpaddd  ymm2, ymm2, ds:ymmword_527DE0
+            vpaddd  ymm4, ymm4, ds:ymmword_527DE0
+            vpsrad  ymm2, ymm2, 10h
+            vpsrad  ymm4, ymm4, 10h
+            vpaddd  ymm3, ymm3, ds:ymmword_527DE0
+            vpaddd  ymm5, ymm5, ds:ymmword_527DE0
+            vpsrad  ymm3, ymm3, 10h
+            vpsrad  ymm5, ymm5, 10h
+            vpackssdw ymm2, ymm2, ymm4
+            vpackssdw ymm3, ymm3, ymm5
+            vpsubw  ymm2, ymm2, ymm6
+            vpsubw  ymm3, ymm3, ymm7
+            vmovdqu ymm5, ymmword ptr [esi]
+            vpcmpeqw ymm4, ymm4, ymm4
+            vpsrlw  ymm4, ymm4, 8
+            vpand   ymm4, ymm4, ymm5
+            vpsrlw  ymm5, ymm5, 8
+            vpaddw  ymm0, ymm0, ymm4
+            vpaddw  ymm1, ymm1, ymm5
+            vpackuswb ymm0, ymm0, ymm0
+            vpackuswb ymm1, ymm1, ymm1
+            vpaddw  ymm2, ymm2, ymm4
+            vpaddw  ymm3, ymm3, ymm5
+            vpackuswb ymm2, ymm2, ymm2
+            vpackuswb ymm3, ymm3, ymm3
+            vpaddw  ymm4, ymm4, ymmword ptr [ebp-40h]
+            vpaddw  ymm5, ymm5, ymmword ptr [ebp-20h]
+            vpackuswb ymm4, ymm4, ymm4
+            vpackuswb ymm5, ymm5, ymm5
+            vpunpcklbw ymm0, ymm0, ymm2
+            vpunpcklbw ymm4, ymm4, ymm1
+            vpunpcklbw ymm3, ymm3, ymm5
+            vpsrldq ymm7, ymm0, 2
+            vpunpckhwd ymm6, ymm0, ymm4
+            vpunpcklwd ymm0, ymm0, ymm4
+            vpsrldq ymm4, ymm4, 2
+            vpsrldq ymm1, ymm3, 2
+            vpunpckhwd ymm2, ymm3, ymm7
+            vpunpcklwd ymm3, ymm3, ymm7
+            vpunpckhwd ymm5, ymm4, ymm1
+            vpunpcklwd ymm4, ymm4, ymm1
+            vpshufd ymm7, ymm0, 4Eh ; 'N'
+            vpunpckldq ymm0, ymm0, ymm3
+            vpunpckhdq ymm3, ymm3, ymm4
+            vpunpckldq ymm4, ymm4, ymm7
+            vpshufd ymm7, ymm6, 4Eh ; 'N'
+            vpunpckldq ymm6, ymm6, ymm2
+            vpunpckhdq ymm2, ymm2, ymm5
+            vpunpckldq ymm5, ymm5, ymm7
+            vpunpcklqdq ymm7, ymm0, ymm4
+            vpunpcklqdq ymm6, ymm3, ymm6
+            vpunpcklqdq ymm2, ymm5, ymm2
+            vperm2i128 ymm0, ymm7, ymm6, 20h ; ' '
+            vperm2i128 ymm3, ymm2, ymm7, 30h ; '0'
+            vperm2i128 ymm5, ymm6, ymm2, 31h ; '1'
+          }
+          if ( v13 < 0x20 )
+            break;
+          if ( ((unsigned __int8)_EDI & 0x1F) != 0 )
+          {
+            __asm
+            {
+              vmovdqu ymmword ptr [edi], ymm0
+              vmovdqu ymmword ptr [edi+20h], ymm3
+              vmovdqu ymmword ptr [edi+40h], ymm5
+            }
+          }
+          else
+          {
+            __asm
+            {
+              vmovntdq ymmword ptr [edi], ymm0
+              vmovntdq ymmword ptr [edi+20h], ymm3
+              vmovntdq ymmword ptr [edi+40h], ymm5
+            }
+          }
+          _EDI += 48;
+          v13 -= 32;
+          if ( v13 == 0 )
+            goto LABEL_24;
+          _ESI += 32;
+          _EBX += 32;
+          _EDX += 32;
+        }
+        v116 = 3 * v13;
+        if ( v116 < 0x40 )
+        {
+          if ( v116 >= 0x20 )
+          {
+            __asm { vmovdqu ymmword ptr [edi], ymm0 }
+            _EDI += 16;
+            __asm { vmovdqa ymm0, ymm3 }
+            v116 -= 32;
+          }
+        }
+        else
+        {
+          __asm
+          {
+            vmovdqu ymmword ptr [edi], ymm0
+            vmovdqu ymmword ptr [edi+20h], ymm3
+          }
+          _EDI += 32;
+          __asm { vmovdqa ymm0, ymm5 }
+          v116 -= 64;
+        }
+        if ( v116 >= 0x10 )
+        {
+          __asm { vmovdqu xmmword ptr [edi], xmm0 }
+          _EDI += 8;
+          __asm { vperm2i128 ymm0, ymm0, ymm0, 1 }
+          v116 -= 16;
+        }
+        if ( v116 >= 8 )
+        {
+          __asm { vmovq   qword ptr [edi], xmm0 }
+          _EDI += 4;
+          v116 -= 8;
+          __asm { vpsrldq xmm0, xmm0, 8 }
+        }
+        if ( v116 >= 4 )
+        {
+          __asm { vmovd   dword ptr [edi], xmm0 }
+          _EDI += 2;
+          v116 -= 4;
+          __asm { vpsrldq xmm0, xmm0, 4 }
+        }
+        __asm { vmovd   eax, xmm0 }
+        if ( v116 >= 2 )
+        {
+          *_EDI++ = _EAX;
+          v116 -= 2;
+          _EAX >>= 16;
+        }
+        if ( v116 != 0 )
+          *(_BYTE *)_EDI = _EAX;
+LABEL_24:
+        v13 = retaddr;
+        v10 = (int *)(retaddr + 4);
+        v11 = (int *)(retaddr + 4);
+        v12 = (int *)(retaddr + 4);
+        a5 = (_WORD **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _mm_sfence();
+    }
+  }
+  __asm { vzeroupper }
+  return result;
+}
+
 // Address: 0x40BA00
 int *__cdecl sub_40BA00(unsigned int a1, _DWORD *a2, int a3, _WORD **a4, int a5)
 {
@@ -2866,6 +5689,1089 @@ LABEL_24:
         result = (int *)(v122 - 1);
       }
       while ( v122 > 1 );
+      _mm_sfence();
+    }
+  }
+  __asm { vzeroupper }
+  return result;
+}
+
+// Address: 0x40BD60
+int *__cdecl sub_40BD60(int a1, int a2, _DWORD *a3, int a4, int *a5, int a6)
+{
+  int *result; // eax
+  int *v10; // esi
+  int *v11; // ebx
+  int *v12; // edx
+  unsigned int v13; // ecx
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  _EBP = &retaddr;
+  if ( a2 != 0 )
+  {
+    v10 = (int *)(*a3 + 4 * a4);
+    v11 = (int *)(a3[1] + 4 * a4);
+    v12 = (int *)(a3[2] + 4 * a4);
+    v13 = retaddr;
+    result = (int *)a6;
+    if ( a6 > 0 )
+    {
+      do
+      {
+        _ESI = *v10;
+        _EBX = *v11;
+        _EDX = *v12;
+        _EDI = *a5;
+        while ( 1 )
+        {
+          __asm
+          {
+            vmovdqu ymm5, ymmword ptr [ebx]
+            vmovdqu ymm1, ymmword ptr [edx]
+            vpcmpeqw ymm0, ymm0, ymm0
+            vpcmpeqw ymm7, ymm7, ymm7
+            vpsrlw  ymm0, ymm0, 8
+            vpsllw  ymm7, ymm7, 7
+            vpand   ymm4, ymm0, ymm5
+            vpsrlw  ymm5, ymm5, 8
+            vpand   ymm0, ymm0, ymm1
+            vpsrlw  ymm1, ymm1, 8
+            vpaddw  ymm2, ymm4, ymm7
+            vpaddw  ymm3, ymm5, ymm7
+            vpaddw  ymm6, ymm0, ymm7
+            vpaddw  ymm7, ymm1, ymm7
+            vpaddw  ymm4, ymm2, ymm2
+            vpaddw  ymm5, ymm3, ymm3
+            vpaddw  ymm0, ymm6, ymm6
+            vpaddw  ymm1, ymm7, ymm7
+            vpmulhw ymm4, ymm4, ds:ymmword_527D80
+            vpmulhw ymm5, ymm5, ds:ymmword_527D80
+            vpmulhw ymm0, ymm0, ds:ymmword_527D60
+            vpmulhw ymm1, ymm1, ds:ymmword_527D60
+            vpaddw  ymm4, ymm4, ds:ymmword_527DC0
+            vpaddw  ymm5, ymm5, ds:ymmword_527DC0
+            vpsraw  ymm4, ymm4, 1
+            vpsraw  ymm5, ymm5, 1
+            vpaddw  ymm0, ymm0, ds:ymmword_527DC0
+            vpaddw  ymm1, ymm1, ds:ymmword_527DC0
+            vpsraw  ymm0, ymm0, 1
+            vpsraw  ymm1, ymm1, 1
+            vpaddw  ymm4, ymm4, ymm2
+            vpaddw  ymm5, ymm5, ymm3
+            vpaddw  ymm4, ymm4, ymm2
+            vpaddw  ymm5, ymm5, ymm3
+            vpaddw  ymm0, ymm0, ymm6
+            vpaddw  ymm1, ymm1, ymm7
+            vmovdqa ymmword ptr [ebp-40h], ymm4
+            vmovdqa ymmword ptr [ebp-20h], ymm5
+            vpunpckhwd ymm4, ymm2, ymm6
+            vpunpcklwd ymm2, ymm2, ymm6
+            vpmaddwd ymm2, ymm2, ds:ymmword_527DA0
+            vpmaddwd ymm4, ymm4, ds:ymmword_527DA0
+            vpunpckhwd ymm5, ymm3, ymm7
+            vpunpcklwd ymm3, ymm3, ymm7
+            vpmaddwd ymm3, ymm3, ds:ymmword_527DA0
+            vpmaddwd ymm5, ymm5, ds:ymmword_527DA0
+            vpaddd  ymm2, ymm2, ds:ymmword_527DE0
+            vpaddd  ymm4, ymm4, ds:ymmword_527DE0
+            vpsrad  ymm2, ymm2, 10h
+            vpsrad  ymm4, ymm4, 10h
+            vpaddd  ymm3, ymm3, ds:ymmword_527DE0
+            vpaddd  ymm5, ymm5, ds:ymmword_527DE0
+            vpsrad  ymm3, ymm3, 10h
+            vpsrad  ymm5, ymm5, 10h
+            vpackssdw ymm2, ymm2, ymm4
+            vpackssdw ymm3, ymm3, ymm5
+            vpsubw  ymm2, ymm2, ymm6
+            vpsubw  ymm3, ymm3, ymm7
+            vmovdqu ymm5, ymmword ptr [esi]
+            vpcmpeqw ymm4, ymm4, ymm4
+            vpsrlw  ymm4, ymm4, 8
+            vpand   ymm4, ymm4, ymm5
+            vpsrlw  ymm5, ymm5, 8
+            vpaddw  ymm0, ymm0, ymm4
+            vpaddw  ymm1, ymm1, ymm5
+            vpackuswb ymm0, ymm0, ymm0
+            vpackuswb ymm1, ymm1, ymm1
+            vpaddw  ymm2, ymm2, ymm4
+            vpaddw  ymm3, ymm3, ymm5
+            vpackuswb ymm2, ymm2, ymm2
+            vpackuswb ymm3, ymm3, ymm3
+            vpaddw  ymm4, ymm4, ymmword ptr [ebp-40h]
+            vpaddw  ymm5, ymm5, ymmword ptr [ebp-20h]
+            vpackuswb ymm4, ymm4, ymm4
+            vpackuswb ymm5, ymm5, ymm5
+            vpcmpeqb ymm6, ymm6, ymm6
+            vpcmpeqb ymm7, ymm7, ymm7
+            vpunpcklbw ymm0, ymm0, ymm2
+            vpunpcklbw ymm4, ymm4, ymm6
+            vpunpcklbw ymm1, ymm1, ymm3
+            vpunpcklbw ymm5, ymm5, ymm7
+            vpunpckhwd ymm2, ymm0, ymm4
+            vpunpcklwd ymm0, ymm0, ymm4
+            vpunpckhwd ymm6, ymm1, ymm5
+            vpunpcklwd ymm1, ymm1, ymm5
+            vpunpckhdq ymm4, ymm0, ymm1
+            vpunpckldq ymm1, ymm0, ymm1
+            vpunpckhdq ymm5, ymm2, ymm6
+            vpunpckldq ymm6, ymm2, ymm6
+            vperm2i128 ymm0, ymm1, ymm4, 20h ; ' '
+            vperm2i128 ymm3, ymm6, ymm5, 20h ; ' '
+            vperm2i128 ymm2, ymm1, ymm4, 31h ; '1'
+            vperm2i128 ymm7, ymm6, ymm5, 31h ; '1'
+          }
+          if ( v13 < 0x20 )
+            break;
+          if ( (_EDI & 0x1F) != 0 )
+          {
+            __asm
+            {
+              vmovdqu ymmword ptr [edi], ymm0
+              vmovdqu ymmword ptr [edi+20h], ymm3
+              vmovdqu ymmword ptr [edi+40h], ymm2
+              vmovdqu ymmword ptr [edi+60h], ymm7
+            }
+          }
+          else
+          {
+            __asm
+            {
+              vmovntdq ymmword ptr [edi], ymm0
+              vmovntdq ymmword ptr [edi+20h], ymm3
+              vmovntdq ymmword ptr [edi+40h], ymm2
+              vmovntdq ymmword ptr [edi+60h], ymm7
+            }
+          }
+          _EDI += 128;
+          v13 -= 32;
+          if ( v13 == 0 )
+            goto LABEL_20;
+          _ESI += 32;
+          _EBX += 32;
+          _EDX += 32;
+        }
+        if ( v13 >= 0x10 )
+        {
+          __asm
+          {
+            vmovdqu ymmword ptr [edi], ymm0
+            vmovdqu ymmword ptr [edi+20h], ymm3
+          }
+          _EDI += 64;
+          __asm
+          {
+            vmovdqa ymm0, ymm2
+            vmovdqa ymm3, ymm7
+          }
+          v13 -= 16;
+        }
+        if ( v13 >= 8 )
+        {
+          __asm { vmovdqu ymmword ptr [edi], ymm0 }
+          _EDI += 32;
+          __asm { vmovdqa ymm0, ymm3 }
+          v13 -= 8;
+        }
+        if ( v13 >= 4 )
+        {
+          __asm
+          {
+            vmovdqu xmmword ptr [edi], xmm0
+            vperm2i128 ymm0, ymm0, ymm0, 1
+          }
+          _EDI += 16;
+          v13 -= 4;
+        }
+        if ( v13 >= 2 )
+        {
+          __asm { vmovq   qword ptr [edi], xmm0 }
+          _EDI += 8;
+          v13 -= 2;
+          __asm { vpsrldq xmm0, xmm0, 8 }
+        }
+        if ( v13 != 0 )
+          __asm { vmovd   dword ptr [edi], xmm0 }
+LABEL_20:
+        v13 = retaddr;
+        v10 = (int *)(retaddr + 4);
+        v11 = (int *)(retaddr + 4);
+        v12 = (int *)(retaddr + 4);
+        a5 = (int *)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _mm_sfence();
+    }
+  }
+  __asm { vzeroupper }
+  return result;
+}
+
+// Address: 0x40C060
+int *__cdecl sub_40C060(int a1, int a2, _DWORD *a3, int a4, _WORD **a5, int a6)
+{
+  int *result; // eax
+  int *v10; // esi
+  int *v11; // ebx
+  int *v12; // edx
+  unsigned int v13; // ecx
+  unsigned int v116; // ecx
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  _EBP = &retaddr;
+  if ( a2 != 0 )
+  {
+    v10 = (int *)(*a3 + 4 * a4);
+    v11 = (int *)(a3[1] + 4 * a4);
+    v12 = (int *)(a3[2] + 4 * a4);
+    v13 = retaddr;
+    result = (int *)a6;
+    if ( a6 > 0 )
+    {
+      do
+      {
+        _ESI = *v10;
+        _EBX = *v11;
+        _EDX = *v12;
+        _EDI = *a5;
+        while ( 1 )
+        {
+          __asm
+          {
+            vmovdqu ymm5, ymmword ptr [ebx]
+            vmovdqu ymm1, ymmword ptr [edx]
+            vpcmpeqw ymm0, ymm0, ymm0
+            vpcmpeqw ymm7, ymm7, ymm7
+            vpsrlw  ymm0, ymm0, 8
+            vpsllw  ymm7, ymm7, 7
+            vpand   ymm4, ymm0, ymm5
+            vpsrlw  ymm5, ymm5, 8
+            vpand   ymm0, ymm0, ymm1
+            vpsrlw  ymm1, ymm1, 8
+            vpaddw  ymm2, ymm4, ymm7
+            vpaddw  ymm3, ymm5, ymm7
+            vpaddw  ymm6, ymm0, ymm7
+            vpaddw  ymm7, ymm1, ymm7
+            vpaddw  ymm4, ymm2, ymm2
+            vpaddw  ymm5, ymm3, ymm3
+            vpaddw  ymm0, ymm6, ymm6
+            vpaddw  ymm1, ymm7, ymm7
+            vpmulhw ymm4, ymm4, ds:ymmword_527D80
+            vpmulhw ymm5, ymm5, ds:ymmword_527D80
+            vpmulhw ymm0, ymm0, ds:ymmword_527D60
+            vpmulhw ymm1, ymm1, ds:ymmword_527D60
+            vpaddw  ymm4, ymm4, ds:ymmword_527DC0
+            vpaddw  ymm5, ymm5, ds:ymmword_527DC0
+            vpsraw  ymm4, ymm4, 1
+            vpsraw  ymm5, ymm5, 1
+            vpaddw  ymm0, ymm0, ds:ymmword_527DC0
+            vpaddw  ymm1, ymm1, ds:ymmword_527DC0
+            vpsraw  ymm0, ymm0, 1
+            vpsraw  ymm1, ymm1, 1
+            vpaddw  ymm4, ymm4, ymm2
+            vpaddw  ymm5, ymm5, ymm3
+            vpaddw  ymm4, ymm4, ymm2
+            vpaddw  ymm5, ymm5, ymm3
+            vpaddw  ymm0, ymm0, ymm6
+            vpaddw  ymm1, ymm1, ymm7
+            vmovdqa ymmword ptr [ebp-40h], ymm4
+            vmovdqa ymmword ptr [ebp-20h], ymm5
+            vpunpckhwd ymm4, ymm2, ymm6
+            vpunpcklwd ymm2, ymm2, ymm6
+            vpmaddwd ymm2, ymm2, ds:ymmword_527DA0
+            vpmaddwd ymm4, ymm4, ds:ymmword_527DA0
+            vpunpckhwd ymm5, ymm3, ymm7
+            vpunpcklwd ymm3, ymm3, ymm7
+            vpmaddwd ymm3, ymm3, ds:ymmword_527DA0
+            vpmaddwd ymm5, ymm5, ds:ymmword_527DA0
+            vpaddd  ymm2, ymm2, ds:ymmword_527DE0
+            vpaddd  ymm4, ymm4, ds:ymmword_527DE0
+            vpsrad  ymm2, ymm2, 10h
+            vpsrad  ymm4, ymm4, 10h
+            vpaddd  ymm3, ymm3, ds:ymmword_527DE0
+            vpaddd  ymm5, ymm5, ds:ymmword_527DE0
+            vpsrad  ymm3, ymm3, 10h
+            vpsrad  ymm5, ymm5, 10h
+            vpackssdw ymm2, ymm2, ymm4
+            vpackssdw ymm3, ymm3, ymm5
+            vpsubw  ymm2, ymm2, ymm6
+            vpsubw  ymm3, ymm3, ymm7
+            vmovdqu ymm5, ymmword ptr [esi]
+            vpcmpeqw ymm4, ymm4, ymm4
+            vpsrlw  ymm4, ymm4, 8
+            vpand   ymm4, ymm4, ymm5
+            vpsrlw  ymm5, ymm5, 8
+            vpaddw  ymm0, ymm0, ymm4
+            vpaddw  ymm1, ymm1, ymm5
+            vpackuswb ymm0, ymm0, ymm0
+            vpackuswb ymm1, ymm1, ymm1
+            vpaddw  ymm2, ymm2, ymm4
+            vpaddw  ymm3, ymm3, ymm5
+            vpackuswb ymm2, ymm2, ymm2
+            vpackuswb ymm3, ymm3, ymm3
+            vpaddw  ymm4, ymm4, ymmword ptr [ebp-40h]
+            vpaddw  ymm5, ymm5, ymmword ptr [ebp-20h]
+            vpackuswb ymm4, ymm4, ymm4
+            vpackuswb ymm5, ymm5, ymm5
+            vpunpcklbw ymm4, ymm4, ymm2
+            vpunpcklbw ymm0, ymm0, ymm5
+            vpunpcklbw ymm3, ymm3, ymm1
+            vpsrldq ymm7, ymm4, 2
+            vpunpckhwd ymm6, ymm4, ymm0
+            vpunpcklwd ymm4, ymm4, ymm0
+            vpsrldq ymm0, ymm0, 2
+            vpsrldq ymm5, ymm3, 2
+            vpunpckhwd ymm2, ymm3, ymm7
+            vpunpcklwd ymm3, ymm3, ymm7
+            vpunpckhwd ymm1, ymm0, ymm5
+            vpunpcklwd ymm0, ymm0, ymm5
+            vpshufd ymm7, ymm4, 4Eh ; 'N'
+            vpunpckldq ymm4, ymm4, ymm3
+            vpunpckhdq ymm3, ymm3, ymm0
+            vpunpckldq ymm0, ymm0, ymm7
+            vpshufd ymm7, ymm6, 4Eh ; 'N'
+            vpunpckldq ymm6, ymm6, ymm2
+            vpunpckhdq ymm2, ymm2, ymm1
+            vpunpckldq ymm1, ymm1, ymm7
+            vpunpcklqdq ymm7, ymm4, ymm0
+            vpunpcklqdq ymm6, ymm3, ymm6
+            vpunpcklqdq ymm2, ymm1, ymm2
+            vperm2i128 ymm4, ymm7, ymm6, 20h ; ' '
+            vperm2i128 ymm3, ymm2, ymm7, 30h ; '0'
+            vperm2i128 ymm1, ymm6, ymm2, 31h ; '1'
+          }
+          if ( v13 < 0x20 )
+            break;
+          if ( ((unsigned __int8)_EDI & 0x1F) != 0 )
+          {
+            __asm
+            {
+              vmovdqu ymmword ptr [edi], ymm4
+              vmovdqu ymmword ptr [edi+20h], ymm3
+              vmovdqu ymmword ptr [edi+40h], ymm1
+            }
+          }
+          else
+          {
+            __asm
+            {
+              vmovntdq ymmword ptr [edi], ymm4
+              vmovntdq ymmword ptr [edi+20h], ymm3
+              vmovntdq ymmword ptr [edi+40h], ymm1
+            }
+          }
+          _EDI += 48;
+          v13 -= 32;
+          if ( v13 == 0 )
+            goto LABEL_24;
+          _ESI += 32;
+          _EBX += 32;
+          _EDX += 32;
+        }
+        v116 = 3 * v13;
+        if ( v116 < 0x40 )
+        {
+          if ( v116 >= 0x20 )
+          {
+            __asm { vmovdqu ymmword ptr [edi], ymm4 }
+            _EDI += 16;
+            __asm { vmovdqa ymm4, ymm3 }
+            v116 -= 32;
+          }
+        }
+        else
+        {
+          __asm
+          {
+            vmovdqu ymmword ptr [edi], ymm4
+            vmovdqu ymmword ptr [edi+20h], ymm3
+          }
+          _EDI += 32;
+          __asm { vmovdqa ymm4, ymm1 }
+          v116 -= 64;
+        }
+        if ( v116 >= 0x10 )
+        {
+          __asm { vmovdqu xmmword ptr [edi], xmm4 }
+          _EDI += 8;
+          __asm { vperm2i128 ymm4, ymm4, ymm4, 1 }
+          v116 -= 16;
+        }
+        if ( v116 >= 8 )
+        {
+          __asm { vmovq   qword ptr [edi], xmm4 }
+          _EDI += 4;
+          v116 -= 8;
+          __asm { vpsrldq xmm4, xmm4, 8 }
+        }
+        if ( v116 >= 4 )
+        {
+          __asm { vmovd   dword ptr [edi], xmm4 }
+          _EDI += 2;
+          v116 -= 4;
+          __asm { vpsrldq xmm4, xmm4, 4 }
+        }
+        __asm { vmovd   eax, xmm4 }
+        if ( v116 >= 2 )
+        {
+          *_EDI++ = _EAX;
+          v116 -= 2;
+          _EAX >>= 16;
+        }
+        if ( v116 != 0 )
+          *(_BYTE *)_EDI = _EAX;
+LABEL_24:
+        v13 = retaddr;
+        v10 = (int *)(retaddr + 4);
+        v11 = (int *)(retaddr + 4);
+        v12 = (int *)(retaddr + 4);
+        a5 = (_WORD **)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _mm_sfence();
+    }
+  }
+  __asm { vzeroupper }
+  return result;
+}
+
+// Address: 0x40C3C0
+int *__cdecl sub_40C3C0(int a1, int a2, _DWORD *a3, int a4, int *a5, int a6)
+{
+  int *result; // eax
+  int *v10; // esi
+  int *v11; // ebx
+  int *v12; // edx
+  unsigned int v13; // ecx
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  _EBP = &retaddr;
+  if ( a2 != 0 )
+  {
+    v10 = (int *)(*a3 + 4 * a4);
+    v11 = (int *)(a3[1] + 4 * a4);
+    v12 = (int *)(a3[2] + 4 * a4);
+    v13 = retaddr;
+    result = (int *)a6;
+    if ( a6 > 0 )
+    {
+      do
+      {
+        _ESI = *v10;
+        _EBX = *v11;
+        _EDX = *v12;
+        _EDI = *a5;
+        while ( 1 )
+        {
+          __asm
+          {
+            vmovdqu ymm5, ymmword ptr [ebx]
+            vmovdqu ymm1, ymmword ptr [edx]
+            vpcmpeqw ymm0, ymm0, ymm0
+            vpcmpeqw ymm7, ymm7, ymm7
+            vpsrlw  ymm0, ymm0, 8
+            vpsllw  ymm7, ymm7, 7
+            vpand   ymm4, ymm0, ymm5
+            vpsrlw  ymm5, ymm5, 8
+            vpand   ymm0, ymm0, ymm1
+            vpsrlw  ymm1, ymm1, 8
+            vpaddw  ymm2, ymm4, ymm7
+            vpaddw  ymm3, ymm5, ymm7
+            vpaddw  ymm6, ymm0, ymm7
+            vpaddw  ymm7, ymm1, ymm7
+            vpaddw  ymm4, ymm2, ymm2
+            vpaddw  ymm5, ymm3, ymm3
+            vpaddw  ymm0, ymm6, ymm6
+            vpaddw  ymm1, ymm7, ymm7
+            vpmulhw ymm4, ymm4, ds:ymmword_527D80
+            vpmulhw ymm5, ymm5, ds:ymmword_527D80
+            vpmulhw ymm0, ymm0, ds:ymmword_527D60
+            vpmulhw ymm1, ymm1, ds:ymmword_527D60
+            vpaddw  ymm4, ymm4, ds:ymmword_527DC0
+            vpaddw  ymm5, ymm5, ds:ymmword_527DC0
+            vpsraw  ymm4, ymm4, 1
+            vpsraw  ymm5, ymm5, 1
+            vpaddw  ymm0, ymm0, ds:ymmword_527DC0
+            vpaddw  ymm1, ymm1, ds:ymmword_527DC0
+            vpsraw  ymm0, ymm0, 1
+            vpsraw  ymm1, ymm1, 1
+            vpaddw  ymm4, ymm4, ymm2
+            vpaddw  ymm5, ymm5, ymm3
+            vpaddw  ymm4, ymm4, ymm2
+            vpaddw  ymm5, ymm5, ymm3
+            vpaddw  ymm0, ymm0, ymm6
+            vpaddw  ymm1, ymm1, ymm7
+            vmovdqa ymmword ptr [ebp-40h], ymm4
+            vmovdqa ymmword ptr [ebp-20h], ymm5
+            vpunpckhwd ymm4, ymm2, ymm6
+            vpunpcklwd ymm2, ymm2, ymm6
+            vpmaddwd ymm2, ymm2, ds:ymmword_527DA0
+            vpmaddwd ymm4, ymm4, ds:ymmword_527DA0
+            vpunpckhwd ymm5, ymm3, ymm7
+            vpunpcklwd ymm3, ymm3, ymm7
+            vpmaddwd ymm3, ymm3, ds:ymmword_527DA0
+            vpmaddwd ymm5, ymm5, ds:ymmword_527DA0
+            vpaddd  ymm2, ymm2, ds:ymmword_527DE0
+            vpaddd  ymm4, ymm4, ds:ymmword_527DE0
+            vpsrad  ymm2, ymm2, 10h
+            vpsrad  ymm4, ymm4, 10h
+            vpaddd  ymm3, ymm3, ds:ymmword_527DE0
+            vpaddd  ymm5, ymm5, ds:ymmword_527DE0
+            vpsrad  ymm3, ymm3, 10h
+            vpsrad  ymm5, ymm5, 10h
+            vpackssdw ymm2, ymm2, ymm4
+            vpackssdw ymm3, ymm3, ymm5
+            vpsubw  ymm2, ymm2, ymm6
+            vpsubw  ymm3, ymm3, ymm7
+            vmovdqu ymm5, ymmword ptr [esi]
+            vpcmpeqw ymm4, ymm4, ymm4
+            vpsrlw  ymm4, ymm4, 8
+            vpand   ymm4, ymm4, ymm5
+            vpsrlw  ymm5, ymm5, 8
+            vpaddw  ymm0, ymm0, ymm4
+            vpaddw  ymm1, ymm1, ymm5
+            vpackuswb ymm0, ymm0, ymm0
+            vpackuswb ymm1, ymm1, ymm1
+            vpaddw  ymm2, ymm2, ymm4
+            vpaddw  ymm3, ymm3, ymm5
+            vpackuswb ymm2, ymm2, ymm2
+            vpackuswb ymm3, ymm3, ymm3
+            vpaddw  ymm4, ymm4, ymmword ptr [ebp-40h]
+            vpaddw  ymm5, ymm5, ymmword ptr [ebp-20h]
+            vpackuswb ymm4, ymm4, ymm4
+            vpackuswb ymm5, ymm5, ymm5
+            vpcmpeqb ymm6, ymm6, ymm6
+            vpcmpeqb ymm7, ymm7, ymm7
+            vpunpcklbw ymm4, ymm4, ymm2
+            vpunpcklbw ymm0, ymm0, ymm6
+            vpunpcklbw ymm5, ymm5, ymm3
+            vpunpcklbw ymm1, ymm1, ymm7
+            vpunpckhwd ymm2, ymm4, ymm0
+            vpunpcklwd ymm4, ymm4, ymm0
+            vpunpckhwd ymm6, ymm5, ymm1
+            vpunpcklwd ymm5, ymm5, ymm1
+            vpunpckhdq ymm0, ymm4, ymm5
+            vpunpckldq ymm5, ymm4, ymm5
+            vpunpckhdq ymm1, ymm2, ymm6
+            vpunpckldq ymm6, ymm2, ymm6
+            vperm2i128 ymm4, ymm5, ymm0, 20h ; ' '
+            vperm2i128 ymm3, ymm6, ymm1, 20h ; ' '
+            vperm2i128 ymm2, ymm5, ymm0, 31h ; '1'
+            vperm2i128 ymm7, ymm6, ymm1, 31h ; '1'
+          }
+          if ( v13 < 0x20 )
+            break;
+          if ( (_EDI & 0x1F) != 0 )
+          {
+            __asm
+            {
+              vmovdqu ymmword ptr [edi], ymm4
+              vmovdqu ymmword ptr [edi+20h], ymm3
+              vmovdqu ymmword ptr [edi+40h], ymm2
+              vmovdqu ymmword ptr [edi+60h], ymm7
+            }
+          }
+          else
+          {
+            __asm
+            {
+              vmovntdq ymmword ptr [edi], ymm4
+              vmovntdq ymmword ptr [edi+20h], ymm3
+              vmovntdq ymmword ptr [edi+40h], ymm2
+              vmovntdq ymmword ptr [edi+60h], ymm7
+            }
+          }
+          _EDI += 128;
+          v13 -= 32;
+          if ( v13 == 0 )
+            goto LABEL_20;
+          _ESI += 32;
+          _EBX += 32;
+          _EDX += 32;
+        }
+        if ( v13 >= 0x10 )
+        {
+          __asm
+          {
+            vmovdqu ymmword ptr [edi], ymm4
+            vmovdqu ymmword ptr [edi+20h], ymm3
+          }
+          _EDI += 64;
+          __asm
+          {
+            vmovdqa ymm4, ymm2
+            vmovdqa ymm3, ymm7
+          }
+          v13 -= 16;
+        }
+        if ( v13 >= 8 )
+        {
+          __asm { vmovdqu ymmword ptr [edi], ymm4 }
+          _EDI += 32;
+          __asm { vmovdqa ymm4, ymm3 }
+          v13 -= 8;
+        }
+        if ( v13 >= 4 )
+        {
+          __asm
+          {
+            vmovdqu xmmword ptr [edi], xmm4
+            vperm2i128 ymm4, ymm4, ymm4, 1
+          }
+          _EDI += 16;
+          v13 -= 4;
+        }
+        if ( v13 >= 2 )
+        {
+          __asm { vmovq   qword ptr [edi], xmm4 }
+          _EDI += 8;
+          v13 -= 2;
+          __asm { vpsrldq xmm4, xmm4, 8 }
+        }
+        if ( v13 != 0 )
+          __asm { vmovd   dword ptr [edi], xmm4 }
+LABEL_20:
+        v13 = retaddr;
+        v10 = (int *)(retaddr + 4);
+        v11 = (int *)(retaddr + 4);
+        v12 = (int *)(retaddr + 4);
+        a5 = (int *)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _mm_sfence();
+    }
+  }
+  __asm { vzeroupper }
+  return result;
+}
+
+// Address: 0x40C6C0
+int *__cdecl sub_40C6C0(int a1, int a2, _DWORD *a3, int a4, int *a5, int a6)
+{
+  int *result; // eax
+  int *v10; // esi
+  int *v11; // ebx
+  int *v12; // edx
+  unsigned int v13; // ecx
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  _EBP = &retaddr;
+  if ( a2 != 0 )
+  {
+    v10 = (int *)(*a3 + 4 * a4);
+    v11 = (int *)(a3[1] + 4 * a4);
+    v12 = (int *)(a3[2] + 4 * a4);
+    v13 = retaddr;
+    result = (int *)a6;
+    if ( a6 > 0 )
+    {
+      do
+      {
+        _ESI = *v10;
+        _EBX = *v11;
+        _EDX = *v12;
+        _EDI = *a5;
+        while ( 1 )
+        {
+          __asm
+          {
+            vmovdqu ymm5, ymmword ptr [ebx]
+            vmovdqu ymm1, ymmword ptr [edx]
+            vpcmpeqw ymm0, ymm0, ymm0
+            vpcmpeqw ymm7, ymm7, ymm7
+            vpsrlw  ymm0, ymm0, 8
+            vpsllw  ymm7, ymm7, 7
+            vpand   ymm4, ymm0, ymm5
+            vpsrlw  ymm5, ymm5, 8
+            vpand   ymm0, ymm0, ymm1
+            vpsrlw  ymm1, ymm1, 8
+            vpaddw  ymm2, ymm4, ymm7
+            vpaddw  ymm3, ymm5, ymm7
+            vpaddw  ymm6, ymm0, ymm7
+            vpaddw  ymm7, ymm1, ymm7
+            vpaddw  ymm4, ymm2, ymm2
+            vpaddw  ymm5, ymm3, ymm3
+            vpaddw  ymm0, ymm6, ymm6
+            vpaddw  ymm1, ymm7, ymm7
+            vpmulhw ymm4, ymm4, ds:ymmword_527D80
+            vpmulhw ymm5, ymm5, ds:ymmword_527D80
+            vpmulhw ymm0, ymm0, ds:ymmword_527D60
+            vpmulhw ymm1, ymm1, ds:ymmword_527D60
+            vpaddw  ymm4, ymm4, ds:ymmword_527DC0
+            vpaddw  ymm5, ymm5, ds:ymmword_527DC0
+            vpsraw  ymm4, ymm4, 1
+            vpsraw  ymm5, ymm5, 1
+            vpaddw  ymm0, ymm0, ds:ymmword_527DC0
+            vpaddw  ymm1, ymm1, ds:ymmword_527DC0
+            vpsraw  ymm0, ymm0, 1
+            vpsraw  ymm1, ymm1, 1
+            vpaddw  ymm4, ymm4, ymm2
+            vpaddw  ymm5, ymm5, ymm3
+            vpaddw  ymm4, ymm4, ymm2
+            vpaddw  ymm5, ymm5, ymm3
+            vpaddw  ymm0, ymm0, ymm6
+            vpaddw  ymm1, ymm1, ymm7
+            vmovdqa ymmword ptr [ebp-40h], ymm4
+            vmovdqa ymmword ptr [ebp-20h], ymm5
+            vpunpckhwd ymm4, ymm2, ymm6
+            vpunpcklwd ymm2, ymm2, ymm6
+            vpmaddwd ymm2, ymm2, ds:ymmword_527DA0
+            vpmaddwd ymm4, ymm4, ds:ymmword_527DA0
+            vpunpckhwd ymm5, ymm3, ymm7
+            vpunpcklwd ymm3, ymm3, ymm7
+            vpmaddwd ymm3, ymm3, ds:ymmword_527DA0
+            vpmaddwd ymm5, ymm5, ds:ymmword_527DA0
+            vpaddd  ymm2, ymm2, ds:ymmword_527DE0
+            vpaddd  ymm4, ymm4, ds:ymmword_527DE0
+            vpsrad  ymm2, ymm2, 10h
+            vpsrad  ymm4, ymm4, 10h
+            vpaddd  ymm3, ymm3, ds:ymmword_527DE0
+            vpaddd  ymm5, ymm5, ds:ymmword_527DE0
+            vpsrad  ymm3, ymm3, 10h
+            vpsrad  ymm5, ymm5, 10h
+            vpackssdw ymm2, ymm2, ymm4
+            vpackssdw ymm3, ymm3, ymm5
+            vpsubw  ymm2, ymm2, ymm6
+            vpsubw  ymm3, ymm3, ymm7
+            vmovdqu ymm5, ymmword ptr [esi]
+            vpcmpeqw ymm4, ymm4, ymm4
+            vpsrlw  ymm4, ymm4, 8
+            vpand   ymm4, ymm4, ymm5
+            vpsrlw  ymm5, ymm5, 8
+            vpaddw  ymm0, ymm0, ymm4
+            vpaddw  ymm1, ymm1, ymm5
+            vpackuswb ymm0, ymm0, ymm0
+            vpackuswb ymm1, ymm1, ymm1
+            vpaddw  ymm2, ymm2, ymm4
+            vpaddw  ymm3, ymm3, ymm5
+            vpackuswb ymm2, ymm2, ymm2
+            vpackuswb ymm3, ymm3, ymm3
+            vpaddw  ymm4, ymm4, ymmword ptr [ebp-40h]
+            vpaddw  ymm5, ymm5, ymmword ptr [ebp-20h]
+            vpackuswb ymm4, ymm4, ymm4
+            vpackuswb ymm5, ymm5, ymm5
+            vpcmpeqb ymm6, ymm6, ymm6
+            vpcmpeqb ymm7, ymm7, ymm7
+            vpunpcklbw ymm6, ymm6, ymm4
+            vpunpcklbw ymm2, ymm2, ymm0
+            vpunpcklbw ymm7, ymm7, ymm5
+            vpunpcklbw ymm3, ymm3, ymm1
+            vpunpckhwd ymm4, ymm6, ymm2
+            vpunpcklwd ymm6, ymm6, ymm2
+            vpunpckhwd ymm0, ymm7, ymm3
+            vpunpcklwd ymm7, ymm7, ymm3
+            vpunpckhdq ymm2, ymm6, ymm7
+            vpunpckldq ymm7, ymm6, ymm7
+            vpunpckhdq ymm3, ymm4, ymm0
+            vpunpckldq ymm0, ymm4, ymm0
+            vperm2i128 ymm6, ymm7, ymm2, 20h ; ' '
+            vperm2i128 ymm5, ymm0, ymm3, 20h ; ' '
+            vperm2i128 ymm4, ymm7, ymm2, 31h ; '1'
+            vperm2i128 ymm1, ymm0, ymm3, 31h ; '1'
+          }
+          if ( v13 < 0x20 )
+            break;
+          if ( (_EDI & 0x1F) != 0 )
+          {
+            __asm
+            {
+              vmovdqu ymmword ptr [edi], ymm6
+              vmovdqu ymmword ptr [edi+20h], ymm5
+              vmovdqu ymmword ptr [edi+40h], ymm4
+              vmovdqu ymmword ptr [edi+60h], ymm1
+            }
+          }
+          else
+          {
+            __asm
+            {
+              vmovntdq ymmword ptr [edi], ymm6
+              vmovntdq ymmword ptr [edi+20h], ymm5
+              vmovntdq ymmword ptr [edi+40h], ymm4
+              vmovntdq ymmword ptr [edi+60h], ymm1
+            }
+          }
+          _EDI += 128;
+          v13 -= 32;
+          if ( v13 == 0 )
+            goto LABEL_20;
+          _ESI += 32;
+          _EBX += 32;
+          _EDX += 32;
+        }
+        if ( v13 >= 0x10 )
+        {
+          __asm
+          {
+            vmovdqu ymmword ptr [edi], ymm6
+            vmovdqu ymmword ptr [edi+20h], ymm5
+          }
+          _EDI += 64;
+          __asm
+          {
+            vmovdqa ymm6, ymm4
+            vmovdqa ymm5, ymm1
+          }
+          v13 -= 16;
+        }
+        if ( v13 >= 8 )
+        {
+          __asm { vmovdqu ymmword ptr [edi], ymm6 }
+          _EDI += 32;
+          __asm { vmovdqa ymm6, ymm5 }
+          v13 -= 8;
+        }
+        if ( v13 >= 4 )
+        {
+          __asm
+          {
+            vmovdqu xmmword ptr [edi], xmm6
+            vperm2i128 ymm6, ymm6, ymm6, 1
+          }
+          _EDI += 16;
+          v13 -= 4;
+        }
+        if ( v13 >= 2 )
+        {
+          __asm { vmovq   qword ptr [edi], xmm6 }
+          _EDI += 8;
+          v13 -= 2;
+          __asm { vpsrldq xmm6, xmm6, 8 }
+        }
+        if ( v13 != 0 )
+          __asm { vmovd   dword ptr [edi], xmm6 }
+LABEL_20:
+        v13 = retaddr;
+        v10 = (int *)(retaddr + 4);
+        v11 = (int *)(retaddr + 4);
+        v12 = (int *)(retaddr + 4);
+        a5 = (int *)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
+      _mm_sfence();
+    }
+  }
+  __asm { vzeroupper }
+  return result;
+}
+
+// Address: 0x40C9C0
+int *__cdecl sub_40C9C0(int a1, int a2, _DWORD *a3, int a4, int *a5, int a6)
+{
+  int *result; // eax
+  int *v10; // esi
+  int *v11; // ebx
+  int *v12; // edx
+  unsigned int v13; // ecx
+  int retaddr; // [esp+8h] [ebp+0h] BYREF
+
+  result = &retaddr;
+  retaddr = (int)&retaddr;
+  _EBP = &retaddr;
+  if ( a2 != 0 )
+  {
+    v10 = (int *)(*a3 + 4 * a4);
+    v11 = (int *)(a3[1] + 4 * a4);
+    v12 = (int *)(a3[2] + 4 * a4);
+    v13 = retaddr;
+    result = (int *)a6;
+    if ( a6 > 0 )
+    {
+      do
+      {
+        _ESI = *v10;
+        _EBX = *v11;
+        _EDX = *v12;
+        _EDI = *a5;
+        while ( 1 )
+        {
+          __asm
+          {
+            vmovdqu ymm5, ymmword ptr [ebx]
+            vmovdqu ymm1, ymmword ptr [edx]
+            vpcmpeqw ymm0, ymm0, ymm0
+            vpcmpeqw ymm7, ymm7, ymm7
+            vpsrlw  ymm0, ymm0, 8
+            vpsllw  ymm7, ymm7, 7
+            vpand   ymm4, ymm0, ymm5
+            vpsrlw  ymm5, ymm5, 8
+            vpand   ymm0, ymm0, ymm1
+            vpsrlw  ymm1, ymm1, 8
+            vpaddw  ymm2, ymm4, ymm7
+            vpaddw  ymm3, ymm5, ymm7
+            vpaddw  ymm6, ymm0, ymm7
+            vpaddw  ymm7, ymm1, ymm7
+            vpaddw  ymm4, ymm2, ymm2
+            vpaddw  ymm5, ymm3, ymm3
+            vpaddw  ymm0, ymm6, ymm6
+            vpaddw  ymm1, ymm7, ymm7
+            vpmulhw ymm4, ymm4, ds:ymmword_527D80
+            vpmulhw ymm5, ymm5, ds:ymmword_527D80
+            vpmulhw ymm0, ymm0, ds:ymmword_527D60
+            vpmulhw ymm1, ymm1, ds:ymmword_527D60
+            vpaddw  ymm4, ymm4, ds:ymmword_527DC0
+            vpaddw  ymm5, ymm5, ds:ymmword_527DC0
+            vpsraw  ymm4, ymm4, 1
+            vpsraw  ymm5, ymm5, 1
+            vpaddw  ymm0, ymm0, ds:ymmword_527DC0
+            vpaddw  ymm1, ymm1, ds:ymmword_527DC0
+            vpsraw  ymm0, ymm0, 1
+            vpsraw  ymm1, ymm1, 1
+            vpaddw  ymm4, ymm4, ymm2
+            vpaddw  ymm5, ymm5, ymm3
+            vpaddw  ymm4, ymm4, ymm2
+            vpaddw  ymm5, ymm5, ymm3
+            vpaddw  ymm0, ymm0, ymm6
+            vpaddw  ymm1, ymm1, ymm7
+            vmovdqa ymmword ptr [ebp-40h], ymm4
+            vmovdqa ymmword ptr [ebp-20h], ymm5
+            vpunpckhwd ymm4, ymm2, ymm6
+            vpunpcklwd ymm2, ymm2, ymm6
+            vpmaddwd ymm2, ymm2, ds:ymmword_527DA0
+            vpmaddwd ymm4, ymm4, ds:ymmword_527DA0
+            vpunpckhwd ymm5, ymm3, ymm7
+            vpunpcklwd ymm3, ymm3, ymm7
+            vpmaddwd ymm3, ymm3, ds:ymmword_527DA0
+            vpmaddwd ymm5, ymm5, ds:ymmword_527DA0
+            vpaddd  ymm2, ymm2, ds:ymmword_527DE0
+            vpaddd  ymm4, ymm4, ds:ymmword_527DE0
+            vpsrad  ymm2, ymm2, 10h
+            vpsrad  ymm4, ymm4, 10h
+            vpaddd  ymm3, ymm3, ds:ymmword_527DE0
+            vpaddd  ymm5, ymm5, ds:ymmword_527DE0
+            vpsrad  ymm3, ymm3, 10h
+            vpsrad  ymm5, ymm5, 10h
+            vpackssdw ymm2, ymm2, ymm4
+            vpackssdw ymm3, ymm3, ymm5
+            vpsubw  ymm2, ymm2, ymm6
+            vpsubw  ymm3, ymm3, ymm7
+            vmovdqu ymm5, ymmword ptr [esi]
+            vpcmpeqw ymm4, ymm4, ymm4
+            vpsrlw  ymm4, ymm4, 8
+            vpand   ymm4, ymm4, ymm5
+            vpsrlw  ymm5, ymm5, 8
+            vpaddw  ymm0, ymm0, ymm4
+            vpaddw  ymm1, ymm1, ymm5
+            vpackuswb ymm0, ymm0, ymm0
+            vpackuswb ymm1, ymm1, ymm1
+            vpaddw  ymm2, ymm2, ymm4
+            vpaddw  ymm3, ymm3, ymm5
+            vpackuswb ymm2, ymm2, ymm2
+            vpackuswb ymm3, ymm3, ymm3
+            vpaddw  ymm4, ymm4, ymmword ptr [ebp-40h]
+            vpaddw  ymm5, ymm5, ymmword ptr [ebp-20h]
+            vpackuswb ymm4, ymm4, ymm4
+            vpackuswb ymm5, ymm5, ymm5
+            vpcmpeqb ymm6, ymm6, ymm6
+            vpcmpeqb ymm7, ymm7, ymm7
+            vpunpcklbw ymm6, ymm6, ymm0
+            vpunpcklbw ymm2, ymm2, ymm4
+            vpunpcklbw ymm7, ymm7, ymm1
+            vpunpcklbw ymm3, ymm3, ymm5
+            vpunpckhwd ymm0, ymm6, ymm2
+            vpunpcklwd ymm6, ymm6, ymm2
+            vpunpckhwd ymm4, ymm7, ymm3
+            vpunpcklwd ymm7, ymm7, ymm3
+            vpunpckhdq ymm2, ymm6, ymm7
+            vpunpckldq ymm7, ymm6, ymm7
+            vpunpckhdq ymm3, ymm0, ymm4
+            vpunpckldq ymm4, ymm0, ymm4
+            vperm2i128 ymm6, ymm7, ymm2, 20h ; ' '
+            vperm2i128 ymm1, ymm4, ymm3, 20h ; ' '
+            vperm2i128 ymm0, ymm7, ymm2, 31h ; '1'
+            vperm2i128 ymm5, ymm4, ymm3, 31h ; '1'
+          }
+          if ( v13 < 0x20 )
+            break;
+          if ( (_EDI & 0x1F) != 0 )
+          {
+            __asm
+            {
+              vmovdqu ymmword ptr [edi], ymm6
+              vmovdqu ymmword ptr [edi+20h], ymm1
+              vmovdqu ymmword ptr [edi+40h], ymm0
+              vmovdqu ymmword ptr [edi+60h], ymm5
+            }
+          }
+          else
+          {
+            __asm
+            {
+              vmovntdq ymmword ptr [edi], ymm6
+              vmovntdq ymmword ptr [edi+20h], ymm1
+              vmovntdq ymmword ptr [edi+40h], ymm0
+              vmovntdq ymmword ptr [edi+60h], ymm5
+            }
+          }
+          _EDI += 128;
+          v13 -= 32;
+          if ( v13 == 0 )
+            goto LABEL_20;
+          _ESI += 32;
+          _EBX += 32;
+          _EDX += 32;
+        }
+        if ( v13 >= 0x10 )
+        {
+          __asm
+          {
+            vmovdqu ymmword ptr [edi], ymm6
+            vmovdqu ymmword ptr [edi+20h], ymm1
+          }
+          _EDI += 64;
+          __asm
+          {
+            vmovdqa ymm6, ymm0
+            vmovdqa ymm1, ymm5
+          }
+          v13 -= 16;
+        }
+        if ( v13 >= 8 )
+        {
+          __asm { vmovdqu ymmword ptr [edi], ymm6 }
+          _EDI += 32;
+          __asm { vmovdqa ymm6, ymm1 }
+          v13 -= 8;
+        }
+        if ( v13 >= 4 )
+        {
+          __asm
+          {
+            vmovdqu xmmword ptr [edi], xmm6
+            vperm2i128 ymm6, ymm6, ymm6, 1
+          }
+          _EDI += 16;
+          v13 -= 4;
+        }
+        if ( v13 >= 2 )
+        {
+          __asm { vmovq   qword ptr [edi], xmm6 }
+          _EDI += 8;
+          v13 -= 2;
+          __asm { vpsrldq xmm6, xmm6, 8 }
+        }
+        if ( v13 != 0 )
+          __asm { vmovd   dword ptr [edi], xmm6 }
+LABEL_20:
+        v13 = retaddr;
+        v10 = (int *)(retaddr + 4);
+        v11 = (int *)(retaddr + 4);
+        v12 = (int *)(retaddr + 4);
+        a5 = (int *)(retaddr + 4);
+        result = (int *)(retaddr - 1);
+      }
+      while ( retaddr > 1 );
       _mm_sfence();
     }
   }
@@ -12252,8 +16158,8 @@ void __thiscall sub_41CE00(int this, int a2)
 BOOL __thiscall sub_41CEA0(int this, HWND hWnd, int a3, int a4, int a5, int a6)
 {
   char v7; // al
+  int SystemMetrics_0; // ecx
   int SystemMetrics; // ecx
-  int v9; // ecx
 
   if ( *(_BYTE *)(this + 37424) != 0 )
     v7 = *(_BYTE *)(this + 20845) == 0;
@@ -12274,29 +16180,29 @@ BOOL __thiscall sub_41CEA0(int this, HWND hWnd, int a3, int a4, int a5, int a6)
     {
       if ( *(_BYTE *)(this + 19941) != 0 )
       {
-        if ( sub_509CC0() != 0 )
-          SystemMetrics = dword_5614E4(21);
+        if ( sub_509CC0() )
+          SystemMetrics_0 = GetSystemMetrics_0(21);
         else
-          SystemMetrics = GetSystemMetrics(21);
+          SystemMetrics_0 = GetSystemMetrics(21);
       }
       else
       {
-        SystemMetrics = 0;
+        SystemMetrics_0 = 0;
       }
-      *(_BYTE *)(this + 19940) = *(_DWORD *)(this + 19932) < SystemMetrics + *(_DWORD *)(this + 19976);
+      *(_BYTE *)(this + 19940) = *(_DWORD *)(this + 19932) < SystemMetrics_0 + *(_DWORD *)(this + 19976);
     }
     if ( *(_BYTE *)(this + 19940) != 0 )
     {
-      if ( sub_509CC0() != 0 )
-        v9 = dword_5614E4(2);
+      if ( sub_509CC0() )
+        SystemMetrics = GetSystemMetrics_0(2);
       else
-        v9 = GetSystemMetrics(2);
+        SystemMetrics = GetSystemMetrics(2);
     }
     else
     {
-      v9 = 0;
+      SystemMetrics = 0;
     }
-    *(_BYTE *)(this + 19941) = *(_DWORD *)(this + 19936) < a6 + v9 + *(_DWORD *)(this + 19980) - a4;
+    *(_BYTE *)(this + 19941) = *(_DWORD *)(this + 19936) < a6 + SystemMetrics + *(_DWORD *)(this + 19980) - a4;
   }
   ShowScrollBar(hWnd, 0, *(unsigned __int8 *)(this + 19940));
   return ShowScrollBar(hWnd, 1, *(unsigned __int8 *)(this + 19941));
@@ -133329,7 +137235,7 @@ LABEL_33:
     goto LABEL_33;
   }
 LABEL_34:
-  v28 = (const char *)&unk_54407A;
+  v28 = (const char *)&MEMORY[0x54407A];
   if ( (*(_BYTE *)(v2 + 67904) & 1) == 0 )
     v28 = "not ";
   v29 = sub_4981F0(v2 + 2268, (int)"  file security status:                             %sencrypted\n", (int)v28);
@@ -176156,6 +180062,142 @@ size_t __cdecl strcspn(const char *Str, const char *Control)
   return v5;
 }
 
+// Address: 0x4CBEE0
+// positive sp value has been detected, the output may be wrong!
+double __cdecl pow(double X, double Y)
+{
+  int v2; // ecx
+  __m128d v3; // xmm0
+  __m128d v4; // xmm1
+  __m128d v5; // xmm2
+  __m128d v6; // xmm3
+  __m128d v7; // xmm4
+  __m128d v8; // xmm5
+  __m128d v9; // xmm7
+  int v10; // eax
+  bool v11; // zf
+  double result; // st7
+  int v13; // eax
+  double v14; // st7
+  int v15; // ecx
+  int v16; // ecx
+  int v17; // eax
+  char v19; // cl
+  int v20; // ecx
+  int v21; // ecx
+  double v23; // rt0
+  char v24; // c3
+  int v25; // eax
+  unsigned __int8 v27; // cl
+  unsigned __int8 v28; // ch
+  char v29; // cl
+  double *v30; // [esp+Ch] [ebp-80h]
+  double *v31; // [esp+Ch] [ebp-80h]
+  double v32[13]; // [esp+10h] [ebp-7Ch] BYREF
+  char v33; // [esp+80h] [ebp-Ch]
+  int v34; // [esp+84h] [ebp-8h]
+  unsigned int retaddr; // [esp+8Ch] [ebp+0h] BYREF
+
+  if ( dword_5814C8 != 0 )
+  {
+    v10 = _mm_getcsr() & 0x7F80;
+    v11 = v10 == 8064;
+    if ( v10 == 8064 )
+      v11 = (v33 & 0x7F) == 127;
+    if ( v11 )
+      return _pow_pentium4(v3, v4, v5, v6, v7, v8, v9, X, Y);
+  }
+  v14 = _fload_withFB(v2, (_DWORD *)&X + 1);
+  v15 = v13;
+  v34 = v13;
+  if ( (_WORD)v13 != 639 )
+    _load_CW();
+  v16 = v15 & 0x7FF00000;
+  if ( v16 == 2146435072 )
+  {
+    if ( (HIDWORD(X) | v13 & 0xFFFFF) != 0 )
+    {
+      _ST6 = _fload_withFB(0, &X);
+      if ( 1.0 == _ST6 )
+        return 1.0;
+      v21 = v20 + 1;
+    }
+    else
+    {
+      _ST6 = _fload_withFB(0, &retaddr);
+    }
+test_base:
+    if ( (LODWORD(X) & 0x7FF00000) != 0x7FF00000 || (retaddr | LODWORD(X) & 0xFFFFF) == 0 )
+    {
+      if ( v21 == 0 )
+      {
+        v30 = v32;
+        __asm { fsave   byte ptr [ecx+8] }
+        v25 = _powhlp(_ST6, v14, v32);
+        _ECX = v31;
+        __asm { frstor  byte ptr [ecx+8] }
+        result = *v31;
+        if ( v25 == 0 )
+          return result;
+        goto _ErrorHandling;
+      }
+      return v14 + _ST6;
+    }
+    v23 = _ST6;
+    _ST6 = v14;
+    v14 = v23;
+    __asm { fxam }
+    if ( v24 == 0 )
+      return v14 + _ST6;
+    return 1.0;
+  }
+  _ST6 = _fload_withFB(v16, &retaddr);
+  if ( v11 )
+  {
+    v21 = 0;
+    goto test_base;
+  }
+  if ( (v17 & 0x7FF00000) != 0 || (retaddr | LODWORD(X) & 0xFFFFF) != 0 )
+  {
+    if ( SBYTE3(X) < 0 )
+    {
+      test_whether_TOS_is_int(v14);
+      _ST6 = -_ST6;
+      if ( v29 == 0 )
+      {
+        result = -2.0;
+_ErrorHandling:
+        if ( dword_5613D4 == 0 )
+          _startTwoArgErrorHandling();
+        return result;
+      }
+    }
+    result = _twoToTOS(__FYL2X__(_ST6, v14));
+    if ( v19 == 1 )
+      result = -result;
+    if ( dword_5613D4 == 0 )
+      ((void (__fastcall *)(void *, int))_check_range_exit)(&unk_53A9F0, 29);
+  }
+  else
+  {
+    if ( (HIDWORD(X) | LODWORD(Y) & 0x7FFFFFFF) == 0 )
+      return 1.0;
+    test_whether_TOS_is_int(v14);
+    v28 = BYTE3(X) >> 7;
+    if ( (BYTE3(Y) & 0x80) != 0 )
+    {
+      result = -0.0;
+      if ( (v27 & v28) != 0 )
+        result = --0.0;
+      goto _ErrorHandling;
+    }
+    result = 0.0;
+    if ( (v27 & v28) != 0 )
+      return -0.0;
+  }
+  return result;
+}
+
 // Address: 0x4CC141
 void __usercall test_whether_TOS_is_int(long double a1@<st0>)
 {
@@ -183737,19 +187779,19 @@ int (__stdcall *__cdecl try_get_EnumSystemLocalesEx())()
 // Address: 0x4D37F6
 int (__stdcall *__cdecl try_get_InitializeCriticalSectionEx())()
 {
-  return try_get_function(8, "GetDateFormatEx", &unk_53B3F8, "GetDateFormatEx");
+  return try_get_function(8, "GetDateFormatEx", &dword_53B3F8, "GetDateFormatEx");
 }
 
 // Address: 0x4D3810
 int (__stdcall *sub_4D3810())()
 {
-  return try_get_function(11, "GetLocaleInfoEx", &unk_53B410, &unk_53B418);
+  return try_get_function(11, "GetLocaleInfoEx", &unk_53B410, &dword_53B418);
 }
 
 // Address: 0x4D382A
 int (__stdcall *sub_4D382A())()
 {
-  return try_get_function(14, "GetTimeFormatEx", &unk_53B41C, "GetTimeFormatEx");
+  return try_get_function(14, "GetTimeFormatEx", &dword_53B41C, "GetTimeFormatEx");
 }
 
 // Address: 0x4D3844
@@ -183761,7 +187803,7 @@ int (__stdcall *sub_4D3844())()
 // Address: 0x4D385E
 int (__stdcall *sub_4D385E())()
 {
-  return try_get_function(19, "IsValidLocaleName", &unk_53B460, "IsValidLocaleName");
+  return try_get_function(19, "IsValidLocaleName", &dword_53B460, "IsValidLocaleName");
 }
 
 // Address: 0x4D3878
@@ -183829,7 +187871,7 @@ FARPROC __cdecl try_get_function(int a1, const CHAR *lpProcName, _DWORD *a3, _DW
   FARPROC ProcAddress; // eax
   FARPROC v9; // esi
 
-  v4 = (volatile __int32 *)((char *)&unk_5612F0 + 4 * a1);
+  v4 = (volatile __int32 *)((char *)&dword_5612F0 + 4 * a1);
   v5 = __ROR4__(*v4 ^ __security_cookie, __security_cookie & 0x1F);
   if ( v5 == -1 )
     return nullptr;
@@ -187049,11 +191091,11 @@ void (__cdecl **__cdecl get_global_action_nolock(int a1))(int)
   switch ( a1 )
   {
     case 2:
-      return (void (__cdecl **)(int))&unk_5613C0;
+      return (void (__cdecl **)(int))&dword_5613C0;
     case 6:
       return (void (__cdecl **)(int))&dword_5613C8;
     case 15:
-      return (void (__cdecl **)(int))&unk_5613CC;
+      return (void (__cdecl **)(int))&dword_5613CC;
     default:
       break;
   }
@@ -187063,7 +191105,7 @@ void (__cdecl **__cdecl get_global_action_nolock(int a1))(int)
       return nullptr;
     return (void (__cdecl **)(int))&dword_5613C8;
   }
-  return (void (__cdecl **)(int))&unk_5613C4;
+  return (void (__cdecl **)(int))&dword_5613C4;
 }
 
 // Address: 0x4D6CBA
@@ -191540,26 +195582,22 @@ void _startTwoArgErrorHandling()
 }
 
 // Address: 0x4DBB97
-double __usercall _startOneArgErrorHandling@<st0>(
-        int a1@<eax>,
-        int a2@<edx>,
-        int a3@<ecx>,
-        double a4@<st0>,
-        __int16 a5,
-        int a6,
-        int a7,
-        int a8)
+double __usercall _startOneArgErrorHandling@<st0>(int a1@<eax>, int a2@<edx>, int a3@<ecx>, double a4@<st0>)
 {
-  _DWORD v9[6]; // [esp+0h] [ebp-20h] BYREF
-  double v10; // [esp+18h] [ebp-8h]
+  _DWORD v5[6]; // [esp+0h] [ebp-20h] BYREF
+  double v6; // [esp+18h] [ebp-8h]
+  int savedregs; // [esp+20h] [ebp+0h] BYREF
+  __int16 v8[4]; // [esp+28h] [ebp+8h] BYREF
+  int v9; // [esp+30h] [ebp+10h]
+  int v10; // [esp+34h] [ebp+14h]
 
-  v9[0] = a1;
-  v10 = a4;
-  v9[1] = a3;
-  v9[2] = a7;
-  v9[3] = a8;
-  _87except(a2, v9, &a5);
-  return v10;
+  v5[0] = a1;
+  v6 = a4;
+  v5[1] = a3;
+  v5[2] = v9;
+  v5[3] = v10;
+  _87except((int)&savedregs, a2, (int)v5, v8);
+  return v6;
 }
 
 // Address: 0x4DBBE0
@@ -191611,6 +195649,44 @@ int __cdecl _checkTOS_withFB(int a1, int a2)
 void _check_overflow_exit()
 {
   JUMPOUT(0x4DBCDD);
+}
+
+// Address: 0x4DBCC9
+// positive sp value has been detected, the output may be wrong!
+double __usercall _check_range_exit@<st0>(int a1@<edx>, int a2@<ecx>, double result@<st0>)
+{
+  char v3; // fps
+  int v4; // eax
+  double v5; // [esp-4h] [ebp-Ch]
+  __int16 v6; // [esp+4h] [ebp-4h]
+
+  v5 = result;
+  if ( (HIDWORD(v5) & 0x7FF00000) == 0 )
+  {
+    result = __FSCALE__(result, 1536.0);
+    v4 = 4;
+    if ( fabs(result) < 2.225073858507201e-308 )
+      result = result * 0.0;
+    goto have_error;
+  }
+  if ( (HIDWORD(v5) & 0x7FF00000) == 0x7FF00000 )
+  {
+    result = __FSCALE__(result, -1536.0);
+    v4 = 3;
+    if ( fabs(result) > 1.797693134862316e308 )
+      result = result * INFINITY;
+    goto have_error;
+  }
+  if ( v6 != 639 && (v6 & 0x20) == 0 && (v3 & 0x20) != 0 )
+  {
+    v4 = 8;
+have_error:
+    if ( a1 == 29 )
+      _startTwoArgErrorHandling();
+    else
+      return _startOneArgErrorHandling(v4, a1, a2, result);
+  }
+  return result;
 }
 
 // Address: 0x4DBD6C
@@ -194265,6 +198341,59 @@ __CIlog10_default:
   return x;
 }
 
+// Address: 0x4DE888
+long double __usercall start_1@<st0>(
+        char a1@<zf>,
+        int a2@<eax>,
+        __int16 a3@<dx>,
+        char a4@<fpstat>,
+        long double result@<st0>,
+        int a6,
+        int a7)
+{
+  int v7; // eax
+
+  if ( a1 )
+  {
+    if ( (a2 & 0xFFFFF) != 0 || a6 != 0 )
+    {
+      result = _convertTOStoQNaN(a2, result);
+      goto _ErrorHandling_0;
+    }
+    if ( (a2 & 0x80000000) == 0 )
+      goto exit_1;
+negative_x:
+    result = -2.0;
+    v7 = 1;
+    goto _ErrorHandling_0;
+  }
+  if ( (a7 & 0x7FF00000) != 0 )
+  {
+    if ( a7 >= 0 )
+    {
+normal_0:
+      result = __FYL2X__(result, 0.3010299956639811952);
+exit_1:
+      if ( dword_5613D4 == 0 && a3 != 639 && (a3 & 0x20) != 0 && (a4 & 0x20) != 0 )
+        return _startOneArgErrorHandling(8, 27, (int)"log10", result);
+      return result;
+    }
+    goto negative_x;
+  }
+  if ( (a7 & 0xFFFFF) != 0 || a6 != 0 )
+  {
+    if ( a7 >= 0 )
+      goto normal_0;
+    goto negative_x;
+  }
+  result = -0.0;
+  v7 = 2;
+_ErrorHandling_0:
+  if ( dword_5613D4 == 0 )
+    return _startOneArgErrorHandling(v7, 27, (int)"log10", result);
+  return result;
+}
+
 // Address: 0x4DE940
 double __cdecl ceil(double X)
 {
@@ -195590,8 +199719,8 @@ int __thiscall sub_4E01F0(int this)
 char __thiscall sub_4E0290(int this, HWND hWnd)
 {
   int v3; // eax
-  int SystemMetrics; // edi
-  int v5; // ebx
+  int SystemMetrics_0; // edi
+  int SystemMetrics; // ebx
   int v6; // ecx
   LONG right; // edx
   int v8; // eax
@@ -195616,35 +199745,35 @@ char __thiscall sub_4E0290(int this, HWND hWnd)
       GetWindowRect(hWnd, &Rect);
       if ( *(_BYTE *)(this + 19940) != 0 )
       {
-        if ( sub_509CC0() != 0 )
-          SystemMetrics = dword_5614E4(3);
+        if ( sub_509CC0() )
+          SystemMetrics_0 = GetSystemMetrics_0(3);
         else
-          SystemMetrics = GetSystemMetrics(3);
+          SystemMetrics_0 = GetSystemMetrics(3);
+      }
+      else
+      {
+        SystemMetrics_0 = 0;
+      }
+      if ( *(_BYTE *)(this + 19941) != 0 )
+      {
+        if ( sub_509CC0() )
+          SystemMetrics = GetSystemMetrics_0(2);
+        else
+          SystemMetrics = GetSystemMetrics(2);
       }
       else
       {
         SystemMetrics = 0;
       }
-      if ( *(_BYTE *)(this + 19941) != 0 )
-      {
-        if ( sub_509CC0() != 0 )
-          v5 = dword_5614E4(2);
-        else
-          v5 = GetSystemMetrics(2);
-      }
-      else
-      {
-        v5 = 0;
-      }
       v6 = *(_DWORD *)(this + 19976);
       right = Rect.right;
-      if ( Rect.right >= v5 + v6 + Rect.left + 1 )
-        right = v5 + v6 + Rect.left + 1;
+      if ( Rect.right >= SystemMetrics + v6 + Rect.left + 1 )
+        right = SystemMetrics + v6 + Rect.left + 1;
       Rect.right = right;
       v8 = right - v6;
       v16 = right;
       left = Rect.left;
-      v10 = v8 - v5;
+      v10 = v8 - SystemMetrics;
       v11 = *(_DWORD *)(this + 19980);
       top = Rect.top;
       if ( Rect.left <= v10 )
@@ -195654,29 +199783,29 @@ char __thiscall sub_4E0290(int this, HWND hWnd)
       bottom = Rect.bottom;
       if ( *(_BYTE *)(v13 + 801) != 0 )
       {
-        if ( Rect.top > Rect.bottom - *(_DWORD *)(this + 624) - v11 - SystemMetrics )
+        if ( Rect.top > Rect.bottom - *(_DWORD *)(this + 624) - v11 - SystemMetrics_0 )
           goto LABEL_26;
-        top = Rect.bottom - *(_DWORD *)(this + 624) - v11 - SystemMetrics;
+        top = Rect.bottom - *(_DWORD *)(this + 624) - v11 - SystemMetrics_0;
       }
-      else if ( Rect.top <= Rect.bottom - v11 - SystemMetrics )
+      else if ( Rect.top <= Rect.bottom - v11 - SystemMetrics_0 )
       {
-        top = Rect.bottom - v11 - SystemMetrics;
+        top = Rect.bottom - v11 - SystemMetrics_0;
       }
       Rect.top = top;
 LABEL_26:
       if ( *(_BYTE *)(*(_DWORD *)(this + 37420) + 801) != 0 )
       {
-        if ( Rect.bottom < SystemMetrics + top + v11 + *(_DWORD *)(this + 624) )
+        if ( Rect.bottom < SystemMetrics_0 + top + v11 + *(_DWORD *)(this + 624) )
         {
 LABEL_32:
           LOBYTE(v3) = SetWindowPos(hWnd, nullptr, Rect.left, top, v16 - Rect.left, bottom - top, 6u);
           return v3;
         }
-        bottom = SystemMetrics + top + v11 + *(_DWORD *)(this + 624);
+        bottom = SystemMetrics_0 + top + v11 + *(_DWORD *)(this + 624);
       }
-      else if ( Rect.bottom >= SystemMetrics + v11 + top )
+      else if ( Rect.bottom >= SystemMetrics_0 + v11 + top )
       {
-        bottom = SystemMetrics + v11 + top;
+        bottom = SystemMetrics_0 + v11 + top;
       }
       Rect.bottom = bottom;
       goto LABEL_32;
@@ -195688,8 +199817,8 @@ LABEL_32:
 // Address: 0x4E0410
 int __thiscall sub_4E0410(int this, int a2, int *a3)
 {
-  int SystemMetrics; // edi
-  int v5; // ebx
+  int SystemMetrics_0; // edi
+  int SystemMetrics; // ebx
   int v6; // ecx
   int v7; // ecx
   int result; // eax
@@ -195700,32 +199829,32 @@ int __thiscall sub_4E0410(int this, int a2, int *a3)
 
   if ( *(_BYTE *)(this + 19940) != 0 )
   {
-    if ( sub_509CC0() != 0 )
-      SystemMetrics = dword_5614E4(3);
+    if ( sub_509CC0() )
+      SystemMetrics_0 = GetSystemMetrics_0(3);
     else
-      SystemMetrics = GetSystemMetrics(3);
+      SystemMetrics_0 = GetSystemMetrics(3);
+  }
+  else
+  {
+    SystemMetrics_0 = 0;
+  }
+  if ( *(_BYTE *)(this + 19941) != 0 )
+  {
+    if ( sub_509CC0() )
+      SystemMetrics = GetSystemMetrics_0(2);
+    else
+      SystemMetrics = GetSystemMetrics(2);
   }
   else
   {
     SystemMetrics = 0;
-  }
-  if ( *(_BYTE *)(this + 19941) != 0 )
-  {
-    if ( sub_509CC0() != 0 )
-      v5 = dword_5614E4(2);
-    else
-      v5 = GetSystemMetrics(2);
-  }
-  else
-  {
-    v5 = 0;
   }
   switch ( a2 )
   {
     case 1:
     case 4:
     case 7:
-      v7 = a3[2] - *(_DWORD *)(this + 19976) - v5;
+      v7 = a3[2] - *(_DWORD *)(this + 19976) - SystemMetrics;
       if ( *a3 > v7 )
         v7 = *a3;
       *a3 = v7;
@@ -195733,7 +199862,7 @@ int __thiscall sub_4E0410(int this, int a2, int *a3)
     case 2:
     case 5:
     case 8:
-      v6 = v5 + *a3 + *(_DWORD *)(this + 19976) + 1;
+      v6 = SystemMetrics + *a3 + *(_DWORD *)(this + 19976) + 1;
       if ( a3[2] < v6 )
         v6 = a3[2];
       a3[2] = v6;
@@ -195751,7 +199880,7 @@ int __thiscall sub_4E0410(int this, int a2, int *a3)
       v9 = a3[3] - *(_DWORD *)(this + 19980);
       if ( *(_BYTE *)(result + 801) != 0 )
         v9 -= *(_DWORD *)(this + 624);
-      v10 = v9 - SystemMetrics;
+      v10 = v9 - SystemMetrics_0;
       if ( a3[1] > v10 )
         v10 = a3[1];
       a3[1] = v10;
@@ -195763,7 +199892,7 @@ int __thiscall sub_4E0410(int this, int a2, int *a3)
       v11 = *(_DWORD *)(this + 19980);
       if ( *(_BYTE *)(result + 801) != 0 )
         v11 += *(_DWORD *)(this + 624);
-      v12 = SystemMetrics + a3[1] + v11;
+      v12 = SystemMetrics_0 + a3[1] + v11;
       if ( a3[3] < v12 )
         v12 = a3[3];
       a3[3] = v12;
@@ -201596,10 +205725,10 @@ BOOL __thiscall sub_4E9F30(int this, char a2, char a3)
   v104 = 0;
   v105 = 0;
   hLibModule = LoadLibraryA("user32.dll");
-  sub_4FED40(&v105);
+  sub_4FED40((char *)&v105);
   v117 = 0;
   hLibModule = LoadLibraryA("user32.dll");
-  sub_4FED40(&v105);
+  sub_4FED40((char *)&v105);
   v6 = MonitorFromWindow(*(HWND *)(this + 37440), 2u);
   v7 = 0;
   if ( v105 < 0 )
@@ -201964,9 +206093,9 @@ LABEL_125:
   v61 = *(_DWORD *)(this + 37420);
   if ( *(_BYTE *)(v61 + 1725) != 0 && *(_BYTE *)(v61 + 1728) == 0 )
   {
-    v62 = sub_509CC0() != 0 ? dword_5614E4(5) : GetSystemMetrics(5);
+    v62 = sub_509CC0() ? GetSystemMetrics_0(5) : GetSystemMetrics(5);
     v92 = v62;
-    v63 = sub_509CC0() != 0 ? dword_5614E4(21) : GetSystemMetrics(21);
+    v63 = sub_509CC0() ? GetSystemMetrics_0(21) : GetSystemMetrics(21);
     v64 = v110;
     if ( *(_DWORD *)(this + 19976) <= v92 + v63 + v110 - v109 )
     {
@@ -202040,8 +206169,8 @@ LABEL_141:
 // Address: 0x4EAC40
 bool __thiscall sub_4EAC40(HWND *this)
 {
-  int v2; // esi
-  int v3; // eax
+  HWND v2; // esi
+  HMONITOR v3; // eax
   struct tagRECT Rect; // [esp+Ch] [ebp-3Ch] BYREF
   int v6; // [esp+1Ch] [ebp-2Ch] BYREF
   LONG v7; // [esp+20h] [ebp-28h]
@@ -202050,13 +206179,13 @@ bool __thiscall sub_4EAC40(HWND *this)
   LONG v10; // [esp+2Ch] [ebp-1Ch]
 
   GetWindowRect(*(this + 9360), &Rect);
-  v2 = (int)*(this + 9360);
-  if ( sub_509CC0() != 0 )
-    v3 = dword_5614EC(v2, 2);
+  v2 = *(this + 9360);
+  if ( sub_509CC0() )
+    v3 = MonitorFromWindow_0(v2, 2u);
   else
-    v3 = 66;
+    v3 = (HMONITOR)66;
   v6 = 40;
-  sub_50A0E0(v3, &v6);
+  sub_50A0E0(v3, (int)&v6);
   return Rect.top >= v8 && Rect.bottom <= v10 && Rect.left >= v7 && Rect.right <= v9
       || Rect.right - Rect.left >= v9 - v7
       || Rect.bottom - Rect.top >= v10 - v8;
@@ -205810,30 +209939,31 @@ BOOL __thiscall sub_4F1690(_DWORD *dwInitParam)
 // Address: 0x4F1950
 HMODULE __thiscall sub_4F1950(int this, int a2)
 {
-  void *v3; // eax
-  _DWORD *v4; // eax
-  void *v5; // eax
+  int *v3; // eax
+  char *v4; // eax
+  _DWORD *v5; // eax
   void *v6; // eax
-  _DWORD *v7; // eax
-  int v8; // eax
-  _DWORD *v9; // eax
-  int v10; // ecx
-  void *v11; // eax
+  void *v7; // eax
+  _DWORD *v8; // eax
+  void *v9; // eax
+  _DWORD *v10; // eax
+  int v11; // ecx
   void *v12; // eax
-  int v13; // eax
-  void *v14; // eax
+  _DWORD *v13; // eax
+  _DWORD *v14; // eax
+  void *v15; // eax
   HMODULE LibraryA; // eax
-  int v16; // ebx
-  int v17; // eax
+  HWND v17; // ebx
+  int v18; // eax
   int DeviceCaps; // eax
   HDC DC; // eax
   HMODULE result; // eax
-  int v21; // [esp-4h] [ebp-2Ch]
   int v22; // [esp-4h] [ebp-2Ch]
-  _BYTE v23[4]; // [esp+10h] [ebp-18h] BYREF
-  int v24; // [esp+14h] [ebp-14h] BYREF
+  int v23; // [esp-4h] [ebp-2Ch]
+  _BYTE v24[4]; // [esp+10h] [ebp-18h] BYREF
+  int v25; // [esp+14h] [ebp-14h] BYREF
   void *Block; // [esp+18h] [ebp-10h]
-  int v26; // [esp+24h] [ebp-4h]
+  int v27; // [esp+24h] [ebp-4h]
 
   InitializeCriticalSection((LPCRITICAL_SECTION)(this + 672));
   *(_DWORD *)(this + 84) = 0;
@@ -205865,9 +209995,9 @@ HMODULE __thiscall sub_4F1950(int this, int a2)
   *(_DWORD *)(this + 19948) = 0;
   *(_DWORD *)(this + 19952) = 0;
   *(_DWORD *)(this + 19956) = 0;
-  operator new(0xE18u);
-  v26 = -1;
-  *(_DWORD *)(this + 18812) = sub_512320();
+  v3 = (int *)operator new(0xE18u);
+  v27 = -1;
+  *(_DWORD *)(this + 18812) = sub_512320(v3);
   Block = operator new(0x118u);
   *(_DWORD *)(this + 18816) = Block;
   *(_DWORD *)(this + 37420) = *(_DWORD *)(this + 1328) + 4;
@@ -205879,8 +210009,8 @@ HMODULE __thiscall sub_4F1950(int this, int a2)
   *(_WORD *)(this + 37436) = 0;
   *(_BYTE *)(this + 19904) = 0;
   *(_DWORD *)(this + 18844) = 1;
-  v3 = operator new(0x2DCu);
-  *(_DWORD *)(this + 18848) = sub_4FDAE0(v3);
+  v4 = (char *)operator new(0x2DCu);
+  *(_DWORD *)(this + 18848) = sub_4FDAE0(v4);
   *(_BYTE *)(this + 18852) = 0;
   *(_BYTE *)(this + 597) = 0;
   *(_DWORD *)(this + 18864) = 0;
@@ -205895,15 +210025,15 @@ HMODULE __thiscall sub_4F1950(int this, int a2)
   *(_DWORD *)(this + 18900) = 0;
   *(_DWORD *)(this + 18856) = 0;
   *(_DWORD *)(this + 18860) = 0;
-  v4 = operator new(0x98u);
-  v4[28] = 0;
-  *((_BYTE *)v4 + 120) = 0;
-  *(_DWORD *)(this + 4932) = v4;
   v5 = operator new(0x98u);
-  Block = v5;
-  *((_DWORD *)v5 + 28) = 0;
+  v5[28] = 0;
   *((_BYTE *)v5 + 120) = 0;
-  *(_DWORD *)(this + 4936) = v5;
+  *(_DWORD *)(this + 4932) = v5;
+  v6 = operator new(0x98u);
+  Block = v6;
+  *((_DWORD *)v6 + 28) = 0;
+  *((_BYTE *)v6 + 120) = 0;
+  *(_DWORD *)(this + 4936) = v6;
   *(_DWORD *)(this + 19980) = 0;
   *(_DWORD *)(this + 19976) = 0;
   *(_DWORD *)(this + 636) = 0;
@@ -205925,32 +210055,32 @@ HMODULE __thiscall sub_4F1950(int this, int a2)
   *(_DWORD *)(this + 20856) = 0;
   *(_DWORD *)(this + 20860) = 0;
   *(_BYTE *)(this + 20864) = 0;
-  v6 = operator new(0x24u);
-  *(_DWORD *)(this + 20872) = sub_4286F0(v6, v21);
-  v7 = operator new(0x2Cu);
-  *(_DWORD *)(this + 20876) = sub_427960(v7, v22);
+  v7 = operator new(0x24u);
+  *(_DWORD *)(this + 20872) = sub_4286F0(v7, v22);
+  v8 = operator new(0x2Cu);
+  *(_DWORD *)(this + 20876) = sub_427960(v8, v23);
   *(_BYTE *)(this + 4544) = 0;
   *(_DWORD *)(this + 4576) = 0;
   *(_DWORD *)(this + 4580) = 0;
   Block = operator new(0xC48u);
-  v26 = 3;
-  *(_DWORD *)(this + 18820) = sub_5088F0(*(_DWORD *)(this + 1328), this);
+  v27 = 3;
+  *(_DWORD *)(this + 18820) = sub_5088F0((char *)Block, *(_DWORD *)(this + 1328), this);
   *(_DWORD *)(this + 4948) = 0;
   *(_DWORD *)(this + 4952) = 0;
   *(_DWORD *)(this + 4956) = 0;
   *(_DWORD *)(this + 4960) = 0;
   Block = operator new(0x38u);
-  v26 = 4;
-  v8 = sub_517C70(*(_DWORD *)(this + 1328), this);
-  v26 = -1;
-  *(_DWORD *)(this + 18824) = v8;
-  v9 = operator new(0xCu);
-  Block = v9;
-  v10 = *(_DWORD *)(this + 1328);
-  *v9 = &ShellRun::`vftable';
-  v9[1] = v10;
-  v9[2] = this;
-  *(_DWORD *)(this + 18828) = v9;
+  v27 = 4;
+  v9 = sub_517C70(Block, *(_DWORD *)(this + 1328), this);
+  v27 = -1;
+  *(_DWORD *)(this + 18824) = v9;
+  v10 = operator new(0xCu);
+  Block = v10;
+  v11 = *(_DWORD *)(this + 1328);
+  *v10 = &ShellRun::`vftable';
+  v10[1] = v11;
+  v10[2] = this;
+  *(_DWORD *)(this + 18828) = v10;
   *(_WORD *)(this + 19905) = 0;
   *(_DWORD *)(this + 18832) = 1;
   *(_DWORD *)(this + 18836) = 3;
@@ -206039,17 +210169,17 @@ HMODULE __thiscall sub_4F1950(int this, int a2)
   *(_WORD *)(this + 18853) = 0;
   *(_DWORD *)(this + 4328) = *(_DWORD *)(*(_DWORD *)(this + 37420) + 840);
   *(_BYTE *)(this + 37332) = 0;
-  v11 = operator new(0x94u);
-  *(_DWORD *)(this + 37328) = sub_4FECB0(v11);
-  v12 = operator new(0x24u);
-  v13 = sub_51D870(v12);
-  *(_DWORD *)(this + 1324) = v13;
-  *(_DWORD *)(v13 + 16) = this;
-  v14 = operator new(0x98u);
-  Block = v14;
-  *((_DWORD *)v14 + 28) = 0;
-  *((_BYTE *)v14 + 120) = 0;
-  *(_DWORD *)(this + 696) = v14;
+  v12 = operator new(0x94u);
+  *(_DWORD *)(this + 37328) = sub_4FECB0(v12);
+  v13 = operator new(0x24u);
+  v14 = sub_51D870(v13);
+  *(_DWORD *)(this + 1324) = v14;
+  v14[4] = this;
+  v15 = operator new(0x98u);
+  Block = v15;
+  *((_DWORD *)v15 + 28) = 0;
+  *((_BYTE *)v15 + 120) = 0;
+  *(_DWORD *)(this + 696) = v15;
   *(_BYTE *)(this + 37364) = 1;
   *(_DWORD *)(this + 37368) = -1;
   *(_BYTE *)(this + 37372) = 0;
@@ -206060,13 +210190,13 @@ HMODULE __thiscall sub_4F1950(int this, int a2)
     *(_DWORD *)(this + 37412) = GetProcAddress(LibraryA, "GetDpiForMonitor");
   if ( *(_DWORD *)(this + 37412) != 0 )
   {
-    v16 = *(_DWORD *)(this + 37440);
-    if ( sub_509CC0() != 0 )
-      v17 = dword_5614EC(v16, 2);
+    v17 = *(HWND *)(this + 37440);
+    if ( sub_509CC0() )
+      v18 = (int)MonitorFromWindow_0(v17, 2u);
     else
-      v17 = 66;
-    (*(void (__stdcall **)(int, _DWORD, int *, _BYTE *))(this + 37412))(v17, 0, &v24, v23);
-    DeviceCaps = v24;
+      v18 = 66;
+    (*(void (__stdcall **)(int, _DWORD, int *, _BYTE *))(this + 37412))(v18, 0, &v25, v24);
+    DeviceCaps = v25;
   }
   else
   {
@@ -208037,20 +212167,20 @@ HWND __thiscall sub_4F5130(int this)
 bool __thiscall sub_4F5240(int this)
 {
   _DWORD *v2; // edi
-  int v3; // ebx
-  int v4; // eax
+  HWND v3; // ebx
+  HMONITOR v4; // eax
   bool result; // al
   _DWORD v6[10]; // [esp+Ch] [ebp-2Ch] BYREF
 
   v2 = (_DWORD *)(this + 4356);
   GetWindowRect(*(HWND *)(this + 37440), (LPRECT)(this + 4356));
-  v3 = *(_DWORD *)(this + 37440);
-  if ( sub_509CC0() != 0 )
-    v4 = dword_5614EC(v3, 2);
+  v3 = *(HWND *)(this + 37440);
+  if ( sub_509CC0() )
+    v4 = MonitorFromWindow_0(v3, 2u);
   else
-    v4 = 66;
+    v4 = (HMONITOR)66;
   v6[0] = 40;
-  sub_50A0E0(v4, v6);
+  sub_50A0E0(v4, (int)v6);
   result = *v2 > v6[1];
   *(_BYTE *)(this + 4372) = result;
   return result;
@@ -208059,24 +212189,24 @@ bool __thiscall sub_4F5240(int this)
 // Address: 0x4F52C0
 char __thiscall sub_4F52C0(_DWORD *this, int X, LONG Y)
 {
+  int SystemMetrics_0; // eax
   int SystemMetrics; // eax
-  int v5; // eax
   int v6; // ecx
   struct tagPOINT Point; // [esp+10h] [ebp-10h] BYREF
   int v9; // [esp+18h] [ebp-8h]
   int v10; // [esp+1Ch] [ebp-4h]
 
   v10 = 0;
-  if ( sub_509CC0() != 0 )
-    SystemMetrics = dword_5614E4(0);
+  if ( sub_509CC0() )
+    SystemMetrics_0 = GetSystemMetrics_0(0);
   else
-    SystemMetrics = GetSystemMetrics(0);
-  v9 = SystemMetrics - 8;
-  if ( sub_509CC0() != 0 )
-    v5 = dword_5614E4(1);
+    SystemMetrics_0 = GetSystemMetrics(0);
+  v9 = SystemMetrics_0 - 8;
+  if ( sub_509CC0() )
+    SystemMetrics = GetSystemMetrics_0(1);
   else
-    v5 = GetSystemMetrics(1);
-  Point.y = v5 + *(this + 154) - *(this + 156) - 8;
+    SystemMetrics = GetSystemMetrics(1);
+  Point.y = SystemMetrics + *(this + 154) - *(this + 156) - 8;
   if ( X < 8 )
     v10 = -32 * *(_DWORD *)(*(this + 9355) + 848) / *(_DWORD *)(*(this + 9355) + 852);
   if ( X >= v9 )
@@ -208101,8 +212231,8 @@ HWND __thiscall sub_4F53F0(int this)
   int v2; // eax
   HWND result; // eax
   char v4; // al
-  int v5; // edi
-  int v6; // ebx
+  HWND v5; // edi
+  HMONITOR v6; // ebx
   int v7; // eax
   LONG WindowLongA; // eax
   int v9; // edx
@@ -208124,7 +212254,7 @@ HWND __thiscall sub_4F53F0(int this)
   int v25; // [esp+24h] [ebp-1774h]
   int v26; // [esp+28h] [ebp-1770h]
   struct tagRECT Rect; // [esp+40h] [ebp-1758h] BYREF
-  _BYTE v28[4]; // [esp+50h] [ebp-1748h] BYREF
+  char v28[4]; // [esp+50h] [ebp-1748h] BYREF
   int v29; // [esp+54h] [ebp-1744h]
   int v30; // [esp+58h] [ebp-1740h]
   HMODULE hLibModule; // [esp+1788h] [ebp-10h]
@@ -208138,15 +212268,15 @@ HWND __thiscall sub_4F53F0(int this)
     *(_BYTE *)(this + 20845) = v4;
     *(_BYTE *)(this + 20844) = 0;
   }
-  v5 = *(_DWORD *)(this + 37440);
-  if ( sub_509CC0() != 0 )
+  v5 = *(HWND *)(this + 37440);
+  if ( sub_509CC0() )
   {
-    v6 = dword_5614EC(v5, 2);
-    v19 = v6;
+    v6 = MonitorFromWindow_0(v5, 2u);
+    v19 = (int)v6;
   }
   else
   {
-    v6 = 66;
+    v6 = (HMONITOR)66;
     v19 = 66;
   }
   GetWindowLongA(*(HWND *)(this + 37440), -16);
@@ -208157,7 +212287,7 @@ HWND __thiscall sub_4F53F0(int this)
     SetWindowLongA(*(HWND *)(this + 37440), -16, WindowLongA & 0x7E3BFFFF | 0x81000000);
     GetWindowRect(*(HWND *)(this + 37440), &Rect);
     v22 = 40;
-    sub_50A0E0(v6, &v22);
+    sub_50A0E0(v6, (int)&v22);
     v9 = *(_DWORD *)(this + 37420);
     v10 = X;
     v11 = v25 - X;
@@ -208167,7 +212297,7 @@ HWND __thiscall sub_4F53F0(int this)
     cy = v26 - Y;
     if ( *(_BYTE *)(v9 + 1725) != 0 && *(_BYTE *)(v9 + 1728) == 0 )
     {
-      sub_4FF290(v28);
+      sub_4FF290((int)v28);
       hLibModule = LoadLibraryA("user32.dll");
       sub_4FED40(v28);
       v13 = v30;
@@ -208179,7 +212309,7 @@ HWND __thiscall sub_4F53F0(int this)
       v12 = 0;
     }
     SetWindowPos(*(HWND *)(this + 37440), HWND_MESSAGE|0x2, v10, v12, v11, v13, 0x20u);
-    sub_509E00(v19);
+    sub_509E00(this + 4376, (HMONITOR)v19);
     CheckMenuItem(*(HMENU *)(this + 19916), 0x71u, 8u);
     if ( *(_BYTE *)(*(_DWORD *)(this + 37420) + 801) != 0 )
     {
@@ -217605,18 +221735,18 @@ LRESULT __thiscall sub_5027D0(HWND hDlg)
 // Address: 0x502880
 int __thiscall sub_502880(_DWORD *this)
 {
-  int SystemMetrics; // eax
+  int SystemMetrics_0; // eax
   int result; // eax
 
-  if ( sub_509CC0() != 0 )
-    SystemMetrics = dword_5614E4(33);
+  if ( sub_509CC0() )
+    SystemMetrics_0 = GetSystemMetrics_0(33);
   else
-    SystemMetrics = GetSystemMetrics(33);
-  result = 2 * SystemMetrics;
+    SystemMetrics_0 = GetSystemMetrics(33);
+  result = 2 * SystemMetrics_0;
   if ( *(this + 3) - result - *(this + 1) < 429 )
   {
-    if ( sub_509CC0() != 0 )
-      result = *(this + 1) + 2 * dword_5614E4(33) + 429;
+    if ( sub_509CC0() )
+      result = *(this + 1) + 2 * GetSystemMetrics_0(33) + 429;
     else
       result = *(this + 1) + 2 * GetSystemMetrics(33) + 429;
     *(this + 3) = result;
@@ -217627,18 +221757,18 @@ int __thiscall sub_502880(_DWORD *this)
 // Address: 0x5028F0
 int __thiscall sub_5028F0(_DWORD *this)
 {
-  int SystemMetrics; // eax
+  int SystemMetrics_0; // eax
   int result; // eax
 
-  if ( sub_509CC0() != 0 )
-    SystemMetrics = dword_5614E4(32);
+  if ( sub_509CC0() )
+    SystemMetrics_0 = GetSystemMetrics_0(32);
   else
-    SystemMetrics = GetSystemMetrics(32);
-  result = 2 * SystemMetrics;
+    SystemMetrics_0 = GetSystemMetrics(32);
+  result = 2 * SystemMetrics_0;
   if ( *(this + 2) - result - *this < 611 )
   {
-    if ( sub_509CC0() != 0 )
-      result = *this + 2 * dword_5614E4(32) + 611;
+    if ( sub_509CC0() )
+      result = *this + 2 * GetSystemMetrics_0(32) + 611;
     else
       result = *this + 2 * GetSystemMetrics(32) + 611;
     *(this + 2) = result;
@@ -217649,18 +221779,18 @@ int __thiscall sub_5028F0(_DWORD *this)
 // Address: 0x502960
 int __thiscall sub_502960(_DWORD *this)
 {
-  int SystemMetrics; // eax
+  int SystemMetrics_0; // eax
   int result; // eax
 
-  if ( sub_509CC0() != 0 )
-    SystemMetrics = dword_5614E4(33);
+  if ( sub_509CC0() )
+    SystemMetrics_0 = GetSystemMetrics_0(33);
   else
-    SystemMetrics = GetSystemMetrics(33);
-  result = 2 * SystemMetrics;
+    SystemMetrics_0 = GetSystemMetrics(33);
+  result = 2 * SystemMetrics_0;
   if ( *(this + 3) - result - *(this + 1) < 429 )
   {
-    if ( sub_509CC0() != 0 )
-      result = 2 * dword_5614E4(33);
+    if ( sub_509CC0() )
+      result = 2 * GetSystemMetrics_0(33);
     else
       result = 2 * GetSystemMetrics(33);
     *(this + 1) = *(this + 3) - result - 429;
@@ -217671,18 +221801,18 @@ int __thiscall sub_502960(_DWORD *this)
 // Address: 0x5029D0
 int __thiscall sub_5029D0(_DWORD *this)
 {
-  int SystemMetrics; // eax
+  int SystemMetrics_0; // eax
   int result; // eax
 
-  if ( sub_509CC0() != 0 )
-    SystemMetrics = dword_5614E4(32);
+  if ( sub_509CC0() )
+    SystemMetrics_0 = GetSystemMetrics_0(32);
   else
-    SystemMetrics = GetSystemMetrics(32);
-  result = 2 * SystemMetrics;
+    SystemMetrics_0 = GetSystemMetrics(32);
+  result = 2 * SystemMetrics_0;
   if ( *(this + 2) - result - *this < 611 )
   {
-    if ( sub_509CC0() != 0 )
-      result = 2 * dword_5614E4(32);
+    if ( sub_509CC0() )
+      result = 2 * GetSystemMetrics_0(32);
     else
       result = 2 * GetSystemMetrics(32);
     *this = *(this + 2) - result - 611;

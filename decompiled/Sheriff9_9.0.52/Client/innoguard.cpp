@@ -32,6 +32,13 @@ void sub_1000103B()
   InitializeSListHead(&stru_10026A58);
 }
 
+// Address: 0x10001047
+int sub_10001047()
+{
+  __ExceptionPtr::_InitBadAllocException(&dword_10026AF0);
+  return atexit(sub_10019134);
+}
+
 // Address: 0x10001060
 void *sub_10001060()
 {
@@ -39,17 +46,19 @@ void *sub_10001060()
 }
 
 // Address: 0x10001070
-void __cdecl sub_10001070(int a1, int a2)
+void __cdecl sub_10001070()
 {
-  _DWORD *v2; // eax
-  int v3; // eax
+  _DWORD *v0; // eax
+  int v1; // eax
   WCHAR OutputString[522]; // [esp+0h] [ebp-418h] BYREF
+  int v3; // [esp+420h] [ebp+8h]
+  int v4; // [esp+424h] [ebp+Ch] BYREF
 
-  v2 = sub_10001060();
-  v3 = sub_1000BC79(*v2 | 1, v2[1], (int)OutputString, 519, a1, nullptr, (int)&a2);
-  if ( v3 < 0 )
-    v3 = -1;
-  if ( (unsigned int)v3 > 0x206 )
+  v0 = sub_10001060();
+  v1 = sub_1000BC79(*v0 | 1, v0[1], OutputString, 0x207u, v3, nullptr, (int)&v4);
+  if ( v1 < 0 )
+    v1 = -1;
+  if ( (unsigned int)v1 > 0x206 )
     OutputString[519] = 0;
   OutputDebugStringW(OutputString);
 }
@@ -894,6 +903,19 @@ char __thiscall sub_10002890(int this)
     sub_10001070((int)L"ServiceMonitor create", v3);
     *(_DWORD *)(this + 28) = v4;
   }
+  return 1;
+}
+
+// Address: 0x100028F0
+char __usercall sub_100028F0@<al>(int a1@<ecx>, int a2@<esi>)
+{
+  int v2; // ecx
+
+  v2 = *(_DWORD *)(a1 + 28);
+  if ( v2 == 0 )
+    return 0;
+  sub_10005C20(v2, a2);
+  sub_10001070();
   return 1;
 }
 
@@ -15214,11 +15236,11 @@ void (__cdecl **__cdecl get_global_action_nolock(int a1))(int)
   switch ( a1 )
   {
     case 2:
-      return (void (__cdecl **)(int))&unk_10026998;
+      return (void (__cdecl **)(int))&dword_10026998;
     case 6:
       return (void (__cdecl **)(int))&dword_100269A0;
     case 15:
-      return (void (__cdecl **)(int))&unk_100269A4;
+      return (void (__cdecl **)(int))&dword_100269A4;
     default:
       break;
   }
@@ -15228,7 +15250,7 @@ void (__cdecl **__cdecl get_global_action_nolock(int a1))(int)
       return nullptr;
     return (void (__cdecl **)(int))&dword_100269A0;
   }
-  return (void (__cdecl **)(int))&unk_1002699C;
+  return (void (__cdecl **)(int))&dword_1002699C;
 }
 
 // Address: 0x10010988
@@ -19416,6 +19438,59 @@ __CIlog10_default:
   return x;
 }
 
+// Address: 0x10014B18
+long double __usercall start@<st0>(
+        char a1@<zf>,
+        int a2@<eax>,
+        __int16 a3@<dx>,
+        char a4@<fpstat>,
+        long double result@<st0>,
+        int a6,
+        int a7)
+{
+  int v7; // eax
+
+  if ( a1 )
+  {
+    if ( (a2 & 0xFFFFF) != 0 || a6 != 0 )
+    {
+      result = _convertTOStoQNaN(a2, result);
+      goto _ErrorHandling;
+    }
+    if ( (a2 & 0x80000000) == 0 )
+      goto exit_0;
+negative_x:
+    result = -2.0;
+    v7 = 1;
+    goto _ErrorHandling;
+  }
+  if ( (a7 & 0x7FF00000) != 0 )
+  {
+    if ( a7 >= 0 )
+    {
+normal:
+      result = __FYL2X__(result, 0.3010299956639811952);
+exit_0:
+      if ( dword_100269BC == 0 && a3 != 639 && (a3 & 0x20) != 0 && (a4 & 0x20) != 0 )
+        return _startOneArgErrorHandling(8, 27, (int)"log10", result);
+      return result;
+    }
+    goto negative_x;
+  }
+  if ( (a7 & 0xFFFFF) != 0 || a6 != 0 )
+  {
+    if ( a7 >= 0 )
+      goto normal;
+    goto negative_x;
+  }
+  result = -0.0;
+  v7 = 2;
+_ErrorHandling:
+  if ( dword_100269BC == 0 )
+    return _startOneArgErrorHandling(v7, 27, (int)"log10", result);
+  return result;
+}
+
 // Address: 0x10014BD0
 double __cdecl ceil(double X)
 {
@@ -20411,6 +20486,36 @@ int __cdecl _checkTOS_withFB(int a1, int a2)
   return result;
 }
 
+// Address: 0x10015C25
+// positive sp value has been detected, the output may be wrong!
+double __usercall _check_overflow_exit@<st0>(int a1@<edx>, int a2@<ecx>, double result@<st0>)
+{
+  char v3; // fps
+  int v4; // eax
+  double v5; // [esp-4h] [ebp-Ch]
+  __int16 v6; // [esp+4h] [ebp-4h]
+
+  v5 = result;
+  if ( (HIDWORD(v5) & 0x7FF00000) == 0x7FF00000 )
+  {
+    result = __FSCALE__(result, -1536.0);
+    v4 = 3;
+    if ( fabs(result) > 1.797693134862316e308 )
+      result = result * INFINITY;
+    goto have_error;
+  }
+  if ( v6 != 639 && (v6 & 0x20) == 0 && (v3 & 0x20) != 0 )
+  {
+    v4 = 8;
+have_error:
+    if ( a1 == 29 )
+      _startTwoArgErrorHandling();
+    else
+      return _startOneArgErrorHandling(v4, a1, a2, result);
+  }
+  return result;
+}
+
 // Address: 0x10015CE0
 void _startTwoArgErrorHandling()
 {
@@ -20418,26 +20523,22 @@ void _startTwoArgErrorHandling()
 }
 
 // Address: 0x10015CF7
-double __usercall _startOneArgErrorHandling@<st0>(
-        int a1@<eax>,
-        int a2@<edx>,
-        int a3@<ecx>,
-        double a4@<st0>,
-        __int16 a5,
-        int a6,
-        int a7,
-        int a8)
+double __usercall _startOneArgErrorHandling@<st0>(int a1@<eax>, int a2@<edx>, int a3@<ecx>, double a4@<st0>)
 {
-  _DWORD v9[6]; // [esp+0h] [ebp-20h] BYREF
-  double v10; // [esp+18h] [ebp-8h]
+  _DWORD v5[6]; // [esp+0h] [ebp-20h] BYREF
+  double v6; // [esp+18h] [ebp-8h]
+  int savedregs; // [esp+20h] [ebp+0h] BYREF
+  unsigned __int16 v8[4]; // [esp+28h] [ebp+8h] BYREF
+  int v9; // [esp+30h] [ebp+10h]
+  int v10; // [esp+34h] [ebp+14h]
 
-  v9[0] = a1;
-  v10 = a4;
-  v9[1] = a3;
-  v9[2] = a7;
-  v9[3] = a8;
-  _87except(a2, v9, &a5);
-  return v10;
+  v5[0] = a1;
+  v6 = a4;
+  v5[1] = a3;
+  v5[2] = v9;
+  v5[3] = v10;
+  _87except((int)&savedregs, a2, (int)v5, v8);
+  return v6;
 }
 
 // Address: 0x10015D33
@@ -23070,16 +23171,17 @@ int __usercall _cintrindisp1@<eax>(int a1@<edx>, __int16 a2@<cx>, double a3@<st0
 }
 
 // Address: 0x10018677
-int __usercall _ctrandisp2@<eax>(double a1@<st1>, double a2@<st0>, double a3, double a4)
+int __usercall _ctrandisp2@<eax>(double a2@<st0>, double a3, double a4)
 {
-  int v4; // edx
-  __int16 v5; // fps
+  double v4; // st6
+  int v5; // edx
+  __int16 v6; // fps
   int savedregs; // [esp+2D4h] [ebp+0h] BYREF
 
   _fload(a3);
-  _fload(a4);
-  _trandisp2(v4, (int)&savedregs, v5, a1, a2);
-  return ctranexit();
+  v4 = _fload(a4);
+  _trandisp2(v5, (int)&savedregs, v6, v4, a2);
+  return ctranexit((int)&savedregs);
 }
 
 // Address: 0x100186B8

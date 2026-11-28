@@ -20,21 +20,22 @@ BOOL __cdecl sub_10001000(HANDLE hFile, LPCWSTR lpString)
 }
 
 // Address: 0x10001040
-HANDLE __cdecl sub_10001040(wchar_t *Format, int ArgList)
+void __cdecl sub_10001040()
 {
-  HANDLE result; // eax
+  HANDLE FileA; // eax
+  wchar_t *Format; // [esp+18h] [ebp+4h]
+  int ArgList; // [esp+1Ch] [ebp+8h] BYREF
 
   if ( hFile == nullptr )
   {
-    result = (HANDLE)(timeGetTime() - dword_1000FFA8);
-    if ( (unsigned int)result < 0x3E8 )
-      return result;
+    if ( timeGetTime() - dword_1000FFA8 < 0x3E8 )
+      return;
     dword_1000FFA8 = timeGetTime();
-    result = CreateFileA("\\\\.\\pipe\\SENUL_DEBUG_PIPE", 0x40000000u, 3u, nullptr, 3u, 0, nullptr);
-    hFile = result;
-    if ( result == (HANDLE)-1 )
+    FileA = CreateFileA("\\\\.\\pipe\\SENUL_DEBUG_PIPE", 0x40000000u, 3u, nullptr, 3u, 0, nullptr);
+    hFile = FileA;
+    if ( FileA == (HANDLE)-1 )
       goto LABEL_9;
-    sub_10001000(result, L"Logging Start...");
+    sub_10001000(FileA, L"Logging Start...");
   }
   if ( (dword_1000FFA4 & 1) == 0 )
   {
@@ -43,14 +44,12 @@ HANDLE __cdecl sub_10001040(wchar_t *Format, int ArgList)
     atexit(sub_1000BC40);
   }
   _vswprintf((wchar_t *const)lpString, Format, (va_list)&ArgList);
-  result = (HANDLE)sub_10001000(hFile, lpString);
-  if ( result == nullptr )
+  if ( !sub_10001000(hFile, lpString) )
   {
-    result = (HANDLE)CloseHandle(hFile);
+    CloseHandle(hFile);
 LABEL_9:
     hFile = nullptr;
   }
-  return result;
 }
 
 // Address: 0x10001150
@@ -306,6 +305,17 @@ LABEL_3:
     }
     return 1;
   }
+}
+
+// Address: 0x10001880
+BOOL __stdcall DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
+  if ( fdwReason == 1 )
+  {
+    sub_10001040();
+    dword_1000FFB0 = sub_10001300();
+  }
+  return true;
 }
 
 // Address: 0x100018A8
@@ -751,6 +761,70 @@ void __fastcall __security_check_cookie(uintptr_t StackCookie)
     __report_gsfailure();
 }
 
+// Address: 0x10001F70
+char *__cdecl strstr(const char *Str, const char *SubStr)
+{
+  unsigned __int8 v2; // dl
+  const char *v3; // edi
+  char v4; // dh
+  const char *v5; // ecx
+  char *v6; // esi
+  char v7; // al
+  char v9; // ah
+  char v10; // al
+  char v11; // al
+
+  v2 = *SubStr;
+  v3 = Str;
+  if ( *SubStr == 0 )
+    return (char *)Str;
+  v4 = SubStr[1];
+  if ( v4 == 0 )
+    return __from_strstr_to_strchr(v2, (char *)Str);
+findnext:
+  v5 = SubStr;
+  v6 = (char *)(v3 + 1);
+  if ( *v3 == v2 )
+    goto first_char_found;
+  if ( *v3 != 0 )
+  {
+    while ( 2 )
+    {
+      v7 = *v6++;
+      while ( v7 == v2 )
+      {
+first_char_found:
+        v7 = *v6++;
+        if ( v7 == v4 )
+        {
+          v3 = v6 - 1;
+          while ( 1 )
+          {
+            v9 = v5[2];
+            if ( v9 == 0 )
+              break;
+            v10 = *v6;
+            v6 += 2;
+            if ( v10 != v9 )
+              goto findnext;
+            v11 = v5[3];
+            if ( v11 == 0 )
+              break;
+            v5 += 2;
+            if ( v11 != *(v6 - 1) )
+              goto findnext;
+          }
+          return (char *)(v3 - 1);
+        }
+      }
+      if ( v7 != 0 )
+        continue;
+      break;
+    }
+  }
+  return nullptr;
+}
+
 // Address: 0x10002000
 void *__cdecl memset(void *a1, int Val, size_t Size)
 {
@@ -864,6 +938,12 @@ LABEL_19:
       v1 = Size;
     }
   }
+}
+
+// Address: 0x100021B0
+char *__cdecl strchr(const char *Str, int Val)
+{
+  return __from_strstr_to_strchr((unsigned __int8)Val, (char *)Str);
 }
 
 // Address: 0x100021B6
@@ -1125,12 +1205,12 @@ int __stdcall _alldiv(unsigned __int64 a1, __int64 a2)
 // Address: 0x1000246A
 int __stdcall _CRT_INIT(int a1, int a2, int a3)
 {
-  DWORD *v4; // eax
+  int v4; // eax
   DWORD *v5; // esi
-  int (__stdcall *v6)(int, DWORD *); // eax
+  int (__stdcall *v6)(int, int); // eax
   DWORD CurrentThreadId; // eax
   int v8; // [esp-8h] [ebp-10h]
-  DWORD *v9; // [esp-4h] [ebp-Ch]
+  int v9; // [esp-4h] [ebp-Ch]
 
   if ( a2 == 1 )
   {
@@ -1144,7 +1224,7 @@ LABEL_5:
     }
     sub_10006E78();
     dword_10011DD8 = (int)GetCommandLineA();
-    Block = (char *)__crtGetEnvironmentStringsA();
+    Block = __crtGetEnvironmentStringsA();
     if ( _ioinit() < 0 )
     {
 LABEL_7:
@@ -1163,19 +1243,19 @@ LABEL_7:
     if ( a2 == 2 )
     {
       __set_flsgetvalue();
-      v4 = (DWORD *)_calloc_crt(1u, 532);
-      v5 = v4;
-      if ( v4 == nullptr )
+      v4 = _calloc_crt(1u, 532);
+      v5 = (DWORD *)v4;
+      if ( v4 == 0 )
         return 0;
       v9 = v4;
       v8 = dword_1000F1E0;
-      v6 = (int (__stdcall *)(int, DWORD *))_decode_pointer(dword_100101EC);
+      v6 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
       if ( v6(v8, v9) == 0 )
       {
         free(v5);
         return 0;
       }
-      _initptd(v5, 0);
+      _initptd((int)v5, 0);
       CurrentThreadId = GetCurrentThreadId();
       v5[1] = -1;
       *v5 = CurrentThreadId;
@@ -2459,7 +2539,7 @@ void *__set_flsgetvalue()
   Value = TlsGetValue(dwTlsIndex);
   if ( Value == nullptr )
   {
-    Value = _decode_pointer(lpTlsValue);
+    Value = _decode_pointer(FlsGetValue);
     TlsSetValue(dwTlsIndex, Value);
   }
   return Value;
@@ -2527,12 +2607,12 @@ DWORD *_getptd_noexit()
   DWORD v1; // edi
   int (__stdcall *v2)(int); // eax
   DWORD *v3; // esi
-  DWORD *v4; // eax
-  int (__stdcall *v5)(int, DWORD *); // eax
+  int v4; // eax
+  int (__stdcall *v5)(int, int); // eax
   DWORD CurrentThreadId; // eax
   int v8; // [esp-8h] [ebp-10h]
   int v9; // [esp-4h] [ebp-Ch]
-  DWORD *v10; // [esp-4h] [ebp-Ch]
+  int v10; // [esp-4h] [ebp-Ch]
 
   LastError = GetLastError();
   v9 = dword_1000F1E0;
@@ -2541,13 +2621,13 @@ DWORD *_getptd_noexit()
   v3 = (DWORD *)v2(v9);
   if ( v3 == nullptr )
   {
-    v4 = (DWORD *)_calloc_crt(1u, 532);
-    v3 = v4;
-    if ( v4 != nullptr )
+    v4 = _calloc_crt(1u, 532);
+    v3 = (DWORD *)v4;
+    if ( v4 != 0 )
     {
       v10 = v4;
       v8 = dword_1000F1E0;
-      v5 = (int (__stdcall *)(int, DWORD *))_decode_pointer((void *)dword_100101EC);
+      v5 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
       if ( v5(v8, v10) != 0 )
       {
         _initptd((int)v3, 0);
@@ -2639,7 +2719,7 @@ DWORD __cdecl _freeptd(void *Block)
       Block = (void *)Value(v4);
     }
     v5 = dword_1000F1E0;
-    v2 = (void (__stdcall *)(int, _DWORD))_decode_pointer((void *)dword_100101EC);
+    v2 = (void (__stdcall *)(int, _DWORD))_decode_pointer(FlsSetValue);
     v2(v5, 0);
     _freefls(Block);
   }

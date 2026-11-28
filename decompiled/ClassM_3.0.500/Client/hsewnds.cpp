@@ -417,6 +417,20 @@ int sub_10001740()
   return sub_10007430(&unk_1002F343);
 }
 
+// Address: 0x10001750
+int sub_10001750()
+{
+  sub_1000A300(&dword_1002F350);
+  return atexit(__std_execution_wake_by_address_all);
+}
+
+// Address: 0x10001770
+int sub_10001770()
+{
+  sub_1000A560(&dword_1002F358);
+  return atexit(sub_1001EAF0);
+}
+
 // Address: 0x100017D0
 void __stdcall sub_100017D0(_DWORD *Block, unsigned int a2)
 {
@@ -8375,9 +8389,9 @@ DWORD sub_1000BBE0()
 
 // Address: 0x1000BC00
 // attributes: thunk
-void __cdecl sub_1000BC00(int a1, int a2)
+void __cdecl sub_1000BC00()
 {
-  sub_1000BDE0(a1, a2);
+  sub_1000BDE0();
 }
 
 // Address: 0x1000BC05
@@ -8568,6 +8582,28 @@ int sub_1000BF60()
 {
   sub_1000BBE0();
   return 0;
+}
+
+// Address: 0x1000BF70
+void __stdcall TlsCallback_0(int a1, int a2, int a3)
+{
+  if ( a2 == 3 )
+    sub_1000BC00();
+}
+
+// Address: 0x1000BF80
+int __stdcall sub_1000BF80(int a1, int a2, int a3)
+{
+  if ( a2 != 0 )
+  {
+    if ( a2 == 3 )
+      sub_1000BC00();
+  }
+  else
+  {
+    sub_1000BBE0();
+  }
+  return 1;
 }
 
 // Address: 0x1000BFBB
@@ -12673,6 +12709,258 @@ PSLIST_ENTRY __cdecl __std_type_info_destroy_list(PSLIST_HEADER ListHead)
   return result;
 }
 
+// Address: 0x1000FA50
+char *__cdecl strstr(const char *Str, const char *SubStr)
+{
+  __m128i v2; // xmm0
+  const __m128i *v3; // ecx
+  char *result; // eax
+  int v5; // ebx
+  __m128 v6; // xmm3
+  __m128i v7; // xmm3
+  int v8; // edi
+  int v9; // ebx
+  char v10; // dl
+  __m128i v11; // xmm1
+  unsigned int v12; // ebx
+  char v13; // bl
+  const __m128i *v14; // edx
+  unsigned int j; // ecx
+  __m128i si128; // xmm2
+  unsigned int v17; // ebx
+  int v18; // ebx
+  int v19; // esi
+  char v20; // dl
+  unsigned __int8 v21; // cf
+  int v22; // ecx
+  const __m128i *v23; // edx
+  __m128i *i; // esi
+  __m128i v25; // xmm1
+  unsigned __int8 v26; // sf
+  unsigned __int8 v27; // dl
+  const char *v28; // edi
+  char v29; // dh
+  const char *v30; // ecx
+  char *v31; // esi
+  char v32; // al
+  char v33; // ah
+  char v34; // al
+  char v35; // al
+
+  v3 = (const __m128i *)SubStr;
+  result = (char *)Str;
+  if ( dword_1002F6F8 != 0 )
+  {
+    if ( (unsigned int)dword_1002F6F8 > 1 )
+    {
+      if ( *SubStr != 0 )
+      {
+        if ( ((unsigned __int16)SubStr & 0xFFFu) > 0xFF0 )
+        {
+          v18 = 15;
+strstr_sttni_setloopchar:
+          v19 = v3->m128i_u8[0];
+          v3 = (const __m128i *)((char *)v3 + 1);
+          while ( 1 )
+          {
+            v2 = _mm_srli_si128(_mm_insert_epi8(v2, v19, 15), 1);
+            if ( --v18 == 0 )
+              break;
+            if ( v19 != 0 )
+              goto strstr_sttni_setloopchar;
+          }
+        }
+        else
+        {
+          v2 = _mm_loadu_si128((const __m128i *)SubStr);
+        }
+        while ( 2 )
+        {
+          v20 = _mm_cvtsi128_si32(v2);
+          do
+          {
+            while ( ((unsigned __int16)result & 0xFFFu) > 0xFF0 )
+            {
+              if ( *result == 0 )
+                return nullptr;
+              if ( v20 == *result )
+                goto strstr_sttni_srchcheck;
+              ++result;
+            }
+            result += 16;
+            v22 = _mm_cmpistri(v2, *((__m128i *)result - 1), 12);
+            v21 = _mm_cmpistrc(v2, *((__m128i *)result - 1), 12);
+          }
+          while ( !(v21 | _mm_cmpistrz(v2, *((__m128i *)result - 1), 12)) );
+          if ( v21 )
+          {
+            result = &result[v22 - 16];
+strstr_sttni_srchcheck:
+            v23 = (const __m128i *)SubStr;
+            for ( i = (__m128i *)result; ; i = (__m128i *)((char *)i + 1) )
+            {
+              while ( ((unsigned __int16)i & 0xFFFu) <= 0xFF0 && ((unsigned __int16)v23 & 0xFFFu) <= 0xFF0 )
+              {
+                v25 = _mm_loadu_si128(v23);
+                ++i;
+                ++v23;
+                v26 = _mm_cmpistrs(v25, i[-1], 12);
+                if ( !_mm_cmpistro(v25, i[-1], 12) )
+                  goto strstr_sttni_srchnext;
+                if ( v26 )
+                  return result;
+              }
+              if ( v23->m128i_i8[0] == 0 )
+                return result;
+              if ( v23->m128i_i8[0] != i->m128i_i8[0] )
+                break;
+              v23 = (const __m128i *)((char *)v23 + 1);
+            }
+strstr_sttni_srchnext:
+            ++result;
+            continue;
+          }
+          return nullptr;
+        }
+      }
+    }
+    else
+    {
+      v5 = *(unsigned __int8 *)SubStr;
+      if ( (v5 | (v5 << 8)) != 0 )
+      {
+        v6 = (__m128)_mm_shufflelo_epi16(_mm_cvtsi32_si128(v5 | (unsigned int)(v5 << 8)), 0);
+        v7 = (__m128i)_mm_movelh_ps(v6, v6);
+        v8 = -1;
+        do
+        {
+          v9 = v3->m128i_u8[0];
+          v3 = (const __m128i *)((char *)v3 + 1);
+          if ( v9 == 0 )
+            goto strstr_sse_unsafe;
+        }
+        while ( ((unsigned __int8)v3 & 0xF) != 0 );
+        if ( _mm_movemask_epi8(_mm_cmpeq_epi8(_mm_load_si128(v3), (__m128i)0LL)) == 0 )
+          v8 = 15;
+strstr_sse_unsafe:
+        v10 = _mm_cvtsi128_si32(v7);
+        while ( 1 )
+        {
+          while ( ((unsigned __int16)result & 0xFFFu) > 0xFF0 )
+          {
+strstr_sse_srchchar:
+            v13 = *result;
+            if ( *result == 0 )
+              return nullptr;
+            ++result;
+            if ( v10 == v13 )
+            {
+              v14 = (const __m128i *)result;
+              for ( j = (unsigned int)(SubStr + 1); ; ++j )
+              {
+                while ( 2 )
+                {
+                  if ( (j & v8) == 0 && ((unsigned __int16)v14 & 0xFFFu) <= 0xFF0 )
+                  {
+                    si128 = _mm_load_si128((const __m128i *)j);
+                    v17 = _mm_movemask_epi8(
+                            _mm_or_si128(
+                              _mm_cmpeq_epi8(si128, (__m128i)0LL),
+                              _mm_cmpeq_epi8(_mm_cmpeq_epi8(_mm_loadu_si128(v14), si128), (__m128i)0LL)));
+                    if ( v17 == 0 )
+                    {
+                      ++v14;
+                      j += 16;
+                      continue;
+                    }
+                    _BitScanForward(&v17, v17);
+                    v14 = (const __m128i *)((char *)v14 + v17);
+                    j += v17;
+                  }
+                  break;
+                }
+                if ( *(_BYTE *)j == 0 )
+                  return --result;
+                if ( *(_BYTE *)j != v14->m128i_i8[0] )
+                  goto strstr_sse_unsafe;
+                v14 = (const __m128i *)((char *)v14 + 1);
+              }
+            }
+          }
+          v11 = _mm_loadu_si128((const __m128i *)result);
+          v12 = _mm_movemask_epi8(_mm_or_si128(_mm_cmpeq_epi8(v11, v7), _mm_cmpeq_epi8((__m128i)0LL, v11)));
+          result += 16;
+          if ( v12 != 0 )
+          {
+            _BitScanForward(&v12, v12);
+            result = &result[v12 - 16];
+            goto strstr_sse_srchchar;
+          }
+        }
+      }
+    }
+  }
+  else
+  {
+    v27 = *SubStr;
+    v28 = Str;
+    if ( *SubStr != 0 )
+    {
+      v29 = SubStr[1];
+      if ( v29 != 0 )
+      {
+findnext:
+        v30 = SubStr;
+        v31 = (char *)(v28 + 1);
+        if ( *v28 == v27 )
+          goto first_char_found;
+        if ( *v28 != 0 )
+        {
+          while ( 2 )
+          {
+            v32 = *v31++;
+            while ( v32 == v27 )
+            {
+first_char_found:
+              v32 = *v31++;
+              if ( v32 == v29 )
+              {
+                v28 = v31 - 1;
+                while ( 1 )
+                {
+                  v33 = v30[2];
+                  if ( v33 == 0 )
+                    break;
+                  v34 = *v31;
+                  v31 += 2;
+                  if ( v34 != v33 )
+                    goto findnext;
+                  v35 = v30[3];
+                  if ( v35 == 0 )
+                    break;
+                  v30 += 2;
+                  if ( v35 != *(v31 - 1) )
+                    goto findnext;
+                }
+                return (char *)(v28 - 1);
+              }
+            }
+            if ( v32 != 0 )
+              continue;
+            break;
+          }
+        }
+        return nullptr;
+      }
+      else
+      {
+        return __from_strstr_to_strchr(v27, (char *)Str);
+      }
+    }
+  }
+  return result;
+}
+
 // Address: 0x1000FCB3
 FARPROC __cdecl try_get_function(int a1, const CHAR *lpProcName, _DWORD *a3, _DWORD *a4)
 {
@@ -13134,6 +13422,40 @@ void __fastcall _EH4_GlobalUnwind2(PVOID TargetFrame, PEXCEPTION_RECORD Exceptio
 int __fastcall _EH4_LocalUnwind(int a1, unsigned int a2, int a3, _DWORD *a4)
 {
   return _local_unwind4(a4, a1, a2);
+}
+
+// Address: 0x10010310
+char *__cdecl strchr(const char *Str, int Val)
+{
+  __m128 v2; // xmm3
+  __m128i v3; // xmm3
+  int v4; // eax
+  const __m128i *i; // edx
+  __m128i v6; // xmm1
+  unsigned int v7; // ecx
+  unsigned int v8; // eax
+  char *result; // eax
+
+  if ( dword_1002F6F8 == 0 )
+    return __from_strstr_to_strchr((unsigned __int8)Val, (char *)Str);
+  v2 = (__m128)_mm_shufflelo_epi16(
+                 _mm_cvtsi32_si128(((unsigned __int8)Val << 8) | (unsigned int)(unsigned __int8)Val),
+                 0);
+  v3 = (__m128i)_mm_movelh_ps(v2, v2);
+  v4 = -1 << ((unsigned __int8)Str & 0xF);
+  for ( i = (const __m128i *)&Str[-((unsigned __int8)Str & 0xF)]; ; ++i )
+  {
+    v6 = _mm_loadu_si128(i);
+    v7 = v4 & _mm_movemask_epi8(_mm_or_si128(_mm_cmpeq_epi8((__m128i)0LL, v6), _mm_cmpeq_epi8(v6, v3)));
+    if ( v7 != 0 )
+      break;
+    v4 = -1;
+  }
+  _BitScanForward(&v8, v7);
+  result = &i->m128i_i8[v8];
+  if ( (unsigned __int8)_mm_cvtsi128_si32(v3) != *result )
+    return nullptr;
+  return result;
 }
 
 // Address: 0x1001037E
@@ -16422,6 +16744,142 @@ char __thiscall unknown_libname_24(_DWORD *this)
   *_errno() = 22;
   _invalid_parameter_noinfo();
   return 0;
+}
+
+// Address: 0x10012EF0
+// positive sp value has been detected, the output may be wrong!
+double __cdecl pow(double X, double Y)
+{
+  int v2; // ecx
+  __m128d v3; // xmm0
+  __m128d v4; // xmm1
+  __m128d v5; // xmm2
+  __m128d v6; // xmm3
+  __m128d v7; // xmm4
+  __m128d v8; // xmm5
+  __m128d v9; // xmm7
+  int v10; // eax
+  bool v11; // zf
+  double result; // st7
+  int v13; // eax
+  double v14; // st7
+  int v15; // ecx
+  int v16; // ecx
+  int v17; // eax
+  char v19; // cl
+  int v20; // ecx
+  int v21; // ecx
+  double v23; // rt0
+  char v24; // c3
+  int v25; // eax
+  unsigned __int8 v27; // cl
+  unsigned __int8 v28; // ch
+  char v29; // cl
+  double *v30; // [esp+Ch] [ebp-80h]
+  double *v31; // [esp+Ch] [ebp-80h]
+  double v32[13]; // [esp+10h] [ebp-7Ch] BYREF
+  char v33; // [esp+80h] [ebp-Ch]
+  int v34; // [esp+84h] [ebp-8h]
+  unsigned int retaddr; // [esp+8Ch] [ebp+0h] BYREF
+
+  if ( dword_1002FF4C != 0 )
+  {
+    v10 = _mm_getcsr() & 0x7F80;
+    v11 = v10 == 8064;
+    if ( v10 == 8064 )
+      v11 = (v33 & 0x7F) == 127;
+    if ( v11 )
+      return _pow_pentium4(v3, v4, v5, v6, v7, v8, v9, X, Y);
+  }
+  v14 = _fload_withFB(v2, (_DWORD *)&X + 1);
+  v15 = v13;
+  v34 = v13;
+  if ( (_WORD)v13 != 639 )
+    _load_CW();
+  v16 = v15 & 0x7FF00000;
+  if ( v16 == 2146435072 )
+  {
+    if ( (HIDWORD(X) | v13 & 0xFFFFF) != 0 )
+    {
+      _ST6 = _fload_withFB(0, &X);
+      if ( 1.0 == _ST6 )
+        return 1.0;
+      v21 = v20 + 1;
+    }
+    else
+    {
+      _ST6 = _fload_withFB(0, &retaddr);
+    }
+test_base:
+    if ( (LODWORD(X) & 0x7FF00000) != 0x7FF00000 || (retaddr | LODWORD(X) & 0xFFFFF) == 0 )
+    {
+      if ( v21 == 0 )
+      {
+        v30 = v32;
+        __asm { fsave   byte ptr [ecx+8] }
+        v25 = _powhlp(_ST6, v14, v32);
+        _ECX = v31;
+        __asm { frstor  byte ptr [ecx+8] }
+        result = *v31;
+        if ( v25 == 0 )
+          return result;
+        goto _ErrorHandling;
+      }
+      return v14 + _ST6;
+    }
+    v23 = _ST6;
+    _ST6 = v14;
+    v14 = v23;
+    __asm { fxam }
+    if ( v24 == 0 )
+      return v14 + _ST6;
+    return 1.0;
+  }
+  _ST6 = _fload_withFB(v16, &retaddr);
+  if ( v11 )
+  {
+    v21 = 0;
+    goto test_base;
+  }
+  if ( (v17 & 0x7FF00000) != 0 || (retaddr | LODWORD(X) & 0xFFFFF) != 0 )
+  {
+    if ( SBYTE3(X) < 0 )
+    {
+      test_whether_TOS_is_int(v14);
+      _ST6 = -_ST6;
+      if ( v29 == 0 )
+      {
+        result = -2.0;
+_ErrorHandling:
+        if ( dword_1002FE24 == 0 )
+          _startTwoArgErrorHandling();
+        return result;
+      }
+    }
+    result = _twoToTOS(__FYL2X__(_ST6, v14));
+    if ( v19 == 1 )
+      result = -result;
+    if ( dword_1002FE24 == 0 )
+      ((void (__fastcall *)(void *, int))_check_range_exit)(&unk_100245E0, 29);
+  }
+  else
+  {
+    if ( (HIDWORD(X) | LODWORD(Y) & 0x7FFFFFFF) == 0 )
+      return 1.0;
+    test_whether_TOS_is_int(v14);
+    v28 = BYTE3(X) >> 7;
+    if ( (BYTE3(Y) & 0x80) != 0 )
+    {
+      result = -0.0;
+      if ( (v27 & v28) != 0 )
+        result = --0.0;
+      goto _ErrorHandling;
+    }
+    result = 0.0;
+    if ( (v27 & v28) != 0 )
+      return -0.0;
+  }
+  return result;
 }
 
 // Address: 0x10013151
@@ -22292,26 +22750,22 @@ void _startTwoArgErrorHandling()
 }
 
 // Address: 0x10019137
-double __usercall _startOneArgErrorHandling@<st0>(
-        int a1@<eax>,
-        int a2@<edx>,
-        int a3@<ecx>,
-        double a4@<st0>,
-        __int16 a5,
-        int a6,
-        int a7,
-        int a8)
+double __usercall _startOneArgErrorHandling@<st0>(int a1@<eax>, int a2@<edx>, int a3@<ecx>, double a4@<st0>)
 {
-  _DWORD v9[6]; // [esp+0h] [ebp-20h] BYREF
-  double v10; // [esp+18h] [ebp-8h]
+  _DWORD v5[6]; // [esp+0h] [ebp-20h] BYREF
+  double v6; // [esp+18h] [ebp-8h]
+  int savedregs; // [esp+20h] [ebp+0h] BYREF
+  __int16 v8[4]; // [esp+28h] [ebp+8h] BYREF
+  int v9; // [esp+30h] [ebp+10h]
+  int v10; // [esp+34h] [ebp+14h]
 
-  v9[0] = a1;
-  v10 = a4;
-  v9[1] = a3;
-  v9[2] = a7;
-  v9[3] = a8;
-  _87except(a2, v9, &a5);
-  return v10;
+  v5[0] = a1;
+  v6 = a4;
+  v5[1] = a3;
+  v5[2] = v9;
+  v5[3] = v10;
+  _87except((int)&savedregs, a2, (int)v5, v8);
+  return v6;
 }
 
 // Address: 0x10019180
@@ -22363,6 +22817,44 @@ int __cdecl _checkTOS_withFB(int a1, int a2)
 void _check_overflow_exit()
 {
   JUMPOUT(0x1001927D);
+}
+
+// Address: 0x10019269
+// positive sp value has been detected, the output may be wrong!
+double __usercall _check_range_exit@<st0>(int a1@<edx>, int a2@<ecx>, double result@<st0>)
+{
+  char v3; // fps
+  int v4; // eax
+  double v5; // [esp-4h] [ebp-Ch]
+  __int16 v6; // [esp+4h] [ebp-4h]
+
+  v5 = result;
+  if ( (HIDWORD(v5) & 0x7FF00000) == 0 )
+  {
+    result = __FSCALE__(result, 1536.0);
+    v4 = 4;
+    if ( fabs(result) < 2.225073858507201e-308 )
+      result = result * 0.0;
+    goto have_error;
+  }
+  if ( (HIDWORD(v5) & 0x7FF00000) == 0x7FF00000 )
+  {
+    result = __FSCALE__(result, -1536.0);
+    v4 = 3;
+    if ( fabs(result) > 1.797693134862316e308 )
+      result = result * INFINITY;
+    goto have_error;
+  }
+  if ( v6 != 639 && (v6 & 0x20) == 0 && (v3 & 0x20) != 0 )
+  {
+    v4 = 8;
+have_error:
+    if ( a1 == 29 )
+      _startTwoArgErrorHandling();
+    else
+      return _startOneArgErrorHandling(v4, a1, a2, result);
+  }
+  return result;
 }
 
 // Address: 0x1001930C
@@ -26380,6 +26872,59 @@ __CIlog10_default:
     start_0(v3, v5);
   }
   return x;
+}
+
+// Address: 0x1001D268
+long double __usercall start_0@<st0>(
+        char a1@<zf>,
+        int a2@<eax>,
+        __int16 a3@<dx>,
+        char a4@<fpstat>,
+        long double result@<st0>,
+        int a6,
+        int a7)
+{
+  int v7; // eax
+
+  if ( a1 )
+  {
+    if ( (a2 & 0xFFFFF) != 0 || a6 != 0 )
+    {
+      result = _convertTOStoQNaN(a2, result);
+      goto _ErrorHandling_0;
+    }
+    if ( (a2 & 0x80000000) == 0 )
+      goto exit_1;
+negative_x:
+    result = -2.0;
+    v7 = 1;
+    goto _ErrorHandling_0;
+  }
+  if ( (a7 & 0x7FF00000) != 0 )
+  {
+    if ( a7 >= 0 )
+    {
+normal_0:
+      result = __FYL2X__(result, 0.3010299956639811952);
+exit_1:
+      if ( dword_1002FE24 == 0 && a3 != 639 && (a3 & 0x20) != 0 && (a4 & 0x20) != 0 )
+        return _startOneArgErrorHandling(8, 27, (int)"log10", result);
+      return result;
+    }
+    goto negative_x;
+  }
+  if ( (a7 & 0xFFFFF) != 0 || a6 != 0 )
+  {
+    if ( a7 >= 0 )
+      goto normal_0;
+    goto negative_x;
+  }
+  result = -0.0;
+  v7 = 2;
+_ErrorHandling_0:
+  if ( dword_1002FE24 == 0 )
+    return _startOneArgErrorHandling(v7, 27, (int)"log10", result);
+  return result;
 }
 
 // Address: 0x1001D320

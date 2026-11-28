@@ -73,6 +73,16 @@ int __thiscall sub_401110(void *this)
   return atexit(sub_5103D0);
 }
 
+// Address: 0x401170
+int sub_401170()
+{
+  sub_404820(&dword_55B114);
+  dword_55B128 = 15;
+  dword_55B124 = 0;
+  LOBYTE(dword_55B114) = 0;
+  return atexit(sub_510430);
+}
+
 // Address: 0x4011B0
 int sub_4011B0()
 {
@@ -105,6 +115,26 @@ int sub_401220()
   dword_55C1B8 = 0;
   dword_55C1B4 = sub_44E650();
   return atexit(sub_5105C0);
+}
+
+// Address: 0x401250
+int sub_401250()
+{
+  sub_404820(&dword_55C1BC);
+  dword_55C1D0 = 15;
+  dword_55C1CC = 0;
+  LOBYTE(dword_55C1BC) = 0;
+  return atexit(sub_510600);
+}
+
+// Address: 0x401290
+int sub_401290()
+{
+  sub_404820(lpFileName);
+  dword_55C1E8 = 7;
+  dword_55C1E4 = 0;
+  LOWORD(lpFileName[0]) = 0;
+  return atexit(sub_510660);
 }
 
 // Address: 0x4012D0
@@ -355,6 +385,17 @@ int sub_40160F()
 {
   std::_Init_locks::_Init_locks((std::_Init_locks *)&unk_559D60);
   return atexit(sub_510862);
+}
+
+// Address: 0x401630
+int sub_401630()
+{
+  sub_404820(&dword_559F24);
+  dword_559F38 = 15;
+  dword_559F34 = 0;
+  LOBYTE(dword_559F24) = 0;
+  sub_406AB0(&dword_559F24, byte_516E9C, 3u);
+  return atexit(sub_510900);
 }
 
 // Address: 0x401680
@@ -1080,6 +1121,20 @@ FARPROC sub_401F70()
   return result;
 }
 
+// Address: 0x401F90
+int sub_401F90()
+{
+  sub_4B31A0(&dword_55A17C);
+  return atexit(__std_execution_wake_by_address_all);
+}
+
+// Address: 0x401FB0
+int sub_401FB0()
+{
+  sub_4B3400(&dword_55A184);
+  return atexit(sub_511070);
+}
+
 // Address: 0x401FD0
 void sub_401FD0()
 {
@@ -1470,6 +1525,13 @@ int sub_4023A2()
 void sub_4023AD()
 {
   InitializeSListHead(&ListHead);
+}
+
+// Address: 0x4023B9
+int sub_4023B9()
+{
+  __ExceptionPtr::_InitBadAllocException(&dword_55AFC8);
+  return atexit(sub_51128B);
 }
 
 // Address: 0x4023E0
@@ -16108,7 +16170,7 @@ int __stdcall sub_412240(int **a1)
   v1 = sub_413BA0(Block, v11[0], v11[1]);
   if ( v1 != 0 )
   {
-    sub_416EB0(&unk_5282D8, 1);
+    sub_416EB0(&byte_5282D8, 1);
     sub_416EB0(L"PowerOffData.hsdat", 18);
     v2 = GetLastError;
     LastError = 0;
@@ -16209,7 +16271,7 @@ int __stdcall sub_4126D0(int a1)
   v1 = sub_413BA0(Block, v16[0], v16[1]);
   if ( v1 != 0 )
   {
-    sub_416EB0(&unk_5282D8, 1);
+    sub_416EB0(&byte_5282D8, 1);
     sub_416EB0(L"PowerOffData.hsdat", 18);
     v2 = GetLastError;
     LastError = 0;
@@ -23339,6 +23401,12 @@ void __thiscall boost::exception::~exception(boost::exception *this)
     *((_WORD *)this + 2) = 0;
   else
     **((_WORD **)this + 1) = 0;
+}
+
+// Address: 0x41AD40
+BOOL __thiscall sub_41AD40(volatile signed __int32 **this, int a2, int a3)
+{
+  return sub_41AEA0(this) != 0;
 }
 
 // Address: 0x41AD60
@@ -46984,6 +47052,16 @@ int __fastcall sub_43B140(int a1, int a2, int a3)
   return 1;
 }
 
+// Address: 0x43BE60
+int __stdcall sub_43BE60(void *a1, char a2)
+{
+  int result; // eax
+
+  if ( a2 != 0 && a1 != nullptr )
+    return sub_43D6A0(a1);
+  return result;
+}
+
 // Address: 0x43BE80
 int __fastcall sub_43BE80(int a1, int a2, DWORD a3, int a4)
 {
@@ -67053,6 +67131,19 @@ char *__thiscall sub_456B90(char *this, int a2)
     return this + 16;
 }
 
+// Address: 0x456BC0
+int __thiscall sub_456BC0(int this)
+{
+  int result; // eax
+
+  if ( *(_BYTE *)(this + 16) != 0 )
+  {
+    result = sub_498AF0((int *)(this + 20));
+    *(_BYTE *)(this + 16) = 0;
+  }
+  return result;
+}
+
 // Address: 0x456BE0
 int __thiscall sub_456BE0(int this, int a2, int a3)
 {
@@ -75331,7 +75422,7 @@ static void __cdecl std::locale::_Setgloballocale(void *a1)
 static const struct std::locale *__cdecl std::locale::classic()
 {
   std::locale::_Init(false);
-  return (const struct std::locale *)&unk_5599B8;
+  return (const struct std::locale *)&dword_5599B8;
 }
 
 // Address: 0x461518
@@ -77687,7 +77778,7 @@ __int16 __thiscall unknown_libname_9(int this, int a2, int a3)
   if ( *(_BYTE *)(a3 + 46) <= 4u )
     v5 = *(const wchar_t **)(a3 + 72);
   *(_DWORD *)(this + 20) = std::_Maklocwcs(v5);
-  v6 = "-";
+  v6 = asc_51424C;
   if ( *(_BYTE *)(a3 + 47) <= 4u )
     v6 = *(const wchar_t **)(a3 + 76);
   *(_DWORD *)(this + 24) = std::_Maklocwcs(v6);
@@ -118259,7 +118350,7 @@ void *sub_48F7C0()
       if ( dword_559FE0 == -1 )
       {
         LOBYTE(v6) = 1;
-        sub_4AAB50(&unk_559FDC);
+        sub_4AAB50(&dword_559FDC);
         atexit(sub_510B80);
         LOBYTE(v6) = 0;
         _Init_thread_footer(&dword_559FE0);
@@ -118278,12 +118369,12 @@ void *sub_48F7C0()
     if ( dword_559FE0 == -1 )
     {
       v6 = 2;
-      sub_4AAB50(&unk_559FDC);
+      sub_4AAB50(&dword_559FDC);
       atexit(sub_510B80);
       _Init_thread_footer(&dword_559FE0);
     }
   }
-  return &unk_559FDC;
+  return &dword_559FDC;
 }
 
 // Address: 0x48F8F0
@@ -120490,6 +120581,16 @@ int __cdecl sub_4915A0(void *Block)
     return sub_4BA3DA(Block);
   }
   return result;
+}
+
+// Address: 0x4915C0
+void __cdecl sub_4915C0(char *Block)
+{
+  if ( Block != nullptr )
+  {
+    sub_4989B0(Block);
+    sub_4BA3DA(Block);
+  }
 }
 
 // Address: 0x4915E0
@@ -132437,7 +132538,7 @@ void *sub_4A1040()
       if ( dword_55A0AC == -1 )
       {
         LOBYTE(v6) = 1;
-        sub_4AAB50(&unk_55A0A8);
+        sub_4AAB50(&dword_55A0A8);
         atexit(sub_510C90);
         LOBYTE(v6) = 0;
         _Init_thread_footer(&dword_55A0AC);
@@ -132456,12 +132557,12 @@ void *sub_4A1040()
     if ( dword_55A0AC == -1 )
     {
       v6 = 2;
-      sub_4AAB50(&unk_55A0A8);
+      sub_4AAB50(&dword_55A0A8);
       atexit(sub_510C90);
       _Init_thread_footer(&dword_55A0AC);
     }
   }
-  return &unk_55A0A8;
+  return &dword_55A0A8;
 }
 
 // Address: 0x4A1170
@@ -136903,6 +137004,26 @@ _DWORD *__thiscall sub_4A7330(_DWORD *this, int a2, int a3)
   }
   *this = v4;
   return this;
+}
+
+// Address: 0x4A73C0
+char *__cdecl sub_4A73C0(char *a1, int *a2)
+{
+  int v2; // eax
+
+  if ( *a2 == -1 )
+  {
+    sub_4079D0(a1, "[uninitialized]");
+    return a1;
+  }
+  else
+  {
+    v2 = sub_4A8910(a2);
+    if ( *(_DWORD *)(v2 + 20) >= 0x10u )
+      v2 = *(_DWORD *)v2;
+    sub_4079D0(a1, (const char *)v2);
+    return a1;
+  }
 }
 
 // Address: 0x4A7400
@@ -144589,6 +144710,15 @@ _DWORD *__thiscall sub_4B0860(_DWORD *this, _DWORD *a2)
   return a2;
 }
 
+// Address: 0x4B09C0
+struct std::_Facet_base *sub_4B09C0()
+{
+  void ***v0; // eax
+
+  v0 = sub_4B1B80();
+  return sub_411870((int)v0);
+}
+
 // Address: 0x4B09D0
 void ***__cdecl sub_4B09D0(void ***a1)
 {
@@ -149028,9 +149158,9 @@ DWORD sub_4B5D10()
 
 // Address: 0x4B5D30
 // attributes: thunk
-void __cdecl sub_4B5D30(int a1, int a2)
+void __cdecl sub_4B5D30()
 {
-  sub_4B6030(a1, a2);
+  sub_4B6030();
 }
 
 // Address: 0x4B5D40
@@ -149356,6 +149486,28 @@ int sub_4B62F0()
 {
   sub_4B5D10();
   return 0;
+}
+
+// Address: 0x4B6300
+void __stdcall TlsCallback_0(int a1, int a2, int a3)
+{
+  if ( a2 == 3 )
+    sub_4B5D30();
+}
+
+// Address: 0x4B6310
+int __stdcall sub_4B6310(int a1, int a2, int a3)
+{
+  if ( a2 != 0 )
+  {
+    if ( a2 == 3 )
+      sub_4B5D30();
+  }
+  else
+  {
+    sub_4B5D10();
+  }
+  return 1;
 }
 
 // Address: 0x4B6350
@@ -157956,6 +158108,14 @@ LABEL_22:
   return result;
 }
 
+// Address: 0x4BF216
+int __stdcall StartAddress(LPVOID lpThreadParameter)
+{
+  sub_4BF22F((int)lpThreadParameter);
+  sub_4BD7E2(0);
+  return 0;
+}
+
 // Address: 0x4BF22F
 void __thiscall sub_4BF22F(int this)
 {
@@ -164978,7 +165138,7 @@ int __cdecl sub_4C5165(char a1, char a2, int a3)
     v4[8] = -720526716;
     v4[9] = 1632799356;
     v4[13] = a3;
-    return sub_4C9DDE(dword_55A7A8, dword_55A7AC, v4);
+    return sub_4C9DDE(qword_55A7A8, MEMORY[0x55A7AC], v4);
   }
   return result;
 }
@@ -166555,7 +166715,7 @@ int __cdecl sub_4C65C4(char a1, char a2, int a3, int a4)
     v5[9] = -872517224;
     v5[13] = a3;
     v5[14] = a4;
-    return sub_4C9DDE(dword_55A7A8, dword_55A7AC, v5);
+    return sub_4C9DDE(qword_55A7A8, MEMORY[0x55A7AC], v5);
   }
   return result;
 }
@@ -200859,6 +201019,122 @@ int __usercall _CIpow_default@<eax>(unsigned __int64 a1@<st1>, unsigned __int64 
            *(double *)&a1);
 }
 
+// Address: 0x4E6284
+// local variable allocation has failed, the output may be wrong!
+long double __cdecl _pow_default(int a1, int a2, int a3, int a4)
+{
+  int v4; // ecx
+  int v5; // eax
+  double v6; // st7
+  int v7; // ecx
+  int v8; // ecx
+  int v9; // eax
+  char v11; // zf
+  long double result; // st7
+  char v13; // cl
+  int v14; // ecx
+  int v15; // ecx
+  double v17; // rt0
+  char v18; // c3
+  int v19; // eax
+  unsigned __int8 v21; // cl
+  unsigned __int8 v22; // ch
+  char v23; // cl
+  double *v24; // [esp+10h] [ebp-7Ch]
+  double *v25; // [esp+10h] [ebp-7Ch]
+  double v26[15]; // [esp+14h] [ebp-78h] BYREF
+
+  v6 = _fload_withFB(v4, &a3);
+  v7 = v5;
+  HIDWORD(v26[14]) = v5;
+  if ( (_WORD)v5 != 639 )
+    _load_CW();
+  v8 = v7 & 0x7FF00000;
+  if ( v8 == 2146435072 )
+  {
+    if ( (a3 | v5 & 0xFFFFF) != 0 )
+    {
+      _ST6 = _fload_withFB(0, &a1);
+      if ( 1.0 == _ST6 )
+        return 1.0;
+      v15 = v14 + 1;
+    }
+    else
+    {
+      _ST6 = _fload_withFB(0, &a1);
+    }
+test_base:
+    if ( (a2 & 0x7FF00000) != 0x7FF00000 || (a1 | a2 & 0xFFFFF) == 0 )
+    {
+      if ( v15 == 0 )
+      {
+        v24 = v26;
+        __asm { fsave   byte ptr [ecx+8] }
+        v19 = _powhlp(_ST6, v6, v26);
+        _ECX = v25;
+        __asm { frstor  byte ptr [ecx+8] }
+        result = *v25;
+        if ( v19 == 0 )
+          return result;
+        goto _ErrorHandling;
+      }
+      return v6 + _ST6;
+    }
+    v17 = _ST6;
+    _ST6 = v6;
+    v6 = v17;
+    __asm { fxam }
+    if ( v18 == 0 )
+      return v6 + _ST6;
+    return 1.0;
+  }
+  _ST6 = _fload_withFB(v8, &a1);
+  if ( v11 )
+  {
+    v15 = 0;
+    goto test_base;
+  }
+  if ( (v9 & 0x7FF00000) != 0 || (a1 | a2 & 0xFFFFF) != 0 )
+  {
+    if ( a2 < 0 )
+    {
+      test_whether_TOS_is_int();
+      _ST6 = -_ST6;
+      if ( v23 == 0 )
+      {
+        result = -2.0;
+_ErrorHandling:
+        if ( dword_55AF94 == 0 )
+          _startTwoArgErrorHandling();
+        return result;
+      }
+    }
+    result = _twoToTOS(__FYL2X__(_ST6, v6));
+    if ( v13 == 1 )
+      result = -result;
+    if ( dword_55AF94 == 0 )
+      _check_range_exit(&unk_51C6E0, 29);
+  }
+  else
+  {
+    if ( (a3 | a4 & 0x7FFFFFFF) == 0 )
+      return 1.0;
+    test_whether_TOS_is_int();
+    v22 = HIBYTE(a2) >> 7;
+    if ( a4 < 0 )
+    {
+      result = -0.0;
+      if ( (v21 & v22) != 0 )
+        result = --0.0;
+      goto _ErrorHandling;
+    }
+    result = 0.0;
+    if ( (v21 & v22) != 0 )
+      return -0.0;
+  }
+  return result;
+}
+
 // Address: 0x4E6451
 void test_whether_TOS_is_int()
 {
@@ -206442,6 +206718,54 @@ double __cdecl sqrt(double X)
   return start_1(LODWORD(X), HIDWORD(X));
 }
 
+// Address: 0x4EBC2D
+long double __usercall start_1@<st0>(
+        char a1@<zf>,
+        __int16 a2@<dx>,
+        char a3@<fpstat>,
+        long double result@<st0>,
+        int a5,
+        int a6)
+{
+  int v6; // eax
+  int v7; // eax
+
+  v6 = a6;
+  if ( a1 )
+  {
+    if ( (a6 & 0xFFFFF) != 0 || a5 != 0 )
+    {
+      result = _convertTOStoQNaN(a6, result);
+      goto _Error_handling;
+    }
+    if ( (a6 & 0x80000000) == 0 )
+      goto exit_1;
+  }
+  else
+  {
+    if ( a2 != 639 )
+      _load_CW();
+    if ( v6 >= 0 )
+    {
+      result = sqrt(result);
+      goto exit_1;
+    }
+    if ( (v6 & 0x7FF00000) == 0 && (v6 & 0xFFFFF) == 0 && a5 == 0 )
+    {
+exit_1:
+      if ( dword_55AF94 == 0 && a2 != 639 && (a2 & 0x20) != 0 && (a3 & 0x20) != 0 )
+        return _startOneArgErrorHandling(8, 5, (int)"sqrt", result);
+      return result;
+    }
+  }
+  result = -2.0;
+  v7 = 1;
+_Error_handling:
+  if ( dword_55AF94 == 0 )
+    return _startOneArgErrorHandling(v7, 5, (int)"sqrt", result);
+  return result;
+}
+
 // Address: 0x4EBCCA
 int __cdecl common_tcsncpy_s<wchar_t>(_WORD *a1, int a2, int a3, int a4)
 {
@@ -208762,7 +209086,7 @@ BOOL __cdecl sub_4EE00A(int a1, int **a2)
 // Address: 0x4EE032
 int (__stdcall *__cdecl try_get_CompareStringEx())(const wchar_t *, unsigned int, const wchar_t *, int, const wchar_t *, int, struct _nlsversioninfo *, void *, int)
 {
-  return try_get_function(1, "CompareStringEx", "\a", &unk_51DDA4);
+  return try_get_function(1, "CompareStringEx", "\a", &dword_51DDA4);
 }
 
 // Address: 0x4EE04C
@@ -212336,26 +212660,22 @@ void _startTwoArgErrorHandling()
 }
 
 // Address: 0x4F2177
-double __usercall _startOneArgErrorHandling@<st0>(
-        int a1@<eax>,
-        int a2@<edx>,
-        int a3@<ecx>,
-        double a4@<st0>,
-        __int16 a5,
-        int a6,
-        int a7,
-        int a8)
+double __usercall _startOneArgErrorHandling@<st0>(int a1@<eax>, int a2@<edx>, int a3@<ecx>, double a4@<st0>)
 {
-  _DWORD v9[6]; // [esp+0h] [ebp-20h] BYREF
-  double v10; // [esp+18h] [ebp-8h]
+  _DWORD v5[6]; // [esp+0h] [ebp-20h] BYREF
+  double v6; // [esp+18h] [ebp-8h]
+  int savedregs; // [esp+20h] [ebp+0h] BYREF
+  __int16 v8[4]; // [esp+28h] [ebp+8h] BYREF
+  int v9; // [esp+30h] [ebp+10h]
+  int v10; // [esp+34h] [ebp+14h]
 
-  v9[0] = a1;
-  v10 = a4;
-  v9[1] = a3;
-  v9[2] = a7;
-  v9[3] = a8;
-  _87except(a2, v9, &a5);
-  return v10;
+  v5[0] = a1;
+  v6 = a4;
+  v5[1] = a3;
+  v5[2] = v9;
+  v5[3] = v10;
+  _87except((int)&savedregs, a2, (int)v5, v8);
+  return v6;
 }
 
 // Address: 0x4F21C0
@@ -212407,6 +212727,44 @@ int __cdecl _checkTOS_withFB(int a1, int a2)
 void _check_overflow_exit()
 {
   JUMPOUT(0x4F22BD);
+}
+
+// Address: 0x4F22A9
+// positive sp value has been detected, the output may be wrong!
+double __usercall _check_range_exit@<st0>(int a1@<edx>, int a2@<ecx>, double result@<st0>)
+{
+  char v3; // fps
+  int v4; // eax
+  double v5; // [esp-4h] [ebp-Ch]
+  __int16 v6; // [esp+4h] [ebp-4h]
+
+  v5 = result;
+  if ( (HIDWORD(v5) & 0x7FF00000) == 0 )
+  {
+    result = __FSCALE__(result, 1536.0);
+    v4 = 4;
+    if ( fabs(result) < 2.225073858507201e-308 )
+      result = result * 0.0;
+    goto have_error;
+  }
+  if ( (HIDWORD(v5) & 0x7FF00000) == 0x7FF00000 )
+  {
+    result = __FSCALE__(result, -1536.0);
+    v4 = 3;
+    if ( fabs(result) > 1.797693134862316e308 )
+      result = result * INFINITY;
+    goto have_error;
+  }
+  if ( v6 != 639 && (v6 & 0x20) == 0 && (v3 & 0x20) != 0 )
+  {
+    v4 = 8;
+have_error:
+    if ( a1 == 29 )
+      _startTwoArgErrorHandling();
+    else
+      return _startOneArgErrorHandling(v4, a1, a2, result);
+  }
+  return result;
 }
 
 // Address: 0x4F234C
@@ -216902,16 +217260,17 @@ int __usercall _cintrindisp1@<eax>(int a1@<edx>, __int16 a2@<cx>, double a3@<st0
 }
 
 // Address: 0x4F6C57
-int __usercall _ctrandisp2@<eax>(double a1@<st1>, double a2@<st0>, double a3, double a4)
+int __usercall _ctrandisp2@<eax>(double a2@<st0>, double a3, double a4)
 {
-  int v4; // edx
-  __int16 v5; // fps
+  double v4; // st6
+  int v5; // edx
+  __int16 v6; // fps
   int savedregs; // [esp+2D4h] [ebp+0h] BYREF
 
   _fload(a3);
-  _fload(a4);
-  _trandisp2(v4, (int)&savedregs, v5, a1, a2);
-  return ctranexit();
+  v4 = _fload(a4);
+  _trandisp2(v5, (int)&savedregs, v6, v4, a2);
+  return ctranexit((int)&savedregs);
 }
 
 // Address: 0x4F6C98
@@ -221084,6 +221443,59 @@ __CIlog10_default:
     start_3(v3, v5);
   }
   return x;
+}
+
+// Address: 0x4FAE88
+long double __usercall start_3@<st0>(
+        char a1@<zf>,
+        int a2@<eax>,
+        __int16 a3@<dx>,
+        char a4@<fpstat>,
+        long double result@<st0>,
+        int a6,
+        int a7)
+{
+  int v7; // eax
+
+  if ( a1 )
+  {
+    if ( (a2 & 0xFFFFF) != 0 || a6 != 0 )
+    {
+      result = _convertTOStoQNaN(a2, result);
+      goto _ErrorHandling_0;
+    }
+    if ( (a2 & 0x80000000) == 0 )
+      goto exit_2;
+negative_x_0:
+    result = -2.0;
+    v7 = 1;
+    goto _ErrorHandling_0;
+  }
+  if ( (a7 & 0x7FF00000) != 0 )
+  {
+    if ( a7 >= 0 )
+    {
+normal_0:
+      result = __FYL2X__(result, 0.3010299956639811952);
+exit_2:
+      if ( dword_55AF94 == 0 && a3 != 639 && (a3 & 0x20) != 0 && (a4 & 0x20) != 0 )
+        return _startOneArgErrorHandling(8, 27, (int)"log10", result);
+      return result;
+    }
+    goto negative_x_0;
+  }
+  if ( (a7 & 0xFFFFF) != 0 || a6 != 0 )
+  {
+    if ( a7 >= 0 )
+      goto normal_0;
+    goto negative_x_0;
+  }
+  result = -0.0;
+  v7 = 2;
+_ErrorHandling_0:
+  if ( dword_55AF94 == 0 )
+    return _startOneArgErrorHandling(v7, 27, (int)"log10", result);
+  return result;
 }
 
 // Address: 0x4FAF40

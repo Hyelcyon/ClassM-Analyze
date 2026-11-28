@@ -348,9 +348,9 @@ void __usercall sub_401960(size_t Size@<ecx>, const void *a2@<ebx>, int a3, char
   BYTE2(v17[1]) = a4;
   v17[2] = htonl(Size + 8);
   v6 = htonl(Size + 8);
-  LOWORD(v17[1]) = dword_45421C;
+  LOWORD(v17[1]) = MEMORY[0x45421C];
   v17[3] = v6;
-  v17[0] = dword_454218;
+  v17[0] = qword_454218;
   if ( a5 == 74 || a5 == 37 )
   {
     v17[0] = 0;
@@ -2295,8 +2295,8 @@ void __thiscall sub_404230(const WCHAR *this)
   memset(&v18[2], 0, 16);
   v18[7] = 0;
   HIWORD(v18[1]) = 1;
-  v18[0] = dword_454218;
-  LOWORD(v18[1]) = dword_45421C;
+  v18[0] = qword_454218;
+  LOWORD(v18[1]) = MEMORY[0x45421C];
   memset(name, 0, sizeof(name));
   gethostname(name, 256);
   v6 = gethostbyname(name);
@@ -2654,8 +2654,8 @@ DWORD __stdcall sub_404CA0(LPVOID lpThreadParameter)
         }
         v57 = v50 + 426;
         BYTE2(v67[1]) = 1;
-        v67[0] = dword_454218;
-        LOWORD(v67[1]) = dword_45421C;
+        v67[0] = qword_454218;
+        LOWORD(v67[1]) = MEMORY[0x45421C];
         memset(name, 0, 256);
         gethostname(name, 256);
         v6 = gethostbyname(name);
@@ -2975,8 +2975,8 @@ void __cdecl sub_4058C0(u_long a1, u_long hostlong, char a3, int a4)
   v4 = malloc(0x28u);
   memset(&v10[2], 0, 24);
   BYTE2(v9) = 0;
-  v10[0] = dword_454218;
-  LOWORD(v10[1]) = dword_45421C;
+  v10[0] = qword_454218;
+  LOWORD(v10[1]) = MEMORY[0x45421C];
   HIWORD(v10[1]) = 1;
   memset(name, 0, 256);
   gethostname(name, 256);
@@ -3032,8 +3032,8 @@ void __cdecl sub_405A90(u_long a1, u_long hostlong, char a3, int a4)
   v4 = malloc(0x28u);
   memset(&v10[2], 0, 24);
   BYTE2(v9) = 0;
-  v10[0] = dword_454218;
-  LOWORD(v10[1]) = dword_45421C;
+  v10[0] = qword_454218;
+  LOWORD(v10[1]) = MEMORY[0x45421C];
   HIWORD(v10[1]) = 1;
   memset(name, 0, 256);
   gethostname(name, 256);
@@ -3091,8 +3091,8 @@ void __usercall sub_405C60(int a1@<ebx>, u_long a2, u_long hostlong, int a4)
   v4 = malloc(0x28u);
   memset(&v12[2], 0, 24);
   BYTE2(v11) = 0;
-  v12[0] = dword_454218;
-  LOWORD(v12[1]) = dword_45421C;
+  v12[0] = qword_454218;
+  LOWORD(v12[1]) = MEMORY[0x45421C];
   HIWORD(v12[1]) = 1;
   memset(name, 0, 256);
   gethostname(name, 256);
@@ -3240,8 +3240,8 @@ void __cdecl sub_406050(u_long hostlong, char a2)
   BYTE2(v8) = 0;
   memset(&v9[2], 0, 16);
   v9[7] = 0;
-  v9[0] = dword_454218;
-  LOWORD(v9[1]) = dword_45421C;
+  v9[0] = qword_454218;
+  LOWORD(v9[1]) = MEMORY[0x45421C];
   HIWORD(v9[1]) = 1;
   memset(name, 0, 256);
   gethostname(name, 256);
@@ -4870,13 +4870,13 @@ LABEL_6:
                         }
                         else
                         {
-                          if ( dword_46130C(&dword_454218, v187) != 0
-                            || dword_461310(v187, &dword_454218, NumberOfBytesRead) == 0 )
+                          if ( dword_46130C(&qword_454218, v187) != 0
+                            || dword_461310(v187, &qword_454218, NumberOfBytesRead) == 0 )
                           {
                             sub_404900(0);
                             sub_4048E0();
-                            dword_46130C(&dword_454218, v187);
-                            v6 = dword_461310(v187, &dword_454218, NumberOfBytesRead);
+                            dword_46130C(&qword_454218, v187);
+                            v6 = dword_461310(v187, &qword_454218, NumberOfBytesRead);
                             sub_41BD80((wchar_t *)L"Manual license register fail error SetReg %d NetReg %d", v6);
                           }
                           else
@@ -5290,7 +5290,7 @@ LABEL_68:
                   sub_41BD80((wchar_t *)L"Delete Client License...", v135);
                   memset(MultiByteStr, 0, 260);
                   dword_461338(MultiByteStr);
-                  v29 = dword_461314(&dword_454218, MultiByteStr);
+                  v29 = dword_461314(&qword_454218, MultiByteStr);
                   dword_461318(1);
                   sub_41BD80((wchar_t *)L"UnRegister License Result 0x%08x", v29);
                   if ( dword_461320(0, 0) != 0 )
@@ -6448,8 +6448,8 @@ LABEL_131:
       v180[7] = 0;
       v119 = v115 + 8;
       HIWORD(v180[1]) = 1;
-      v180[0] = dword_454218;
-      LOWORD(v180[1]) = dword_45421C;
+      v180[0] = qword_454218;
+      LOWORD(v180[1]) = MEMORY[0x45421C];
       memset(MultiByteStr, 0, 256);
       gethostname(MultiByteStr, 256);
       v120 = gethostbyname(MultiByteStr);
@@ -10973,6 +10973,74 @@ LSTATUS __usercall sub_413980@<eax>(const wchar_t *a1@<esi>)
   return result;
 }
 
+// Address: 0x413C70
+char sub_413C70()
+{
+  HMODULE LibraryW; // esi
+  FARPROC RtlSetProcessIsCritical; // eax
+  wchar_t *v3; // esi
+  wchar_t *v4; // esi
+
+  if ( sub_41B980() )
+  {
+    v3 = aClassmClient;
+    do
+    {
+      if ( (*(unsigned __int8 (__thiscall **)(_DWORD, wchar_t *, _DWORD))(**(_DWORD **)(dword_4526C4 + 4) + 32))(
+             *(_DWORD *)(dword_4526C4 + 4),
+             v3,
+             *((_DWORD *)v3 + 130)) != 0 )
+        sub_41BD80(L"Success guard record : %s", v3);
+      else
+        sub_41BD80((wchar_t *)L"Failed guard record : %s", v3);
+      v3 += 262;
+    }
+    while ( (int)v3 < (int)aWuauserv );
+    if ( (*(unsigned __int8 (__thiscall **)(_DWORD))(**(_DWORD **)(dword_4526C4 + 4) + 52))(*(_DWORD *)(dword_4526C4 + 4)) != 0 )
+    {
+      if ( (*(unsigned __int8 (__thiscall **)(_DWORD))(**(_DWORD **)(dword_4526C4 + 4) + 56))(*(_DWORD *)(dword_4526C4 + 4)) != 0 )
+      {
+        sub_41BD80((wchar_t *)L"Service Watcher service started.");
+        v4 = aWuauserv;
+        do
+        {
+          if ( (*(unsigned __int8 (__thiscall **)(_DWORD, wchar_t *, _DWORD))(**(_DWORD **)(dword_4526C4 + 4) + 64))(
+                 *(_DWORD *)(dword_4526C4 + 4),
+                 v4,
+                 *((_DWORD *)v4 + 130)) != 0 )
+            sub_41BD80(L"Success service monitor record : %s (%d)", v4, *((_DWORD *)v4 + 130));
+          else
+            sub_41BD80((wchar_t *)L"Failed service monitor record : %s (%d)", v4, *((_DWORD *)v4 + 130));
+          v4 += 262;
+        }
+        while ( (int)v4 < (int)&dword_451C6C );
+        return 1;
+      }
+      else
+      {
+        sub_41BD80((wchar_t *)L"Service Watcher service failed to start.");
+        return 1;
+      }
+    }
+    else
+    {
+      sub_41BD80((wchar_t *)L"Failed to create service watcher object.");
+      return 1;
+    }
+  }
+  else
+  {
+    sub_41BD80((wchar_t *)L"Cannot create innoguard instance");
+    sub_40E450(L"SeDebugPrivilege");
+    LibraryW = LoadLibraryW(L"ntdll.dll");
+    RtlSetProcessIsCritical = GetProcAddress(LibraryW, "RtlSetProcessIsCritical");
+    if ( RtlSetProcessIsCritical != nullptr )
+      ((void (__cdecl *)(_DWORD, _DWORD, _DWORD))RtlSetProcessIsCritical)(0, 0, 0);
+    FreeLibrary(LibraryW);
+    return 0;
+  }
+}
+
 // Address: 0x413DD0
 void sub_413DD0()
 {
@@ -12398,6 +12466,39 @@ int __userpurge sub_4154A0@<eax>(_DWORD *a1@<eax>, int a2@<ecx>, unsigned int a3
     }
     return a2;
   }
+}
+
+// Address: 0x415550
+char *__usercall sub_415550@<eax>(_BYTE *a1@<ebx>, size_t a2@<edi>, _DWORD *a3@<esi>)
+{
+  char *result; // eax
+  _BYTE *v4; // eax
+  size_t v5; // ecx
+  _BYTE *v6; // ebp
+
+  result = nullptr;
+  a3[3] = 0;
+  a3[4] = 0;
+  a3[5] = 0;
+  if ( a2 != 0 )
+  {
+    v4 = sub_4163E0(a2);
+    a3[5] = &v4[a2];
+    a3[3] = v4;
+    a3[4] = v4;
+    v5 = a2;
+    v6 = v4;
+    do
+    {
+      *v6 = *a1;
+      --v5;
+      ++v6;
+    }
+    while ( v5 != 0 );
+    result = &v4[a2];
+    a3[4] = result;
+  }
+  return result;
 }
 
 // Address: 0x4155A0
@@ -15528,6 +15629,15 @@ void __stdcall sub_418FE0(void **a1)
   operator delete(*a1);
 }
 
+// Address: 0x419040
+_DWORD *__thiscall sub_419040(_DWORD *this, char a2)
+{
+  sub_419060(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x419060
 void __thiscall sub_419060(_DWORD *this)
 {
@@ -18636,7 +18746,7 @@ void __usercall sub_41CBB0(int a1@<eax>, int a2@<edi>)
   else if ( v3 == 2 && *(int *)(a2 + 160) >= 3 )
   {
     v8 = sub_41CB00((int)v12);
-    v9 = sub_41EC50(&unk_453358, v8);
+    v9 = sub_41EC50(&dword_453358, v8);
     v10 = sub_41EEC0(v9, "  ");
     v11 = sub_41EEC0(v10, a1);
     sub_41CCC0(10);
@@ -26270,6 +26380,26 @@ _DWORD *__cdecl __FrameUnwindToState(int a1, int a2, int a3, int a4)
   return result;
 }
 
+// Address: 0x424452
+int __usercall ExFilterRethrow@<eax>(_DWORD **a1@<eax>)
+{
+  _DWORD *v1; // eax
+  int v2; // ecx
+
+  v1 = *a1;
+  if ( *v1 != -529697949 )
+    return 0;
+  if ( v1[4] != 3 )
+    return 0;
+  v2 = v1[5];
+  if ( v2 != 429065504 && v2 != 429065505 && v2 != 429065506 )
+    return 0;
+  if ( v1[7] != 0 )
+    return 0;
+  _getptd()[131] = 1;
+  return 1;
+}
+
 // Address: 0x424497
 void __cdecl __DestructExceptionObject(_DWORD *a1)
 {
@@ -26297,6 +26427,12 @@ int __cdecl __AdjustPointer(int a1, _DWORD *a2)
   if ( (int)a2[1] >= 0 )
     result += a2[1] + *(_DWORD *)(*(_DWORD *)(a2[1] + a1) + a2[2]);
   return result;
+}
+
+// Address: 0x424515
+bool __cdecl __uncaught_exception()
+{
+  return _getptd()[36] != 0;
 }
 
 // Address: 0x424528
@@ -29467,7 +29603,7 @@ void *__set_flsgetvalue()
   Value = TlsGetValue(dwTlsIndex);
   if ( Value == nullptr )
   {
-    Value = _decode_pointer(lpTlsValue);
+    Value = _decode_pointer(FlsGetValue);
     TlsSetValue(dwTlsIndex, Value);
   }
   return Value;
@@ -29555,7 +29691,7 @@ DWORD *_getptd_noexit()
     {
       v10 = v4;
       v8 = dword_44FB68;
-      v5 = (int (__stdcall *)(int, int))_decode_pointer((void *)dword_453810);
+      v5 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
       if ( v5(v8, v10) != 0 )
       {
         _initptd((int)v3, 0);
@@ -47359,7 +47495,7 @@ int sub_43AFD0()
 // Address: 0x43B0B0
 int sub_43B0B0()
 {
-  sub_417520(&dword_461C94, (int)dword_452760, (int)&unk_4527D0);
+  sub_417520(&dword_461C94, (int)dword_452760, (int)&dword_4527D0);
   return atexit(sub_43BA50);
 }
 
@@ -47441,7 +47577,7 @@ int sub_43B0D0()
 // Address: 0x43B400
 int sub_43B400()
 {
-  sub_417520(&dword_461C78, (int)dword_4527D0, (int)&unk_4529C8);
+  sub_417520(&dword_461C78, (int)dword_4527D0, (int)&dword_4529C8);
   return atexit(sub_43BA90);
 }
 

@@ -1669,44 +1669,45 @@ BOOL __usercall sub_10002A40@<eax>(const WCHAR *a1@<eax>)
 }
 
 // Address: 0x10002A80
-HANDLE __cdecl sub_10002A80(wchar_t *Format, int ArgList)
+void __cdecl sub_10002A80()
 {
-  HANDLE result; // eax
-  HANDLE v3; // esi
-  LPCWSTR v4; // edi
-  int v5; // eax
+  HANDLE v0; // esi
+  LPCWSTR v1; // edi
+  int v2; // eax
   DWORD NumberOfBytesWritten; // [esp+Ch] [ebp-10h] BYREF
-  int v7; // [esp+18h] [ebp-4h]
+  int v4; // [esp+18h] [ebp-4h]
+  wchar_t *Format; // [esp+20h] [ebp+4h]
+  int ArgList; // [esp+24h] [ebp+8h] BYREF
 
   if ( hObject == nullptr )
   {
-    result = (HANDLE)(timeGetTime() - dword_1002713C);
-    if ( (unsigned int)result < 0x3E8 )
-      return result;
+    if ( timeGetTime() - dword_1002713C < 0x3E8 )
+      return;
     dword_1002713C = timeGetTime();
-    result = CreateFileW(L"\\\\.\\pipe\\SENUL_DEBUG_PIPE", 0x40000000u, 3u, nullptr, 3u, 0, nullptr);
-    hObject = result;
-    if ( result == (HANDLE)-1 )
+    hObject = CreateFileW(L"\\\\.\\pipe\\SENUL_DEBUG_PIPE", 0x40000000u, 3u, nullptr, 3u, 0, nullptr);
+    if ( hObject == (HANDLE)-1 )
       goto LABEL_10;
     sub_10002A40(L"Logging Start...");
   }
   if ( (dword_10027298 & 1) == 0 )
   {
     dword_10027298 |= 1u;
-    v7 = 0;
+    v4 = 0;
     lpBuffer = (LPCWSTR)operator new(0x20000u);
     atexit(sub_1001B1C0);
   }
   _vswprintf_c_l((wchar_t *const)lpBuffer, 0x10000u, Format, nullptr, (va_list)&ArgList);
-  v3 = hObject;
-  v4 = lpBuffer;
-  v5 = lstrlenW(lpBuffer);
-  if ( WriteFile(v3, v4, 2 * v5 + 2, &NumberOfBytesWritten, nullptr) )
-    return (HANDLE)FlushFileBuffers(v3);
-  result = (HANDLE)CloseHandle(hObject);
+  v0 = hObject;
+  v1 = lpBuffer;
+  v2 = lstrlenW(lpBuffer);
+  if ( WriteFile(v0, v1, 2 * v2 + 2, &NumberOfBytesWritten, nullptr) )
+  {
+    FlushFileBuffers(v0);
+    return;
+  }
+  CloseHandle(hObject);
 LABEL_10:
   hObject = nullptr;
-  return result;
 }
 
 // Address: 0x10002BD0
@@ -2513,6 +2514,15 @@ int __cdecl Register(int a1, int a2, LPWSTR lpBuffer, int cchBufferMax)
   return 0;
 }
 
+// Address: 0x10003EB0
+void __cdecl DeleteLicenseInfo(wchar_t *Format)
+{
+  sub_10002A80();
+  if ( dword_100271D4 != nullptr )
+    dword_100271D4(Format);
+  sub_10002A80();
+}
+
 // Address: 0x10003EE0
 BOOL __cdecl RegisterClient(int a1, LPWSTR lpBuffer, int cchBufferMax)
 {
@@ -2756,6 +2766,37 @@ _DWORD *__stdcall sub_100044E0(_DWORD *a1)
   return a1;
 }
 
+// Address: 0x10004550
+void __usercall sub_10004550(_WORD *a1@<ebx>, unsigned int a2@<edi>, _DWORD *a3@<esi>)
+{
+  _WORD *v3; // eax
+  unsigned int v4; // ecx
+  _WORD *v5; // edx
+
+  a3[3] = 0;
+  a3[4] = 0;
+  a3[5] = 0;
+  if ( a2 != 0 )
+  {
+    if ( a2 > 0x7FFFFFFF )
+      sub_100047C0();
+    v3 = sub_10004760(a2);
+    a3[5] = &v3[a2];
+    a3[3] = v3;
+    a3[4] = v3;
+    v4 = a2;
+    v5 = v3;
+    do
+    {
+      *v5 = *a1;
+      --v4;
+      ++v5;
+    }
+    while ( v4 != 0 );
+    a3[4] = &v3[a2];
+  }
+}
+
 // Address: 0x100045A0
 int __userpurge sub_100045A0@<eax>(_BYTE *a1@<eax>, int a2@<esi>, int a3)
 {
@@ -2892,19 +2933,20 @@ void *__fastcall sub_10004760(unsigned int a1)
 }
 
 // Address: 0x100047C0
-void __fastcall __noreturn sub_100047C0(int a1, int a2, int a3, int a4)
+void __cdecl __noreturn sub_100047C0()
 {
-  _BYTE v4[20]; // [esp+4h] [ebp-50h] BYREF
-  int v5; // [esp+18h] [ebp-3Ch]
-  int v6; // [esp+1Ch] [ebp-38h]
+  int v0; // edx
+  _BYTE v1[20]; // [esp+4h] [ebp-50h] BYREF
+  int v2; // [esp+18h] [ebp-3Ch]
+  int v3; // [esp+1Ch] [ebp-38h]
   _DWORD pExceptionObject[13]; // [esp+20h] [ebp-34h] BYREF
 
-  v6 = 15;
-  v5 = 0;
-  v4[4] = 0;
-  sub_100028B0((int)v4, a2, "vector<T> too long", (char *)0x12);
+  v3 = 15;
+  v2 = 0;
+  v1[4] = 0;
+  sub_100028B0((int)v1, v0, "vector<T> too long", (char *)0x12);
   pExceptionObject[12] = 0;
-  sub_10001050(pExceptionObject, (int)v4);
+  sub_10001050(pExceptionObject, (int)v1);
   pExceptionObject[0] = &std::length_error::`vftable';
   _CxxThrowException(pExceptionObject, (_ThrowInfo *)&_TI3_AVlength_error_std__);
 }
@@ -5389,6 +5431,15 @@ void sub_10007DE0()
   operator delete(dword_10027274);
 }
 
+// Address: 0x10007E30
+_DWORD *__thiscall sub_10007E30(_DWORD *this, char a2)
+{
+  sub_10007E50(this);
+  if ( (a2 & 1) != 0 )
+    operator delete(this);
+  return this;
+}
+
 // Address: 0x10007E50
 void __thiscall sub_10007E50(_DWORD *this)
 {
@@ -6370,70 +6421,73 @@ LABEL_49:
 }
 
 // Address: 0x10008F00
-int __stdcall sub_10008F00(_DWORD *a1, int a2, int a3, int a4)
+int __stdcall sub_10008F00(_DWORD *a1, int a2, int a3, _DWORD *a4)
 {
   int v5; // ecx
   unsigned int v6; // ebx
-  int v7; // edi
+  char *v7; // edi
   int v8; // eax
   unsigned int v9; // eax
   unsigned int v10; // ebx
-  char *v11; // ecx
+  _DWORD *v11; // ecx
   unsigned int v12; // edx
-  int v13; // ecx
-  int v14; // eax
-  int result; // eax
-  int v16; // edx
+  unsigned int v13; // edi
+  int v14; // ecx
+  int v15; // edx
+  int v16; // ecx
   int v17; // eax
-  int v18; // edx
-  int v19[4]; // [esp+0h] [ebp-38h] BYREF
-  _DWORD v20[3]; // [esp+10h] [ebp-28h] BYREF
-  int v21; // [esp+1Ch] [ebp-1Ch]
-  unsigned int v22; // [esp+20h] [ebp-18h]
-  int v23; // [esp+24h] [ebp-14h]
-  int *v24; // [esp+28h] [ebp-10h]
-  int v25; // [esp+34h] [ebp-4h]
-  char *v26; // [esp+40h] [ebp+8h]
-  int v27; // [esp+44h] [ebp+Ch]
+  int result; // eax
+  int v19; // edx
+  int v20; // eax
+  _DWORD *v21; // eax
+  _DWORD *v22; // edx
+  int v23; // [esp+0h] [ebp-38h] BYREF
+  _DWORD v24[3]; // [esp+10h] [ebp-28h] BYREF
+  int v25; // [esp+1Ch] [ebp-1Ch]
+  unsigned int v26; // [esp+20h] [ebp-18h]
+  int v27; // [esp+24h] [ebp-14h]
+  int *v28; // [esp+28h] [ebp-10h]
+  int v29; // [esp+34h] [ebp-4h]
+  _DWORD *v30; // [esp+40h] [ebp+8h]
+  int v31; // [esp+44h] [ebp+Ch]
 
-  v24 = v19;
+  v28 = &v23;
   v5 = a1[3];
   if ( v5 != 0 )
     v6 = (a1[5] - v5) / 12;
   else
     v6 = 0;
-  v7 = a1[4];
-  v8 = (v7 - v5) / 12;
+  v7 = (char *)a1[4];
+  v8 = (int)&v7[-v5] / 12;
   if ( v8 == 357913941 )
-    sub_100047C0(0, (int)((unsigned __int64)(715827883LL * (a1[4] - v5)) >> 32) >> 1, v19[0], v19[1]);
+    sub_100047C0();
   v9 = v8 + 1;
   if ( v6 >= v9 )
   {
-    v16 = *(_DWORD *)(a2 + 4);
-    v17 = *(_DWORD *)(a2 + 8);
-    v20[0] = &SheriffCtrl::DriveConfig::`vftable';
-    v20[1] = v16;
-    v20[2] = v17;
-    if ( (v7 - a4) / 12 != 0 )
+    v19 = *(_DWORD *)(a2 + 4);
+    v20 = *(_DWORD *)(a2 + 8);
+    v24[0] = &SheriffCtrl::DriveConfig::`vftable';
+    v24[1] = v19;
+    v24[2] = v20;
+    if ( (v7 - (char *)a4) / 12 != 0 )
     {
-      v25 = 5;
-      LOBYTE(a2) = 0;
-      a1[4] = sub_10009A10(a2, a2);
-      sub_10009890(v7 - 12);
-      v18 = a4 + 12;
+      v29 = 5;
+      a1[4] = sub_10009A10(v7, (int)v7, (int)(v7 - 12));
+      sub_10009890((int)v7, (int)(v7 - 12), (int)a4);
+      v21 = a4;
+      v22 = a4 + 3;
     }
     else
     {
-      v25 = 2;
-      LOBYTE(a2) = 0;
-      sub_10009A10(a2, a2);
-      LOBYTE(v25) = 3;
-      LOBYTE(a2) = 0;
-      sub_100099B0(a2, a2);
+      v29 = 2;
+      sub_10009A10(a4 + 3, (int)v7, (int)a4);
+      LOBYTE(v29) = 3;
+      sub_100099B0((_DWORD *)a1[4], (int)v24, 1 - (a1[4] - (int)a4) / 12);
+      v21 = a4;
       a1[4] += 12;
-      v18 = a1[4] - 12;
+      v22 = (_DWORD *)(a1[4] - 12);
     }
-    return sub_10009860(v20, v18);
+    return (int)sub_10009860(v21, v22, (int)v24);
   }
   else
   {
@@ -6443,34 +6497,35 @@ int __stdcall sub_10008F00(_DWORD *a1, int a2, int a3, int a4)
       v10 = 0;
     if ( v10 < v9 )
       v10 = v9;
-    v11 = (char *)sub_10007750(v10);
-    v12 = (int)((unsigned __int64)(715827883LL * (a4 - a1[3])) >> 32) >> 1;
-    v25 = 0;
-    v23 = 0;
-    v26 = v11;
-    LOBYTE(v21) = 0;
-    v22 = v12 + (v12 >> 31);
-    sub_100099B0(a2, v21);
-    LOBYTE(a2) = 0;
-    v23 = 1;
-    sub_10009A10(a2, a2);
-    LOBYTE(a2) = 0;
-    v23 = 2;
-    sub_10009A10(a2, a2);
-    v25 = -1;
-    v13 = a1[3];
-    v14 = (a1[4] - v13) / 12 + 1;
-    v27 = v14;
-    if ( v13 != 0 )
+    v11 = sub_10007750(v10);
+    v12 = (int)((unsigned __int64)(715827883LL * ((int)a4 - a1[3])) >> 32) >> 1;
+    v29 = 0;
+    v13 = v12 + (v12 >> 31);
+    v27 = 0;
+    v30 = v11;
+    LOBYTE(v25) = 0;
+    v26 = v13;
+    sub_100099B0(&v11[3 * v13], a2, 1);
+    v14 = a1[3];
+    v27 = 1;
+    sub_10009A10(v30, (int)a4, v14);
+    v15 = a1[4];
+    v27 = 2;
+    sub_10009A10(&v30[3 * v13 + 3], v15, (int)a4);
+    v29 = -1;
+    v16 = a1[3];
+    v17 = (a1[4] - v16) / 12 + 1;
+    v31 = v17;
+    if ( v16 != 0 )
     {
-      sub_10007730(v13, (int (__thiscall ***)(_DWORD, _DWORD))a1[4]);
+      sub_10007730(v16, (int (__thiscall ***)(_DWORD, _DWORD))a1[4]);
       operator delete((void *)a1[3]);
-      v14 = v27;
+      v17 = v31;
     }
-    result = 3 * v14;
-    a1[5] = &v26[12 * v10];
-    a1[4] = &v26[4 * result];
-    a1[3] = v26;
+    result = 3 * v17;
+    a1[5] = &v30[3 * v10];
+    a1[4] = &v30[result];
+    a1[3] = v30;
   }
   return result;
 }
@@ -8206,12 +8261,12 @@ LABEL_4:
 // Address: 0x1000AADA
 int __stdcall _CRT_INIT(int a1, int a2, int a3)
 {
-  DWORD *v4; // eax
+  int v4; // eax
   DWORD *v5; // esi
-  int (__stdcall *v6)(int, DWORD *); // eax
+  int (__stdcall *v6)(int, int); // eax
   DWORD CurrentThreadId; // eax
   int v8; // [esp-8h] [ebp-10h]
-  DWORD *v9; // [esp-4h] [ebp-Ch]
+  int v9; // [esp-4h] [ebp-Ch]
 
   if ( a2 == 1 )
   {
@@ -8225,7 +8280,7 @@ LABEL_5:
     }
     sub_10011833();
     dword_10028414 = (int)GetCommandLineA();
-    dword_10026698 = (char *)__crtGetEnvironmentStringsA();
+    dword_10026698 = __crtGetEnvironmentStringsA();
     if ( _ioinit() < 0 )
     {
 LABEL_7:
@@ -8244,19 +8299,19 @@ LABEL_7:
     if ( a2 == 2 )
     {
       __set_flsgetvalue();
-      v4 = (DWORD *)_calloc_crt(1u, 532);
-      v5 = v4;
-      if ( v4 == nullptr )
+      v4 = _calloc_crt(1u, 532);
+      v5 = (DWORD *)v4;
+      if ( v4 == 0 )
         return 0;
       v9 = v4;
       v8 = dword_100251B0;
-      v6 = (int (__stdcall *)(int, DWORD *))_decode_pointer(dword_100269D4);
+      v6 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
       if ( v6(v8, v9) == 0 )
       {
         free(v5);
         return 0;
       }
-      _initptd(v5, 0);
+      _initptd((int)v5, 0);
       CurrentThreadId = GetCurrentThreadId();
       v5[1] = -1;
       *v5 = CurrentThreadId;
@@ -9038,7 +9093,7 @@ void *__set_flsgetvalue()
   Value = TlsGetValue(dwTlsIndex);
   if ( Value == nullptr )
   {
-    Value = _decode_pointer(lpTlsValue);
+    Value = _decode_pointer(FlsGetValue);
     TlsSetValue(dwTlsIndex, Value);
   }
   return Value;
@@ -9106,12 +9161,12 @@ DWORD *_getptd_noexit()
   DWORD v1; // edi
   int (__stdcall *v2)(int); // eax
   DWORD *v3; // esi
-  DWORD *v4; // eax
-  int (__stdcall *v5)(int, DWORD *); // eax
+  int v4; // eax
+  int (__stdcall *v5)(int, int); // eax
   DWORD CurrentThreadId; // eax
   int v8; // [esp-8h] [ebp-10h]
   int v9; // [esp-4h] [ebp-Ch]
-  DWORD *v10; // [esp-4h] [ebp-Ch]
+  int v10; // [esp-4h] [ebp-Ch]
 
   LastError = GetLastError();
   v9 = dword_100251B0;
@@ -9120,13 +9175,13 @@ DWORD *_getptd_noexit()
   v3 = (DWORD *)v2(v9);
   if ( v3 == nullptr )
   {
-    v4 = (DWORD *)_calloc_crt(1u, 532);
-    v3 = v4;
-    if ( v4 != nullptr )
+    v4 = _calloc_crt(1u, 532);
+    v3 = (DWORD *)v4;
+    if ( v4 != 0 )
     {
       v10 = v4;
       v8 = dword_100251B0;
-      v5 = (int (__stdcall *)(int, DWORD *))_decode_pointer((void *)dword_100269D4);
+      v5 = (int (__stdcall *)(int, int))_decode_pointer(FlsSetValue);
       if ( v5(v8, v10) != 0 )
       {
         _initptd((int)v3, 0);
@@ -9218,7 +9273,7 @@ DWORD __cdecl _freeptd(void *Block)
       Block = (void *)Value(v4);
     }
     v5 = dword_100251B0;
-    v2 = (void (__stdcall *)(int, _DWORD))_decode_pointer((void *)dword_100269D4);
+    v2 = (void (__stdcall *)(int, _DWORD))_decode_pointer(FlsSetValue);
     v2(v5, 0);
     _freefls(Block);
   }
@@ -20549,6 +20604,12 @@ int __cdecl _freebuf(int a1)
 int __fastcall found_bx(int a1, int a2)
 {
   return a2 - 1;
+}
+
+// Address: 0x10017890
+char *__cdecl strchr(const char *Str, int Val)
+{
+  return __from_strstr_to_strchr((unsigned __int8)Val, Str);
 }
 
 // Address: 0x10017896

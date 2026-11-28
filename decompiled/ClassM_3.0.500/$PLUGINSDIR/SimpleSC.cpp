@@ -2016,9 +2016,9 @@ const void *__fastcall System::__linkproc__ SetEq(const void *result, const void
 
 // Address: 0x402834
 // attributes: thunk
-int System::__linkproc__ Pow10()
+int __fastcall System::__linkproc__ Pow10(int result)
 {
-  return @System@@Pow10$qqrv();
+  return @System@@Pow10$qqrv(result);
 }
 
 // Address: 0x402839
@@ -7021,13 +7021,28 @@ int __fastcall Sysutils::FloatToText(char *a1, int a2, char a3, unsigned __int8 
 {
   int v6; // eax
   int v7; // eax
-  char *v8; // edi
+  _BYTE *v8; // edi
   int v9; // ecx
   int v10; // ebx
   int v12; // [esp-4h] [ebp-3Ch]
-  unsigned __int16 v13; // [esp+Ch] [ebp-2Ch]
-  int v15; // [esp+44h] [ebp+Ch]
+  unsigned __int16 v13; // [esp+Ch] [ebp-2Ch] BYREF
+  int v14; // [esp+24h] [ebp-14h]
+  char v15; // [esp+2Ah] [ebp-Eh]
+  char v16; // [esp+2Bh] [ebp-Dh]
+  int v17; // [esp+2Ch] [ebp-Ch]
+  char v18; // [esp+32h] [ebp-6h]
+  char v19; // [esp+33h] [ebp-5h]
+  _BYTE *v20; // [esp+34h] [ebp-4h]
+  int savedregs; // [esp+38h] [ebp+0h] BYREF
+  int v22; // [esp+44h] [ebp+Ch]
 
+  v20 = a1;
+  v19 = byte_40E747;
+  v18 = byte_40E746;
+  v17 = dword_40E740;
+  v16 = byte_40E744;
+  v15 = byte_40E745;
+  v14 = 0;
   v6 = 19;
   if ( a3 == 0 )
   {
@@ -7037,27 +7052,27 @@ int __fastcall Sysutils::FloatToText(char *a1, int a2, char a3, unsigned __int8 
     if ( v6 > 18 )
       v6 = 18;
   }
-  v15 = v6;
+  v22 = v6;
   v12 = v6;
   v7 = 9999;
   if ( a4 >= 2u )
     v7 = a6;
-  Sysutils::FloatToDecimal(v7, v12);
-  v8 = a1;
+  Sysutils::FloatToDecimal((int)&v13, a2, a3, v12, v7);
+  v8 = v20;
   if ( (unsigned int)v13 - 0x7FFF >= 2 )
   {
     v10 = a4;
-    if ( a4 != 1 && (a4 > 4u || (__int16)v13 > v15) )
+    if ( a4 != 1 && (a4 > 4u || (__int16)v13 > v22) )
       LOBYTE(v10) = 0;
-    (*(&off_406738 + v10))();
+    ((int (*)())(*(char **)((char *)&off_406738 + 4 * v10 + v14) + v14))();
   }
   else
   {
-    sub_40675B();
-    qmemcpy(a1, (char *)sub_40674C + 3 * v9, 3u);
-    v8 = a1 + 3;
+    sub_40675B((int)&savedregs, v20);
+    qmemcpy(v8, (char *)sub_40674C + 3 * v9 + v14, 3u);
+    v8 += 3;
   }
-  return v8 - a1;
+  return v8 - v20;
 }
 
 // Address: 0x40674C
@@ -8288,15 +8303,33 @@ int __fastcall unknown_libname_89(__int32 a1, int a2, int a3)
 
 // Address: 0x4078C4
 // BDS 2005-2007 and Delphi6-7 Visual Component Library
-int __fastcall unknown_libname_90(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+void __cdecl unknown_libname_90()
 {
-  return System::__linkproc__ RaiseExcept(a1, a2, a3, a4, a5, a6, a7);
+  int v0; // eax
+  void *v1; // edx
+  int v2; // ecx
+  _UNKNOWN *retaddr; // [esp+0h] [ebp+0h]
+  int v4; // [esp+4h] [ebp+4h]
+  int v5; // [esp+8h] [ebp+8h]
+  int v6; // [esp+Ch] [ebp+Ch]
+  int v7; // [esp+10h] [ebp+10h]
+
+  retaddr = v1;
+  System::__linkproc__ RaiseExcept(v0, (int)v1, v2, v7, v6, v5, v4);
 }
 
 // Address: 0x4078D1
 void nullsub_40()
 {
   ;
+}
+
+// Address: 0x4078D4
+// BDS 2005-2007 and Delphi6-7 Visual Component Library
+void __fastcall unknown_libname_91(__int32 a1, int a2, int a3, int a4)
+{
+  unknown_libname_89(a1, a2, a3);
+  unknown_libname_90();
 }
 
 // Address: 0x407908
@@ -8502,6 +8535,17 @@ LABEL_7:
   v5 = (int *)&loc_407C2E;
   System::__linkproc__ LStrClr(&v6);
   return v2;
+}
+
+// Address: 0x407C38
+// BDS 2005-2007 and Delphi6-7 Visual Component Library
+void __fastcall __noreturn unknown_libname_95(char **a1, const void *a2)
+{
+  int v2; // edx
+  int v3; // ecx
+
+  sub_4074D4(a1, a2);
+  sub_403684(1, v2, v3);
 }
 
 // Address: 0x407C47

@@ -2180,7 +2180,7 @@ FARPROC __cdecl try_get_function(int a1, const CHAR *lpProcName, _DWORD *a3, _DW
   HMODULE module; // eax
   FARPROC ProcAddress; // eax
 
-  v4 = (volatile signed __int32 *)((char *)&unk_10013C10 + 4 * a1);
+  v4 = (volatile signed __int32 *)((char *)&dword_10013C10 + 4 * a1);
   v5 = _InterlockedCompareExchange(v4, 0, 0);
   v6 = __security_cookie;
   v7 = (FARPROC)__ROR4__(v5 ^ __security_cookie, __security_cookie & 0x1F);
@@ -5670,11 +5670,11 @@ void (__cdecl **__cdecl get_global_action_nolock(int a1))(int)
   switch ( a1 )
   {
     case 2:
-      return (void (__cdecl **)(int))&unk_10014214;
+      return (void (__cdecl **)(int))&dword_10014214;
     case 6:
       return (void (__cdecl **)(int))&dword_1001421C;
     case 15:
-      return (void (__cdecl **)(int))&unk_10014220;
+      return (void (__cdecl **)(int))&dword_10014220;
     default:
       break;
   }
@@ -5684,7 +5684,7 @@ void (__cdecl **__cdecl get_global_action_nolock(int a1))(int)
       return nullptr;
     return (void (__cdecl **)(int))&dword_1001421C;
   }
-  return (void (__cdecl **)(int))&unk_10014218;
+  return (void (__cdecl **)(int))&dword_10014218;
 }
 
 // Address: 0x10006D8D
@@ -8253,6 +8253,74 @@ LABEL_33:
   return *v12 - v12[1];
 }
 
+// Address: 0x100094C0
+double __cdecl log10(double X)
+{
+  int v1; // ecx
+  __m128d v2; // xmm0
+  int v3; // eax
+  bool v4; // zf
+  int v5; // eax
+  __int16 v6; // dx
+  char v7; // fps
+  double result; // st7
+  int v9; // eax
+  char v10; // [esp+4h] [ebp-8h]
+
+  if ( dword_10014268 != 0 )
+  {
+    v3 = _mm_getcsr() & 0x7F80;
+    v4 = v3 == 8064;
+    if ( v3 == 8064 )
+      v4 = (v10 & 0x7F) == 127;
+    if ( v4 )
+    {
+      v2.m128d_f64[0] = X;
+      return start_0(v2, X);
+    }
+  }
+  result = _fload_withFB(v1, &X);
+  if ( v4 )
+  {
+    if ( (v5 & 0xFFFFF) != 0 || LODWORD(X) != 0 )
+    {
+      result = _convertTOStoQNaN(v5, result);
+      goto _ErrorHandling;
+    }
+    if ( (v5 & 0x80000000) == 0 )
+      goto exit_0;
+negative_x:
+    result = -2.0;
+    v9 = 1;
+    goto _ErrorHandling;
+  }
+  if ( (HIDWORD(X) & 0x7FF00000) != 0 )
+  {
+    if ( X >= 0.0 )
+    {
+normal:
+      result = __FYL2X__(result, 0.3010299956639811952);
+exit_0:
+      if ( dword_10014250 == 0 && v6 != 639 && (v6 & 0x20) != 0 && (v7 & 0x20) != 0 )
+        return _startOneArgErrorHandling(8, 27, (int)"log10", result);
+      return result;
+    }
+    goto negative_x;
+  }
+  if ( (HIDWORD(X) & 0xFFFFF) != 0 || LODWORD(X) != 0 )
+  {
+    if ( X >= 0.0 )
+      goto normal;
+    goto negative_x;
+  }
+  result = -0.0;
+  v9 = 2;
+_ErrorHandling:
+  if ( dword_10014250 == 0 )
+    return _startOneArgErrorHandling(v9, 27, (int)"log10", result);
+  return result;
+}
+
 // Address: 0x10009610
 double __cdecl ceil(double X)
 {
@@ -8773,6 +8841,36 @@ int __cdecl _checkTOS_withFB(int a1, int a2)
   return result;
 }
 
+// Address: 0x1000A0E5
+// positive sp value has been detected, the output may be wrong!
+double __usercall _check_overflow_exit@<st0>(int a1@<edx>, int a2@<ecx>, double result@<st0>)
+{
+  char v3; // fps
+  int v4; // eax
+  double v5; // [esp-4h] [ebp-Ch]
+  __int16 v6; // [esp+4h] [ebp-4h]
+
+  v5 = result;
+  if ( (HIDWORD(v5) & 0x7FF00000) == 0x7FF00000 )
+  {
+    result = __FSCALE__(result, -1536.0);
+    v4 = 3;
+    if ( fabs(result) > 1.797693134862316e308 )
+      result = result * INFINITY;
+    goto have_error;
+  }
+  if ( v6 != 639 && (v6 & 0x20) == 0 && (v3 & 0x20) != 0 )
+  {
+    v4 = 8;
+have_error:
+    if ( a1 == 29 )
+      _startTwoArgErrorHandling();
+    else
+      return _startOneArgErrorHandling(v4, a1, a2, result);
+  }
+  return result;
+}
+
 // Address: 0x1000A1A0
 void _startTwoArgErrorHandling()
 {
@@ -8780,26 +8878,22 @@ void _startTwoArgErrorHandling()
 }
 
 // Address: 0x1000A1B7
-double __usercall _startOneArgErrorHandling@<st0>(
-        int a1@<eax>,
-        int a2@<edx>,
-        int a3@<ecx>,
-        double a4@<st0>,
-        __int16 a5,
-        int a6,
-        int a7,
-        int a8)
+double __usercall _startOneArgErrorHandling@<st0>(int a1@<eax>, int a2@<edx>, int a3@<ecx>, double a4@<st0>)
 {
-  _DWORD v9[6]; // [esp+0h] [ebp-20h] BYREF
-  double v10; // [esp+18h] [ebp-8h]
+  _DWORD v5[6]; // [esp+0h] [ebp-20h] BYREF
+  double v6; // [esp+18h] [ebp-8h]
+  int savedregs; // [esp+20h] [ebp+0h] BYREF
+  unsigned __int16 v8[4]; // [esp+28h] [ebp+8h] BYREF
+  int v9; // [esp+30h] [ebp+10h]
+  int v10; // [esp+34h] [ebp+14h]
 
-  v9[0] = a1;
-  v10 = a4;
-  v9[1] = a3;
-  v9[2] = a7;
-  v9[3] = a8;
-  _87except(a2, v9, &a5);
-  return v10;
+  v5[0] = a1;
+  v6 = a4;
+  v5[1] = a3;
+  v5[2] = v9;
+  v5[3] = v10;
+  _87except((int)&savedregs, a2, (int)v5, v8);
+  return v6;
 }
 
 // Address: 0x1000A1F3

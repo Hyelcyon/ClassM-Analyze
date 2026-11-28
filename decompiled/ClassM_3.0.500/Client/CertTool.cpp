@@ -2351,6 +2351,20 @@ int sub_402C90()
   return sub_56C500(&unk_6212F1);
 }
 
+// Address: 0x402CA0
+int sub_402CA0()
+{
+  sub_56EF70(&dword_621300);
+  return atexit(sub_5AE830);
+}
+
+// Address: 0x402CC0
+int sub_402CC0()
+{
+  sub_56F1D0(&dword_621308);
+  return atexit(__std_execution_wake_by_address_all);
+}
+
 // Address: 0x402CD8
 int `dynamic initializer for '_afxInitAppState''()
 {
@@ -24158,7 +24172,7 @@ int __stdcall sub_41B830(int a1, int a2)
   v2 = (int (__thiscall *)(_DWORD, int, int))dword_61B504;
   if ( dword_61B504 == 0 )
   {
-    result = IsolationAwarePrivatezltRgCebPnQQeRff((int)&off_5B0054, (int)&unk_61B514, "ActivateActCtx");
+    result = IsolationAwarePrivatezltRgCebPnQQeRff((int)&off_5B0054, (int)&dword_61B514, "ActivateActCtx");
     v2 = (int (__thiscall *)(_DWORD, int, int))result;
     if ( result == 0 )
       return result;
@@ -24176,7 +24190,7 @@ int __stdcall IsolationAwareCreateActCtxW(int a1)
   v1 = (int (__thiscall *)(_DWORD, int))dword_61B500;
   if ( dword_61B500 == 0 )
   {
-    v2 = IsolationAwarePrivatezltRgCebPnQQeRff((int)&off_5B0054, (int)&unk_61B514, "CreateActCtxW");
+    v2 = IsolationAwarePrivatezltRgCebPnQQeRff((int)&off_5B0054, (int)&dword_61B514, "CreateActCtxW");
     v1 = (int (__thiscall *)(_DWORD, int))v2;
     if ( v2 == 0 )
       return -1;
@@ -24194,7 +24208,7 @@ int __stdcall sub_41B8B6(int a1, int a2)
   v2 = (int (__thiscall *)(_DWORD, int, int))dword_61B508;
   if ( dword_61B508 == 0 )
   {
-    result = IsolationAwarePrivatezltRgCebPnQQeRff((int)&off_5B0054, (int)&unk_61B514, "DeactivateActCtx");
+    result = IsolationAwarePrivatezltRgCebPnQQeRff((int)&off_5B0054, (int)&dword_61B514, "DeactivateActCtx");
     v2 = (int (__thiscall *)(_DWORD, int, int))result;
     if ( result == 0 )
       return result;
@@ -24212,7 +24226,7 @@ int __stdcall IsolationAwareFindActCtxSectionStringW(int a1, int a2, int a3, int
   v5 = (int (__thiscall *)(_DWORD, int, int, int, int, int))dword_61B50C;
   if ( dword_61B50C == 0 )
   {
-    result = IsolationAwarePrivatezltRgCebPnQQeRff((int)&off_5B0054, (int)&unk_61B514, "FindActCtxSectionStringW");
+    result = IsolationAwarePrivatezltRgCebPnQQeRff((int)&off_5B0054, (int)&dword_61B514, "FindActCtxSectionStringW");
     v5 = (int (__thiscall *)(_DWORD, int, int, int, int, int))result;
     if ( result == 0 )
       return result;
@@ -54322,7 +54336,7 @@ void __thiscall CMFCToolBar::AdjustLayout(CMFCToolBar *this)
           v13 = nullptr;
           v17 = nullptr;
         }
-        v21 = dword_613510;
+        v21 = qword_613510;
         v22 = v13;
         v23 = v14;
         SendMessageW(*(HWND *)(v15 + 32), 0x40Bu, v11, (LPARAM)&lParam);
@@ -56586,9 +56600,9 @@ int *__thiscall CMFCToolBar::GetButtonSize(_DWORD *this, int *a2)
   }
   else
   {
-    v3 = &dword_613530;
+    v3 = &qword_613530;
     if ( *(this + 735) == 0 )
-      v3 = &dword_613510;
+      v3 = &qword_613510;
   }
   *a2 = *v3;
   a2[1] = v3[1];
@@ -56646,7 +56660,7 @@ int __thiscall CMFCToolBar::GetColumnWidth(CMFCToolBar *this)
     return *CMFCToolBar::GetButtonSize(this, &v2);
   result = dword_613520;
   if ( dword_613520 <= 0 )
-    return dword_613510;
+    return qword_613510;
   return result;
 }
 
@@ -56848,7 +56862,7 @@ _DWORD *__thiscall CMFCToolBar::GetImageSize(_DWORD *this, _DWORD *a2)
   }
   else
   {
-    v2 = (__int64 *)&dword_613538;
+    v2 = (__int64 *)&qword_613538;
     if ( *(this + 735) == 0 )
       v2 = &qword_613518;
   }
@@ -56931,8 +56945,8 @@ _DWORD *__stdcall CMFCToolBar::GetMenuButtonSize(_DWORD *a1)
   result = a1;
   if ( dword_613520 == -1 )
   {
-    *a1 = dword_613510;
-    v2 = dword_613514;
+    *a1 = qword_613510;
+    v2 = MEMORY[0x613514];
   }
   else
   {
@@ -57076,7 +57090,7 @@ int __thiscall CMFCToolBar::GetRowHeight(CMFCToolBar *this)
   {
     v3 = dword_613524;
     if ( dword_613524 <= 0 )
-      v3 = dword_613514;
+      v3 = MEMORY[0x613514];
   }
   else
   {
@@ -57094,7 +57108,7 @@ int __thiscall CMFCToolBar::GetRowHeight(CMFCToolBar *this)
     {
       result = dword_613524;
       if ( dword_613524 <= 0 )
-        return dword_613514;
+        return MEMORY[0x613514];
     }
     else
     {
@@ -62053,20 +62067,20 @@ static void __stdcall CMFCToolBar::SetLargeIcons(int a1)
   dword_61D620 = a1;
   if ( a1 != 0 )
   {
-    dword_613530 = (int)((double)dword_613510 * dbl_6134E0 + 0.5);
-    dword_613534 = (int)((double)dword_613514 * dbl_6134E0 + 0.5);
-    dword_613538 = (int)((double)(int)qword_613518 * dbl_6134E0 + 0.5);
+    qword_613530 = (int)((double)qword_613510 * dbl_6134E0 + 0.5);
+    MEMORY[0x613534] = (int)((double)MEMORY[0x613514] * dbl_6134E0 + 0.5);
+    qword_613538 = (int)((double)(int)qword_613518 * dbl_6134E0 + 0.5);
     v1 = (int)((double)SHIDWORD(qword_613518) * dbl_6134E0 + 0.5);
   }
   else
   {
-    dword_613530 = dword_613510;
-    dword_613534 = dword_613514;
+    qword_613530 = qword_613510;
+    MEMORY[0x613534] = MEMORY[0x613514];
     v1 = HIDWORD(qword_613518);
-    dword_613538 = qword_613518;
+    qword_613538 = qword_613518;
   }
   v2 = (_DWORD *)dword_61D67C;
-  dword_61353C = v1;
+  MEMORY[0x61353C] = v1;
   while ( v2 != nullptr )
   {
     if ( v2 == nullptr || (v3 = v2[2], v2 = (_DWORD *)*v2, v3 == 0) )
@@ -113041,7 +113055,7 @@ struct CMDIChildWndEx *__thiscall CMDIFrameWndEx::ControlBarToTabbedDocument(
          v9,
          v5,
          1355776000,
-         &unk_613908,
+         &dword_613908,
          this,
          0) != 0 )
   {
@@ -150814,7 +150828,7 @@ void __thiscall COleControlSite::InvokeHelperV(
     goto LABEL_6;
   v8 = *((_DWORD ***)this + 20);
   if ( v8 != nullptr
-    && ((int (__thiscall *)(_DWORD, _DWORD **, void *, struct IDispatch **))**v8)(**v8, v8, &unk_5DD87C, &v9) >= 0 )
+    && ((int (__thiscall *)(_DWORD, _DWORD **, void *, struct IDispatch **))**v8)(**v8, v8, &dword_5DD87C, &v9) >= 0 )
   {
     COleDispatchDriver::AttachDispatch(v7, v9, 1);
   }
@@ -151153,7 +151167,7 @@ int __stdcall COleControlSite::XPropertyNotifySink::OnChanged(COleControlSite::X
     v14 = 0;
     if ( v4 == nullptr )
       goto LABEL_19;
-    if ( ((int (__thiscall *)(_DWORD, _DWORD **, void *, int *))**v4)(**v4, v4, &unk_5DD87C, &v14) < 0 )
+    if ( ((int (__thiscall *)(_DWORD, _DWORD **, void *, int *))**v4)(**v4, v4, &dword_5DD87C, &v14) < 0 )
       return v3;
     memset(v10, 0, sizeof(v10));
     memset(v11, 0, sizeof(v11));
@@ -151638,7 +151652,7 @@ int __stdcall COleControlSite::XEventSink::QueryInterface(
         void **a3)
 {
   if ( memcmp(Buf1, &dword_5DD89C, 0x10u) != 0
-    && memcmp(Buf1, &unk_5DD87C, 0x10u) != 0
+    && memcmp(Buf1, &dword_5DD87C, 0x10u) != 0
     && !IsEqualGUID(Buf1, (char *)this - 160) )
   {
     return -2147467262;
@@ -152815,7 +152829,7 @@ LABEL_21:
       v10 = *(_DWORD ***)(v9 + 80);
       if ( v10 == nullptr )
         goto LABEL_18;
-      if ( ((int (__thiscall *)(_DWORD, _DWORD **, void *, int *))**v10)(**v10, v10, &unk_5DD87C, &v20) >= 0 )
+      if ( ((int (__thiscall *)(_DWORD, _DWORD **, void *, int *))**v10)(**v10, v10, &dword_5DD87C, &v20) >= 0 )
         break;
       v24 = -1;
       VariantClear(&pvargDest);
@@ -193994,7 +194008,7 @@ int __thiscall CFrameWnd::LoadFrame(
   v13 = (ATL::CStringData *)sub_412700((volatile signed __int32 *)(*((_DWORD *)this + 60) - 16));
   v10 = *(int (__thiscall **)(CFrameWnd *, wchar_t *, char *, const WCHAR *, void *, struct CWnd *, _DWORD, _DWORD, struct CCreateContext *))(*(_DWORD *)this + 356);
   LOBYTE(v17) = 1;
-  if ( v10(this, IconWndClass, (char *)v13 + 16, a3, &unk_613908, a4, (unsigned __int16)a2, 0, a5) != 0 )
+  if ( v10(this, IconWndClass, (char *)v13 + 16, a3, &dword_613908, a4, (unsigned __int16)a2, 0, a5) != 0 )
   {
     if ( *((_DWORD *)this + 64) == 1 )
       Menu = GetMenu(*((HWND *)this + 8));
@@ -230632,7 +230646,7 @@ BOOL __thiscall CMDIChildWnd::LoadFrame(
           IconWndClass,
           v15,
           v19,
-          &unk_613908,
+          &dword_613908,
           a4,
           a5) != 0;
   ATL::CStringData::Release((ATL::CStringData *)(v16 - 16));
@@ -282366,7 +282380,7 @@ void __thiscall CMFCPropertyGridCtrl::Init(CMFCPropertyGridCtrl *this)
   v9 = v8(this);
   SendMessageW(*(HWND *)(v9 + 32), 0x120Au, 0, (LPARAM)lParam);
   v10 = *(_DWORD *)this;
-  v17 = &off_5DB1FC;
+  v17 = &aVa;
   v18 = 100;
   v11 = (*(int (__thiscall **)(CMFCPropertyGridCtrl *))(v10 + 356))(this);
   SendMessageW(*(HWND *)(v11 + 32), 0x120Au, 1u, (LPARAM)lParam);
@@ -291170,8 +291184,8 @@ int __thiscall CMFCToolBarFontComboBox::AddFont(
   v25 = v4;
   if ( v4 == nullptr )
   {
-    v4 = (int *)&unk_620B9C;
-    v25 = (int *)&unk_620B9C;
+    v4 = (int *)&dword_620B9C;
+    v25 = (int *)&dword_620B9C;
   }
   if ( a2->elfLogFont.lfCharSet == 77 )
     return 0;
@@ -298210,7 +298224,7 @@ void *sub_55DAA0()
       if ( dword_621278 == -1 )
       {
         LOBYTE(v6) = 1;
-        sub_564A30(&unk_621274);
+        sub_564A30(&dword_621274);
         atexit(sub_5AE5E0);
         LOBYTE(v6) = 0;
         _Init_thread_footer(v2, &dword_621278);
@@ -298229,12 +298243,12 @@ void *sub_55DAA0()
     if ( dword_621278 == -1 )
     {
       v6 = 2;
-      sub_564A30(&unk_621274);
+      sub_564A30(&dword_621274);
       atexit(sub_5AE5E0);
       _Init_thread_footer(v2, &dword_621278);
     }
   }
-  return &unk_621274;
+  return &dword_621274;
 }
 
 // Address: 0x55DBD0
@@ -313670,9 +313684,9 @@ DWORD sub_571B10()
 
 // Address: 0x571B30
 // attributes: thunk
-void __cdecl sub_571B30(int a1, int a2)
+void __cdecl sub_571B30()
 {
-  sub_571E30(a1, a2);
+  sub_571E30();
 }
 
 // Address: 0x571B40
@@ -313998,6 +314012,28 @@ int sub_5720F0()
 {
   sub_571B10();
   return 0;
+}
+
+// Address: 0x572100
+void __stdcall TlsCallback_0(int a1, int a2, int a3)
+{
+  if ( a2 == 3 )
+    sub_571B30();
+}
+
+// Address: 0x572110
+int __stdcall sub_572110(int a1, int a2, int a3)
+{
+  if ( a2 != 0 )
+  {
+    if ( a2 == 3 )
+      sub_571B30();
+  }
+  else
+  {
+    sub_571B10();
+  }
+  return 1;
 }
 
 // Address: 0x57214C
@@ -318025,7 +318061,7 @@ FARPROC __cdecl try_get_function(int a1, const CHAR *lpProcName, _DWORD *a3, _DW
   HMODULE module; // eax
   FARPROC ProcAddress; // eax
 
-  v4 = (volatile signed __int32 *)((char *)&unk_62133C + 4 * a1);
+  v4 = (volatile signed __int32 *)((char *)&dword_62133C + 4 * a1);
   v5 = _InterlockedCompareExchange(v4, 0, 0);
   v6 = __security_cookie;
   v7 = (FARPROC)__ROR4__(v5 ^ __security_cookie, __security_cookie & 0x1F);
@@ -329233,6 +329269,12 @@ int __cdecl __acrt_initialize_signal_handlers(int a1)
   return unknown_libname_69(a1);
 }
 
+// Address: 0x580354
+int *__cdecl __fpecode()
+{
+  return (int *)((char *)__acrt_getptd() + 8);
+}
+
 // Address: 0x58035D
 int __cdecl raise(int Signal)
 {
@@ -339832,6 +339874,65 @@ int __cdecl _resetstkoflw()
       && VirtualProtect(v4, v3, 0x104u, &flOldProtect);
 }
 
+// Address: 0x589350
+double __cdecl sin(double X)
+{
+  int v1; // ecx
+  __m128d v2; // xmm0
+  __m128d v3; // xmm1
+  int v4; // eax
+  bool v5; // zf
+  int v6; // eax
+  __int16 v7; // dx
+  double result; // st7
+  char v9; // fps
+  char v10; // c2
+  long double v11; // st6
+  char v13; // c2
+  char v14; // [esp+4h] [ebp-8h]
+
+  if ( dword_62313C == 0 )
+    goto __sin_default;
+  v4 = _mm_getcsr() & 0x7F80;
+  v5 = v4 == 8064;
+  if ( v4 == 8064 )
+    v5 = (v14 & 0x7F) == 127;
+  if ( v5 )
+  {
+    v2.m128d_f64[0] = X;
+    return start_4(v2, v3);
+  }
+  else
+  {
+__sin_default:
+    result = _fload_withFB(v1, &X);
+    if ( v5 )
+    {
+      if ( (v6 & 0xFFFFF) == 0 && LODWORD(X) == 0 )
+      {
+        result = -2.0;
+        if ( dword_621AF4 == 0 )
+          return _startOneArgErrorHandling(1, 30, (int)&unk_5E2610, -2.0);
+      }
+    }
+    else
+    {
+      result = sin(result);
+      if ( v10 != 0 )
+      {
+        v11 = result;
+        do
+          v11 = __FPREM1__(v11, -8.87960937049345e43);
+        while ( v13 != 0 );
+        result = sin(v11);
+      }
+      if ( dword_621AF4 == 0 && v7 != 639 && (v7 & 0x20) != 0 && (v9 & 0x20) != 0 )
+        return _startOneArgErrorHandling(8, 30, (int)&unk_5E2610, result);
+    }
+  }
+  return result;
+}
+
 // Address: 0x589480
 double __cdecl ceil(double X)
 {
@@ -340003,6 +340104,65 @@ LABEL_6:
   return v2 - String;
 }
 
+// Address: 0x5896F0
+double __cdecl cos(double X)
+{
+  int v1; // ecx
+  __m128d v2; // xmm0
+  __m128d v3; // xmm1
+  int v4; // eax
+  bool v5; // zf
+  int v6; // eax
+  __int16 v7; // dx
+  double result; // st7
+  char v9; // fps
+  char v10; // c2
+  long double v11; // st6
+  char v13; // c2
+  char v14; // [esp+4h] [ebp-8h]
+
+  if ( dword_62313C == 0 )
+    goto __cos_default;
+  v4 = _mm_getcsr() & 0x7F80;
+  v5 = v4 == 8064;
+  if ( v4 == 8064 )
+    v5 = (v14 & 0x7F) == 127;
+  if ( v5 )
+  {
+    v2.m128d_f64[0] = X;
+    return start_5(v2, v3);
+  }
+  else
+  {
+__cos_default:
+    result = _fload_withFB(v1, &X);
+    if ( v5 )
+    {
+      if ( (v6 & 0xFFFFF) == 0 && LODWORD(X) == 0 )
+      {
+        result = -2.0;
+        if ( dword_621AF4 == 0 )
+          return _startOneArgErrorHandling(1, 18, (int)&unk_5E26C0, -2.0);
+      }
+    }
+    else
+    {
+      result = cos(result);
+      if ( v10 != 0 )
+      {
+        v11 = result;
+        do
+          v11 = __FPREM1__(v11, -8.87960937049345e43);
+        while ( v13 != 0 );
+        result = cos(v11);
+      }
+      if ( dword_621AF4 == 0 && v7 != 639 && (v7 & 0x20) != 0 && (v9 & 0x20) != 0 )
+        return _startOneArgErrorHandling(8, 18, (int)&unk_5E26C0, result);
+    }
+  }
+  return result;
+}
+
 // Address: 0x589820
 double __cdecl exp(double X)
 {
@@ -340031,6 +340191,56 @@ double __usercall _CIsqrt@<st0>(unsigned __int64 x@<st0>)
   return ((double (*)(void))start_2)();
 }
 
+// Address: 0x5898C4
+double __cdecl sqrt(double X)
+{
+  int v1; // ecx
+  __int16 v2; // dx
+  char v3; // fps
+  double result; // st7
+  int v5; // eax
+  char v6; // zf
+  int v7; // eax
+  __int16 v8; // [esp+0h] [ebp-4h]
+
+  result = _fload_withFB(v1, &X);
+  v8 = v2;
+  v5 = HIDWORD(X);
+  if ( v6 )
+  {
+    if ( (HIDWORD(X) & 0xFFFFF) != 0 || LODWORD(X) != 0 )
+    {
+      result = _convertTOStoQNaN(SHIDWORD(X), result);
+      goto _Error_handling_1;
+    }
+    if ( (HIDWORD(X) & 0x80000000) == 0 )
+      goto exit_2;
+  }
+  else
+  {
+    if ( v2 != 639 )
+      _load_CW();
+    if ( v5 >= 0 )
+    {
+      result = sqrt(result);
+      goto exit_2;
+    }
+    if ( (v5 & 0x7FF00000) == 0 && (v5 & 0xFFFFF) == 0 && LODWORD(X) == 0 )
+    {
+exit_2:
+      if ( dword_621AF4 == 0 && v8 != 639 && (v8 & 0x20) != 0 && (v3 & 0x20) != 0 )
+        return _startOneArgErrorHandling(8, 5, (int)"sqrt", result);
+      return result;
+    }
+  }
+  result = -2.0;
+  v7 = 1;
+_Error_handling_1:
+  if ( dword_621AF4 == 0 )
+    return _startOneArgErrorHandling(v7, 5, (int)"sqrt", result);
+  return result;
+}
+
 // Address: 0x58996A
 __int64 __cdecl scale_count(__int64 a1)
 {
@@ -340047,16 +340257,16 @@ int __acrt_initialize_clock()
   if ( QueryPerformanceFrequency(&Frequency) && QueryPerformanceCounter(&PerformanceCount) && Frequency.QuadPart != 0 )
   {
     HighPart = PerformanceCount.HighPart;
-    dword_621458 = PerformanceCount.LowPart;
+    qword_621458 = PerformanceCount.LowPart;
     qword_621450 = Frequency.QuadPart;
   }
   else
   {
     HighPart = -1;
     qword_621450 = -1;
-    dword_621458 = -1;
+    qword_621458 = -1;
   }
-  dword_62145C = HighPart;
+  MEMORY[0x62145C] = HighPart;
   return 0;
 }
 
@@ -344490,6 +344700,122 @@ int __usercall _CIpow_default@<eax>(unsigned __int64 a1@<st1>, unsigned __int64 
            *(double *)&a1);
 }
 
+// Address: 0x58E0F4
+// local variable allocation has failed, the output may be wrong!
+long double __cdecl _pow_default(int a1, int a2, int a3, int a4)
+{
+  int v4; // ecx
+  int v5; // eax
+  double v6; // st7
+  int v7; // ecx
+  int v8; // ecx
+  int v9; // eax
+  char v11; // zf
+  long double result; // st7
+  char v13; // cl
+  int v14; // ecx
+  int v15; // ecx
+  double v17; // rt0
+  char v18; // c3
+  int v19; // eax
+  unsigned __int8 v21; // cl
+  unsigned __int8 v22; // ch
+  char v23; // cl
+  double *v24; // [esp+10h] [ebp-7Ch]
+  double *v25; // [esp+10h] [ebp-7Ch]
+  double v26[15]; // [esp+14h] [ebp-78h] BYREF
+
+  v6 = _fload_withFB(v4, &a3);
+  v7 = v5;
+  HIDWORD(v26[14]) = v5;
+  if ( (_WORD)v5 != 639 )
+    _load_CW();
+  v8 = v7 & 0x7FF00000;
+  if ( v8 == 2146435072 )
+  {
+    if ( (a3 | v5 & 0xFFFFF) != 0 )
+    {
+      _ST6 = _fload_withFB(0, &a1);
+      if ( 1.0 == _ST6 )
+        return 1.0;
+      v15 = v14 + 1;
+    }
+    else
+    {
+      _ST6 = _fload_withFB(0, &a1);
+    }
+test_base:
+    if ( (a2 & 0x7FF00000) != 0x7FF00000 || (a1 | a2 & 0xFFFFF) == 0 )
+    {
+      if ( v15 == 0 )
+      {
+        v24 = v26;
+        __asm { fsave   byte ptr [ecx+8] }
+        v19 = _powhlp(_ST6, v6, v26);
+        _ECX = v25;
+        __asm { frstor  byte ptr [ecx+8] }
+        result = *v25;
+        if ( v19 == 0 )
+          return result;
+        goto _ErrorHandling;
+      }
+      return v6 + _ST6;
+    }
+    v17 = _ST6;
+    _ST6 = v6;
+    v6 = v17;
+    __asm { fxam }
+    if ( v18 == 0 )
+      return v6 + _ST6;
+    return 1.0;
+  }
+  _ST6 = _fload_withFB(v8, &a1);
+  if ( v11 )
+  {
+    v15 = 0;
+    goto test_base;
+  }
+  if ( (v9 & 0x7FF00000) != 0 || (a1 | a2 & 0xFFFFF) != 0 )
+  {
+    if ( a2 < 0 )
+    {
+      test_whether_TOS_is_int();
+      _ST6 = -_ST6;
+      if ( v23 == 0 )
+      {
+        result = -2.0;
+_ErrorHandling:
+        if ( dword_621AF4 == 0 )
+          _startTwoArgErrorHandling();
+        return result;
+      }
+    }
+    result = _twoToTOS(__FYL2X__(_ST6, v6));
+    if ( v13 == 1 )
+      result = -result;
+    if ( dword_621AF4 == 0 )
+      _check_range_exit(&unk_5E3180, 29);
+  }
+  else
+  {
+    if ( (a3 | a4 & 0x7FFFFFFF) == 0 )
+      return 1.0;
+    test_whether_TOS_is_int();
+    v22 = HIBYTE(a2) >> 7;
+    if ( a4 < 0 )
+    {
+      result = -0.0;
+      if ( (v21 & v22) != 0 )
+        result = --0.0;
+      goto _ErrorHandling;
+    }
+    result = 0.0;
+    if ( (v21 & v22) != 0 )
+      return -0.0;
+  }
+  return result;
+}
+
 // Address: 0x58E2C1
 void test_whether_TOS_is_int()
 {
@@ -346988,7 +347314,7 @@ BOOL __cdecl sub_590A25(int a1, int **a2)
 // Address: 0x590A4D
 int (__stdcall *__cdecl try_get_CompareStringEx())(const wchar_t *, unsigned int, const wchar_t *, int, const wchar_t *, int, struct _nlsversioninfo *, void *, int)
 {
-  return try_get_function(1, "CompareStringEx", L"\a", &unk_5E3D60);
+  return try_get_function(1, "CompareStringEx", L"\a", &dword_5E3D60);
 }
 
 // Address: 0x590A67
@@ -347895,6 +348221,44 @@ void _check_overflow_exit()
   JUMPOUT(0x59194D);
 }
 
+// Address: 0x591939
+// positive sp value has been detected, the output may be wrong!
+double __usercall _check_range_exit@<st0>(int a1@<edx>, int a2@<ecx>, double result@<st0>)
+{
+  char v3; // fps
+  int v4; // eax
+  double v5; // [esp-4h] [ebp-Ch]
+  __int16 v6; // [esp+4h] [ebp-4h]
+
+  v5 = result;
+  if ( (HIDWORD(v5) & 0x7FF00000) == 0 )
+  {
+    result = __FSCALE__(result, 1536.0);
+    v4 = 4;
+    if ( fabs(result) < 2.225073858507201e-308 )
+      result = result * 0.0;
+    goto have_error;
+  }
+  if ( (HIDWORD(v5) & 0x7FF00000) == 0x7FF00000 )
+  {
+    result = __FSCALE__(result, -1536.0);
+    v4 = 3;
+    if ( fabs(result) > 1.797693134862316e308 )
+      result = result * INFINITY;
+    goto have_error;
+  }
+  if ( v6 != 639 && (v6 & 0x20) == 0 && (v3 & 0x20) != 0 )
+  {
+    v4 = 8;
+have_error:
+    if ( a1 == 29 )
+      _startTwoArgErrorHandling();
+    else
+      return _startOneArgErrorHandling(v4, a1, a2, result);
+  }
+  return result;
+}
+
 // Address: 0x5919E0
 void _startTwoArgErrorHandling()
 {
@@ -347902,26 +348266,22 @@ void _startTwoArgErrorHandling()
 }
 
 // Address: 0x5919F7
-double __usercall _startOneArgErrorHandling@<st0>(
-        int a1@<eax>,
-        int a2@<edx>,
-        int a3@<ecx>,
-        double a4@<st0>,
-        __int16 a5,
-        int a6,
-        int a7,
-        int a8)
+double __usercall _startOneArgErrorHandling@<st0>(int a1@<eax>, int a2@<edx>, int a3@<ecx>, double a4@<st0>)
 {
-  _DWORD v9[6]; // [esp+0h] [ebp-20h] BYREF
-  double v10; // [esp+18h] [ebp-8h]
+  _DWORD v5[6]; // [esp+0h] [ebp-20h] BYREF
+  double v6; // [esp+18h] [ebp-8h]
+  int savedregs; // [esp+20h] [ebp+0h] BYREF
+  __int16 v8[4]; // [esp+28h] [ebp+8h] BYREF
+  int v9; // [esp+30h] [ebp+10h]
+  int v10; // [esp+34h] [ebp+14h]
 
-  v9[0] = a1;
-  v10 = a4;
-  v9[1] = a3;
-  v9[2] = a7;
-  v9[3] = a8;
-  _87except(a2, v9, &a5);
-  return v10;
+  v5[0] = a1;
+  v6 = a4;
+  v5[1] = a3;
+  v5[2] = v9;
+  v5[3] = v10;
+  _87except((int)&savedregs, a2, (int)v5, v8);
+  return v6;
 }
 
 // Address: 0x591A33
@@ -348492,16 +348852,17 @@ int __usercall _cintrindisp1@<eax>(int a1@<edx>, __int16 a2@<cx>, double a3@<st0
 }
 
 // Address: 0x5924B7
-int __usercall _ctrandisp2@<eax>(double a1@<st1>, double a2@<st0>, double a3, double a4)
+int __usercall _ctrandisp2@<eax>(double a2@<st0>, double a3, double a4)
 {
-  int v4; // edx
-  __int16 v5; // fps
+  double v4; // st6
+  int v5; // edx
+  __int16 v6; // fps
   int savedregs; // [esp+2D4h] [ebp+0h] BYREF
 
   _fload(a3);
-  _fload(a4);
-  _trandisp2(v4, (int)&savedregs, v5, a1, a2);
-  return ctranexit();
+  v4 = _fload(a4);
+  _trandisp2(v5, (int)&savedregs, v6, v4, a2);
+  return ctranexit((int)&savedregs);
 }
 
 // Address: 0x5924F8
@@ -356886,6 +357247,59 @@ __CIlog10_default:
     start_7(v3, v5);
   }
   return x;
+}
+
+// Address: 0x59B428
+long double __usercall start_7@<st0>(
+        char a1@<zf>,
+        int a2@<eax>,
+        __int16 a3@<dx>,
+        char a4@<fpstat>,
+        long double result@<st0>,
+        int a6,
+        int a7)
+{
+  int v7; // eax
+
+  if ( a1 )
+  {
+    if ( (a2 & 0xFFFFF) != 0 || a6 != 0 )
+    {
+      result = _convertTOStoQNaN(a2, result);
+      goto _ErrorHandling_0;
+    }
+    if ( (a2 & 0x80000000) == 0 )
+      goto exit_4;
+negative_x_0:
+    result = -2.0;
+    v7 = 1;
+    goto _ErrorHandling_0;
+  }
+  if ( (a7 & 0x7FF00000) != 0 )
+  {
+    if ( a7 >= 0 )
+    {
+normal_0:
+      result = __FYL2X__(result, 0.3010299956639811952);
+exit_4:
+      if ( dword_621AF4 == 0 && a3 != 639 && (a3 & 0x20) != 0 && (a4 & 0x20) != 0 )
+        return _startOneArgErrorHandling(8, 27, (int)"log10", result);
+      return result;
+    }
+    goto negative_x_0;
+  }
+  if ( (a7 & 0xFFFFF) != 0 || a6 != 0 )
+  {
+    if ( a7 >= 0 )
+      goto normal_0;
+    goto negative_x_0;
+  }
+  result = -0.0;
+  v7 = 2;
+_ErrorHandling_0:
+  if ( dword_621AF4 == 0 )
+    return _startOneArgErrorHandling(v7, 27, (int)"log10", result);
+  return result;
 }
 
 // Address: 0x59B4E0
