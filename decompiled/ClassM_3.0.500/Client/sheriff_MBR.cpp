@@ -18860,6 +18860,16 @@ int __usercall sub_10018860@<eax>(int a1@<eax>, int a2@<edx>, int a3@<ecx>, int 
   return result;
 }
 
+// Address: 0x100188F0 (sub_100188F0)
+// DECOMPILATION FAILED (code=-5, errea=0x100188F9): positive sp value has been found
+/*
+  0x100188F0: mov     eax, [esp+8]
+  0x100188F4: imul    eax, [esp+0Ch]
+  0x100188F9: push    eax
+  0x100188FA: call    _malloc
+  0x100188FF: add     esp, 4
+  0x10018902: retn
+*/
 // Address: 0x10018910
 void __cdecl sub_10018910(int a1, void *Block)
 {

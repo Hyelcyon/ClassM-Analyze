@@ -142693,6 +142693,654 @@ void __thiscall sub_497B90(_DWORD *this)
     sub_404E50((_DWORD *)Block[0], v20 + 1);
 }
 
+// Address: 0x497E50 (sub_497E50)
+// DECOMPILATION FAILED (code=-12, errea=0x4986B4): call analysis failed
+/*
+  0x497E50: push    ebp
+  0x497E51: mov     ebp, esp
+  0x497E53: push    0FFFFFFFFh
+  0x497E55: push    offset SEH_497E50
+  0x497E5A: mov     eax, large fs:0
+  0x497E60: push    eax
+  0x497E61: sub     esp, 1E4h
+  0x497E67: mov     eax, ___security_cookie
+  0x497E6C: xor     eax, ebp
+  0x497E6E: mov     [ebp+var_14], eax
+  0x497E71: push    ebx
+  0x497E72: push    esi
+  0x497E73: push    edi
+  0x497E74: push    eax
+  0x497E75: lea     eax, [ebp+var_C]
+  0x497E78: mov     large fs:0, eax
+  0x497E7E: mov     [ebp+var_10], esp
+  0x497E81: mov     ebx, edx
+  0x497E83: push    60h ; '`'; Size
+  0x497E85: lea     eax, [ebp+var_19C]
+  0x497E8B: mov     [ebp+var_1A0], ebx
+  0x497E91: push    0; Val
+  0x497E93: push    eax; void *
+  0x497E94: call    _memset
+  0x497E99: add     esp, 8
+  0x497E9C: lea     ecx, [ebp+var_19C]
+  0x497EA2: push    [ebp+arg_4]
+  0x497EA5: call    sub_4A59F0
+  0x497EAA: mov     [ebp+var_4], 0
+  0x497EB1: mov     [ebp+var_54], 0Fh
+  0x497EB8: mov     [ebp+var_58], 0
+  0x497EBF: mov     byte ptr [ebp+var_68], 0
+  0x497EC3: lea     edx, [ebp+var_68]
+  0x497EC6: mov     byte ptr [ebp+var_4], 1
+  0x497ECA: lea     ecx, [ebp+var_19C]
+  0x497ED0: call    sub_4AB580
+  0x497ED5: mov     byte ptr [ebp+var_4], 2
+  0x497ED9: lea     eax, [ebp+var_68]
+  0x497EDC: cmp     [ebp+var_54], 10h
+  0x497EE0: mov     ecx, dword_5C2404
+  0x497EE6: cmovnb  eax, [ebp+var_68]
+  0x497EEA: test    ecx, ecx
+  0x497EEC: jz      loc_4985F6
+  0x497EF2: push    0
+  0x497EF4: push    eax
+  0x497EF5: call    ecx ; dword_5C2404
+  0x497EF7: mov     ecx, 50Ah
+  0x497EFC: add     esp, 8
+  0x497EFF: cmp     ax, cx
+  0x497F02: jz      short loc_497F12
+  0x497F04: mov     ecx, 60Ah
+  0x497F09: cmp     ax, cx
+  0x497F0C: jnz     loc_4985F6
+  0x497F12: mov     esi, dword_5C2400
+  0x497F18: lea     edx, [ebp+var_68]
+  0x497F1B: xor     eax, eax
+  0x497F1D: cmp     [ebp+var_54], 10h
+  0x497F21: mov     [ebp+var_50], eax
+  0x497F24: cmovnb  edx, [ebp+var_68]
+  0x497F28: or      ecx, 0FFFFFFFFh
+  0x497F2B: test    esi, esi
+  0x497F2D: jz      loc_498582
+  0x497F33: push    eax
+  0x497F34: push    eax
+  0x497F35: push    edx
+  0x497F36: lea     eax, [ebp+var_50]
+  0x497F39: push    eax
+  0x497F3A: call    esi ; dword_5C2400
+  0x497F3C: mov     ecx, eax
+  0x497F3E: add     esp, 10h
+  0x497F41: mov     eax, [ebp+var_50]
+  0x497F44: test    ecx, ecx
+  0x497F46: jnz     loc_498582
+  0x497F4C: test    eax, eax
+  0x497F4E: jz      loc_498582
+  0x497F54: movzx   edx, ax
+  0x497F57: shr     eax, 10h
+  0x497F5A: mov     ecx, edx
+  0x497F5C: sub     ecx, eax
+  0x497F5E: cmp     dword_5C24B8, 0
+  0x497F65: jz      loc_498561
+  0x497F6B: mov     [ebp+var_6C], 0Fh
+  0x497F72: mov     [ebp+var_70], 0
+  0x497F79: mov     byte ptr [ebp+var_80], 0
+  0x497F7D: mov     byte ptr [ebp+var_4], 5
+  0x497F81: cmp     dword_5C22D4, 0
+  0x497F88: jnz     short loc_497FAB
+  0x497F8A: push    offset aSqliteIsDelete_1; "SQLite is deleted"
+  0x497F8F: lea     ecx, [ebp+pExceptionObject]
+  0x497F95: call    sub_4051F0
+  0x497F9A: push    offset __TI1?AVexception@std@@; pThrowInfo
+  0x497F9F: lea     eax, [ebp+pExceptionObject]
+  0x497FA5: push    eax; pExceptionObject
+  0x497FA6: call    __CxxThrowException@8; _CxxThrowException(x,x)
+  0x497FAB: cmp     [ebp+var_54], 10h
+  0x497FAF: lea     eax, [ebp+var_68]
+  0x497FB2: push    edx
+  0x497FB3: cmovnb  eax, [ebp+var_68]
+  0x497FB7: push    ecx
+  0x497FB8: push    eax
+  0x497FB9: lea     eax, [ebp+var_80]
+  0x497FBC: push    offset aInsertIntoTbce; "insert into TBCertInfo (SERIAL_NUMBER, "...
+  0x497FC1: push    eax
+  0x497FC2: call    sub_4AB560
+  0x497FC7: add     esp, 14h
+  0x497FCA: mov     [ebp+var_24], 0
+  0x497FD1: lea     eax, [ebp+var_34]
+  0x497FD4: mov     [ebp+var_34], 2
+  0x497FDB: mov     [ebp+var_18], eax
+  0x497FDE: call    sub_4E8A50
+  0x497FE3: lea     ecx, [ebp+var_18]
+  0x497FE6: push    ecx; int
+  0x497FE7: lea     ecx, [ebp+var_24]
+  0x497FEA: push    ecx; int
+  0x497FEB: mov     ecx, eax; SRWLock
+  0x497FED: call    sub_4AB420
+  0x497FF2: mov     byte ptr [ebp+var_4], 6
+  0x497FF6: mov     eax, [ebp+var_24]
+  0x497FF9: test    eax, eax
+  0x497FFB: setz    cl
+  0x497FFE: test    cl, cl
+  0x498000: jnz     short loc_49807B
+  0x498002: call    sub_4E8A50
+  0x498007: lea     ecx, [ebp+var_24]
+  0x49800A: mov     edx, eax
+  0x49800C: push    ecx
+  0x49800D: lea     ecx, [ebp+var_30]
+  0x498010: call    sub_4AB4B0
+  0x498015: add     esp, 4
+  0x498018: mov     byte ptr [ebp+var_4], 7
+  0x49801C: lea     ecx, [ebp+var_80]
+  0x49801F: mov     eax, [eax+4]
+  0x498022: push    ecx
+  0x498023: add     eax, 60h ; '`'
+  0x498026: push    eax
+  0x498027: call    sub_40E950
+  0x49802C: add     esp, 8
+  0x49802F: mov     byte ptr [ebp+var_4], 6
+  0x498033: cmp     dword ptr [ebp+var_30], 0
+  0x498037: jz      short loc_497FF6
+  0x498039: mov     esi, dword ptr [ebp+var_30+4]
+  0x49803C: mov     [ebp+var_18], esi
+  0x49803F: mov     byte ptr [ebp+var_4], 8
+  0x498043: call    j_j____uncaught_exceptions
+  0x498048: cmp     [ebp+var_28], eax
+  0x49804B: jb      short loc_498069
+  0x49804D: mov     edi, dword ptr [ebp+var_30+4]
+  0x498050: lea     ecx, [edi+60h]
+  0x498053: call    sub_408080
+  0x498058: mov     eax, dword ptr [ebp+var_30]
+  0x49805B: push    dword ptr [edi+0B0h]
+  0x498061: mov     ecx, [eax+4]
+  0x498064: call    sub_4DF220
+  0x498069: push    esi
+  0x49806A: mov     byte ptr [ebp+var_4], 6
+  0x49806E: call    sub_4E1370
+  0x498073: add     esp, 4
+  0x498076: jmp     loc_497FF6
+  0x49807B: test    eax, eax
+  0x49807D: jz      short loc_498088
+  0x49807F: push    eax; Block
+  0x498080: call    sub_4DEBE0
+  0x498085: add     esp, 4
+  0x498088: xorps   xmm0, xmm0
+  0x49808B: movq    qword ptr [ebp+SRWLock+4], xmm0
+  0x498090: push    offset stru_5C236C; SRWLock
+  0x498095: mov     [ebp+SRWLock+4], offset stru_5C236C
+  0x49809C: call    sub_4C5021
+  0x4980A1: add     esp, 4
+  0x4980A4: mov     byte ptr [ebp+var_18], 1
+  0x4980A8: mov     byte ptr [ebp+var_4], 9
+  0x4980AC: call    sub_496520
+  0x4980B1: cmp     [ebp+var_6C], 10h
+  0x4980B5: lea     eax, [ebp+var_80]
+  0x4980B8: mov     ecx, dword_5C22D4
+  0x4980BE: cmovnb  eax, [ebp+var_80]
+  0x4980C2: push    eax
+  0x4980C3: call    sub_40AA40
+  0x4980C8: inc     dword_5C22D8
+  0x4980CE: call    sub_4966A0
+  0x4980D3: lea     ecx, [ebp+SRWLock+4]
+  0x4980D6: call    sub_4A5340
+  0x4980DB: mov     byte ptr [ebp+var_4], 5
+  0x4980DF: cmp     byte ptr [ebp+var_18], 0
+  0x4980E3: jz      short loc_4980F0
+  0x4980E5: push    [ebp+SRWLock+4]; SRWLock
+  0x4980E8: call    sub_4C502F
+  0x4980ED: add     esp, 4
+  0x4980F0: cmp     [ebp+var_54], 10h
+  0x4980F4: lea     eax, [ebp+var_68]
+  0x4980F7: cmovnb  eax, [ebp+var_68]
+  0x4980FB: push    eax
+  0x4980FC: lea     eax, [ebp+var_80]
+  0x4980FF: push    offset aSelectSerialNu; "select SERIAL_NUMBER, SERIAL_USABLE_COU"...
+  0x498104: push    eax
+  0x498105: call    sub_4AB560
+  0x49810A: add     esp, 0Ch
+  0x49810D: mov     [ebp+var_24], 0
+  0x498114: lea     eax, [ebp+var_18]
+  0x498117: mov     [ebp+var_18], 2
+  0x49811E: mov     [ebp+var_34], eax
+  0x498121: call    sub_4E8A50
+  0x498126: lea     ecx, [ebp+var_34]
+  0x498129: push    ecx; int
+  0x49812A: lea     ecx, [ebp+var_24]
+  0x49812D: push    ecx; int
+  0x49812E: mov     ecx, eax; SRWLock
+  0x498130: call    sub_4AB420
+  0x498135: mov     byte ptr [ebp+var_4], 0Ah
+  0x498139: nop     dword ptr [eax+00000000h]
+  0x498140: mov     eax, [ebp+var_24]
+  0x498143: test    eax, eax
+  0x498145: setz    cl
+  0x498148: test    cl, cl
+  0x49814A: jnz     short loc_4981C5
+  0x49814C: call    sub_4E8A50
+  0x498151: lea     ecx, [ebp+var_24]
+  0x498154: mov     edx, eax
+  0x498156: push    ecx
+  0x498157: lea     ecx, [ebp+var_30]
+  0x49815A: call    sub_4AB4B0
+  0x49815F: add     esp, 4
+  0x498162: mov     byte ptr [ebp+var_4], 0Bh
+  0x498166: lea     ecx, [ebp+var_80]
+  0x498169: mov     eax, [eax+4]
+  0x49816C: push    ecx
+  0x49816D: add     eax, 60h ; '`'
+  0x498170: push    eax
+  0x498171: call    sub_40E950
+  0x498176: add     esp, 8
+  0x498179: mov     byte ptr [ebp+var_4], 0Ah
+  0x49817D: cmp     dword ptr [ebp+var_30], 0
+  0x498181: jz      short loc_498140
+  0x498183: mov     esi, dword ptr [ebp+var_30+4]
+  0x498186: mov     [ebp+var_34], esi
+  0x498189: mov     byte ptr [ebp+var_4], 0Ch
+  0x49818D: call    j_j____uncaught_exceptions
+  0x498192: cmp     [ebp+var_28], eax
+  0x498195: jb      short loc_4981B3
+  0x498197: mov     edi, dword ptr [ebp+var_30+4]
+  0x49819A: lea     ecx, [edi+60h]
+  0x49819D: call    sub_408080
+  0x4981A2: mov     eax, dword ptr [ebp+var_30]
+  0x4981A5: push    dword ptr [edi+0B0h]
+  0x4981AB: mov     ecx, [eax+4]
+  0x4981AE: call    sub_4DF220
+  0x4981B3: push    esi
+  0x4981B4: mov     byte ptr [ebp+var_4], 0Ah
+  0x4981B8: call    sub_4E1370
+  0x4981BD: add     esp, 4
+  0x4981C0: jmp     loc_498140
+  0x4981C5: test    eax, eax
+  0x4981C7: jz      short loc_4981D2
+  0x4981C9: push    eax; Block
+  0x4981CA: call    sub_4DEBE0
+  0x4981CF: add     esp, 4
+  0x4981D2: xorps   xmm0, xmm0
+  0x4981D5: mov     [ebp+var_28], 0
+  0x4981DC: movq    [ebp+var_30], xmm0
+  0x4981E1: mov     dword ptr [ebp+var_30], 0
+  0x4981E8: mov     dword ptr [ebp+var_30+4], 0
+  0x4981EF: mov     [ebp+var_28], 0
+  0x4981F6: mov     [ebp+var_38], 0Fh
+  0x4981FD: mov     [ebp+var_3C], 0
+  0x498204: mov     byte ptr [ebp+var_4C], 0
+  0x498208: lea     eax, [ebp+var_4C]
+  0x49820B: mov     byte ptr [ebp+var_4], 0Eh
+  0x49820F: push    eax
+  0x498210: lea     edx, [ebp+var_30]
+  0x498213: lea     ecx, [ebp+var_80]
+  0x498216: call    sub_4978C0
+  0x49821B: add     esp, 4
+  0x49821E: xorps   xmm0, xmm0
+  0x498221: test    al, al
+  0x498223: jnz     short loc_49826D
+  0x498225: cmp     [ebp+var_38], 10h
+  0x498229: lea     eax, [ebp+var_4C]
+  0x49822C: mov     [ebp+var_1AC], offset ??_7exception@std@@6B@; const std::exception::`vftable'
+  0x498236: cmovnb  eax, [ebp+var_4C]
+  0x49823A: mov     [ebp+SRWLock+4], eax
+  0x49823D: lea     eax, [ebp+var_1A8]
+  0x498243: push    eax
+  0x498244: lea     eax, [ebp+SRWLock+4]
+  0x498247: movq    [ebp+var_1A8], xmm0
+  0x49824F: push    eax
+  0x498250: mov     byte ptr [ebp+var_18], 1
+  0x498254: call    ___std_exception_copy
+  0x498259: add     esp, 8
+  0x49825C: lea     eax, [ebp+var_1AC]
+  0x498262: push    offset __TI1?AVexception@std@@; pThrowInfo
+  0x498267: push    eax; pExceptionObject
+  0x498268: call    __CxxThrowException@8; _CxxThrowException(x,x)
+  0x49826D: mov     ecx, dword ptr [ebp+var_30+4]
+  0x498270: mov     eax, 2AAAAAABh
+  0x498275: mov     esi, dword ptr [ebp+var_30]
+  0x498278: sub     ecx, esi
+  0x49827A: imul    ecx
+  0x49827C: sar     edx, 1
+  0x49827E: mov     eax, edx
+  0x498280: shr     eax, 1Fh
+  0x498283: add     eax, edx
+  0x498285: jz      loc_498520
+  0x49828B: movq    qword ptr [ebp+SRWLock], xmm0
+  0x498290: mov     [ebp+var_18], 0
+  0x498297: mov     [ebp+SRWLock], 0
+  0x49829E: mov     [ebp+SRWLock+4], 0
+  0x4982A5: mov     [ebp+var_18], 0
+  0x4982AC: mov     [ebp+var_8C], 0Fh
+  0x4982B6: mov     [ebp+var_90], 0
+  0x4982C0: mov     byte ptr [ebp+Block], 0
+  0x4982C7: mov     byte ptr [ebp+var_4], 10h
+  0x4982CB: mov     edx, [esi]
+  0x4982CD: cmp     dword ptr [edx+14h], 10h
+  0x4982D1: jb      short loc_4982D5
+  0x4982D3: mov     edx, [edx]
+  0x4982D5: cmp     byte ptr [edx], 0
+  0x4982D8: jnz     short loc_4982DE
+  0x4982DA: xor     ecx, ecx
+  0x4982DC: jmp     short loc_4982EC
+  0x4982DE: mov     ecx, edx
+  0x4982E0: lea     edi, [ecx+1]
+  0x4982E3: mov     al, [ecx]
+  0x4982E5: inc     ecx
+  0x4982E6: test    al, al
+  0x4982E8: jnz     short loc_4982E3
+  0x4982EA: sub     ecx, edi
+  0x4982EC: push    ecx; Size
+  0x4982ED: push    edx; Src
+  0x4982EE: lea     ecx, [ebp+Block]
+  0x4982F4: call    sub_404BD0
+  0x4982F9: mov     eax, [esi]
+  0x4982FB: add     eax, 18h
+  0x4982FE: cmp     dword ptr [eax+14h], 10h
+  0x498302: jb      short loc_498306
+  0x498304: mov     eax, [eax]
+  0x498306: push    eax; int
+  0x498307: call    unknown_libname_117; Microsoft VisualC universal runtime
+  0x49830C: mov     [ebp+var_88], eax
+  0x498312: add     esp, 4
+  0x498315: mov     eax, [esi]
+  0x498317: add     eax, 30h ; '0'
+  0x49831A: cmp     dword ptr [eax+14h], 10h
+  0x49831E: jb      short loc_498322
+  0x498320: mov     eax, [eax]
+  0x498322: push    eax; int
+  0x498323: call    unknown_libname_117; Microsoft VisualC universal runtime
+  0x498328: add     esp, 4
+  0x49832B: mov     [ebp+var_84], eax
+  0x498331: lea     eax, [ebp+Block]
+  0x498337: lea     ecx, [ebp+SRWLock]
+  0x49833A: push    eax
+  0x49833B: call    sub_4A50A0
+  0x498340: push    44h ; 'D'; Size
+  0x498342: lea     eax, [ebp+var_E4]
+  0x498348: push    0; Val
+  0x49834A: push    eax; void *
+  0x49834B: call    _memset
+  0x498350: add     esp, 0Ch
+  0x498353: lea     ecx, [ebp+var_E4]
+  0x498359: call    sub_40E1F0
+  0x49835E: mov     [ebp+var_AC], 0
+  0x498368: mov     [ebp+var_A8], 0
+  0x498372: mov     [ebp+var_E4], offset ??_7?$basic_binarybuf@DU?$char_traits@D@std@@V?$allocator@D@2@@@6B@; const basic_binarybuf<char,std::char_traits<char>,std::allocator<char>>::`vftable'
+  0x49837C: push    58h ; 'X'; Size
+  0x49837E: lea     eax, [ebp+var_13C]
+  0x498384: mov     byte ptr [ebp+var_4], 12h
+  0x498388: push    0; Val
+  0x49838A: push    eax; void *
+  0x49838B: call    _memset
+  0x498390: add     esp, 8
+  0x498393: lea     eax, [ebp+var_E4]
+  0x498399: lea     ecx, [ebp+var_13C]
+  0x49839F: push    eax
+  0x4983A0: call    sub_4A5AD0
+  0x4983A5: lea     edx, [ebp+SRWLock]
+  0x4983A8: mov     byte ptr [ebp+var_4], 13h
+  0x4983AC: lea     ecx, [ebp+var_13C]
+  0x4983B2: call    sub_4AB710
+  0x4983B7: mov     eax, [ebp+var_C4]
+  0x4983BD: mov     ecx, [ebp+var_D8]
+  0x4983C3: mov     eax, [eax]
+  0x4983C5: test    eax, eax
+  0x4983C7: jz      short loc_4983CB
+  0x4983C9: sub     eax, [ecx]
+  0x4983CB: push    eax
+  0x4983CC: push    dword ptr [ecx]
+  0x4983CE: lea     eax, [ebx+0Ch]
+  0x4983D1: mov     dl, 6
+  0x4983D3: push    eax
+  0x4983D4: push    dword ptr [ebx+8]
+  0x4983D7: call    sub_497220
+  0x4983DC: mov     eax, [ebp+var_13C]
+  0x4983E2: add     esp, 10h
+  0x4983E5: mov     eax, [eax+4]
+  0x4983E8: mov     [ebp+eax+var_13C], offset ??_7?$basic_ostream@DU?$char_traits@D@std@@@std@@6B@; const std::ostream::`vftable'
+  0x4983F3: mov     eax, [ebp+var_13C]
+  0x4983F9: mov     ecx, [eax+4]
+  0x4983FC: lea     eax, [ecx-8]
+  0x4983FF: mov     [ebp+ecx+var_140], eax
+  0x498406: lea     eax, [ebp+var_12C]
+  0x49840C: mov     byte ptr [ebp+var_4], 14h
+  0x498410: push    eax; struct std::ios_base *
+  0x498411: mov     [ebp+var_12C], offset ??_7ios_base@std@@6B@; const std::ios_base::`vftable'
+  0x49841B: call    ?_Ios_base_dtor@ios_base@std@@CAXPAV12@@Z; std::ios_base::_Ios_base_dtor(std::ios_base *)
+  0x498420: add     esp, 4
+  0x498423: lea     ecx, [ebp+var_E4]
+  0x498429: call    sub_40C7A0
+  0x49842E: mov     eax, [ebp+var_8C]
+  0x498434: cmp     eax, 10h
+  0x498437: jb      short loc_49844C
+  0x498439: inc     eax
+  0x49843A: lea     ecx, [ebp+Block]
+  0x498440: push    eax; int
+  0x498441: push    [ebp+Block]; Block
+  0x498447: call    sub_404E50
+  0x49844C: mov     esi, [ebp+SRWLock]
+  0x49844F: mov     [ebp+var_8C], 0Fh
+  0x498459: mov     [ebp+var_90], 0
+  0x498463: mov     byte ptr [ebp+Block], 0
+  0x49846A: test    esi, esi
+  0x49846C: jz      short loc_49848E
+  0x49846E: push    [ebp+var_18]
+  0x498471: mov     edx, [ebp+SRWLock+4]
+  0x498474: push    ecx
+  0x498475: mov     ecx, esi
+  0x498477: call    sub_4B54B0
+  0x49847C: mov     eax, [ebp+var_18]
+  0x49847F: add     esp, 8
+  0x498482: sub     eax, esi
+  0x498484: sar     eax, 5
+  0x498487: push    eax; int
+  0x498488: push    esi; Block
+  0x498489: call    sub_4A9DD0
+  0x49848E: mov     eax, [ebp+var_38]
+  0x498491: cmp     eax, 10h
+  0x498494: jb      short loc_4984A3
+  0x498496: inc     eax
+  0x498497: lea     ecx, [ebp+var_4C]
+  0x49849A: push    eax; int
+  0x49849B: push    [ebp+var_4C]; Block
+  0x49849E: call    sub_404E50
+  0x4984A3: lea     ecx, [ebp+var_30]
+  0x4984A6: mov     [ebp+var_38], 0Fh
+  0x4984AD: mov     [ebp+var_3C], 0
+  0x4984B4: mov     byte ptr [ebp+var_4C], 0
+  0x4984B8: call    sub_4A52E0
+  0x4984BD: mov     eax, [ebp+var_6C]
+  0x4984C0: cmp     eax, 10h
+  0x4984C3: jb      short loc_4984D2
+  0x4984C5: inc     eax
+  0x4984C6: lea     ecx, [ebp+var_80]
+  0x4984C9: push    eax; int
+  0x4984CA: push    [ebp+var_80]; Block
+  0x4984CD: call    sub_404E50
+  0x4984D2: mov     eax, [ebp+var_54]
+  0x4984D5: cmp     eax, 10h
+  0x4984D8: jb      short loc_4984E7
+  0x4984DA: inc     eax
+  0x4984DB: lea     ecx, [ebp+var_68]
+  0x4984DE: push    eax; int
+  0x4984DF: push    [ebp+var_68]; Block
+  0x4984E2: call    sub_404E50
+  0x4984E7: lea     ecx, [ebp+var_19C]
+  0x4984ED: mov     [ebp+var_54], 0Fh
+  0x4984F4: mov     [ebp+var_58], 0
+  0x4984FB: mov     byte ptr [ebp+var_68], 0
+  0x4984FF: call    sub_4986E0
+  0x498504: mov     ecx, [ebp+var_C]
+  0x498507: mov     large fs:0, ecx
+  0x49850E: pop     ecx
+  0x49850F: pop     edi
+  0x498510: pop     esi
+  0x498511: pop     ebx
+  0x498512: mov     ecx, [ebp+var_14]
+  0x498515: xor     ecx, ebp; StackCookie
+  0x498517: call    @__security_check_cookie@4; __security_check_cookie(x)
+  0x49851C: mov     esp, ebp
+  0x49851E: pop     ebp
+  0x49851F: retn
+  0x498520: lea     eax, [ebp+var_1B4]
+  0x498526: mov     [ebp+var_1B8], offset ??_7exception@std@@6B@; const std::exception::`vftable'
+  0x498530: push    eax
+  0x498531: lea     eax, [ebp+SRWLock+4]
+  0x498534: movq    [ebp+var_1B4], xmm0
+  0x49853C: push    eax
+  0x49853D: mov     [ebp+SRWLock+4], offset aCannotSelected; "Cannot selected"
+  0x498544: mov     byte ptr [ebp+var_18], 1
+  0x498548: call    ___std_exception_copy
+  0x49854D: add     esp, 8
+  0x498550: lea     eax, [ebp+var_1B8]
+  0x498556: push    offset __TI1?AVexception@std@@; pThrowInfo
+  0x49855B: push    eax; pExceptionObject
+  0x49855C: call    __CxxThrowException@8; _CxxThrowException(x,x)
+  0x498561: push    offset aSqliteIsNotIni; "SQLite is not initialized"
+  0x498566: lea     ecx, [ebp+var_1F0]
+  0x49856C: call    sub_4051F0
+  0x498571: push    offset __TI1?AVexception@std@@; pThrowInfo
+  0x498576: lea     eax, [ebp+var_1F0]
+  0x49857C: push    eax; pExceptionObject
+  0x49857D: call    __CxxThrowException@8; _CxxThrowException(x,x)
+  0x498582: mov     [ebp+var_38], 0Fh
+  0x498589: mov     [ebp+var_3C], 0
+  0x498590: mov     byte ptr [ebp+var_4C], 0
+  0x498594: push    eax
+  0x498595: push    ecx
+  0x498596: lea     eax, [ebp+var_4C]
+  0x498599: mov     byte ptr [ebp+var_4], 4
+  0x49859D: push    offset aFailedToGetLic; "Failed to get license count information"...
+  0x4985A2: push    eax
+  0x4985A3: call    sub_4AB560
+  0x4985A8: add     esp, 10h
+  0x4985AB: mov     [ebp+var_1C4], offset ??_7exception@std@@6B@; const std::exception::`vftable'
+  0x4985B5: cmp     [ebp+var_38], 10h
+  0x4985B9: lea     eax, [ebp+var_4C]
+  0x4985BC: xorps   xmm0, xmm0
+  0x4985BF: mov     byte ptr [ebp+var_18], 1
+  0x4985C3: cmovnb  eax, [ebp+var_4C]
+  0x4985C7: mov     [ebp+SRWLock+4], eax
+  0x4985CA: lea     eax, [ebp+var_1C0]
+  0x4985D0: push    eax
+  0x4985D1: lea     eax, [ebp+SRWLock+4]
+  0x4985D4: movq    [ebp+var_1C0], xmm0
+  0x4985DC: push    eax
+  0x4985DD: call    ___std_exception_copy
+  0x4985E2: add     esp, 8
+  0x4985E5: lea     eax, [ebp+var_1C4]
+  0x4985EB: push    offset __TI1?AVexception@std@@; pThrowInfo
+  0x4985F0: push    eax; pExceptionObject
+  0x4985F1: call    __CxxThrowException@8; _CxxThrowException(x,x)
+  0x4985F6: mov     [ebp+var_38], 0Fh
+  0x4985FD: mov     [ebp+var_3C], 0
+  0x498604: mov     byte ptr [ebp+var_4C], 0
+  0x498608: push    27h ; '''; Size
+  0x49860A: push    offset aFailedToGetLic_0; "Failed to get license CheckSerialNumber"
+  0x49860F: lea     ecx, [ebp+var_4C]
+  0x498612: mov     byte ptr [ebp+var_4], 3
+  0x498616: call    sub_404BD0
+  0x49861B: cmp     [ebp+var_38], 10h
+  0x49861F: lea     eax, [ebp+var_4C]
+  0x498622: xorps   xmm0, xmm0
+  0x498625: mov     [ebp+var_1D0], offset ??_7exception@std@@6B@; const std::exception::`vftable'
+  0x49862F: cmovnb  eax, [ebp+var_4C]
+  0x498633: mov     [ebp+SRWLock+4], eax
+  0x498636: lea     eax, [ebp+var_1CC]
+  0x49863C: push    eax
+  0x49863D: lea     eax, [ebp+SRWLock+4]
+  0x498640: movq    [ebp+var_1CC], xmm0
+  0x498648: push    eax
+  0x498649: mov     byte ptr [ebp+var_18], 1
+  0x49864D: call    ___std_exception_copy
+  0x498652: add     esp, 8
+  0x498655: lea     eax, [ebp+var_1D0]
+  0x49865B: push    offset __TI1?AVexception@std@@; pThrowInfo
+  0x498660: push    eax; pExceptionObject
+  0x498661: call    __CxxThrowException@8; _CxxThrowException(x,x)
+  0x498666: mov     ecx, [ebp+var_1D4]
+  0x49866C: lea     eax, [ebp+var_4C]
+  0x49866F: push    eax
+  0x498670: call    sub_496220
+  0x498675: mov     byte ptr [ebp+var_4], 16h
+  0x498679: cmp     dword ptr [eax+14h], 10h
+  0x49867D: jb      short loc_498681
+  0x49867F: mov     eax, [eax]
+  0x498681: mov     ecx, [ebp+var_1A0]
+  0x498687: mov     dl, 1
+  0x498689: push    eax; Src
+  0x49868A: lea     eax, [ecx+0Ch]
+  0x49868D: push    eax; int
+  0x49868E: push    dword ptr [ecx+8]; int
+  0x498691: call    sub_4975D0
+  0x498696: add     esp, 0Ch
+  0x498699: lea     ecx, [ebp+var_4C]
+  0x49869C: call    sub_404AA0
+  0x4986A1: mov     eax, offset loc_4986A7
+  0x4986A6: retn
+  0x4986A7: jmp     loc_4984D2
+  0x4986AC: mov     ecx, [ebp+var_1D8]
+  0x4986B2: mov     eax, [ecx]
+  0x4986B4: call    dword ptr [eax+4]
+  0x4986B7: mov     ecx, [ebp+var_1A0]
+  0x4986BD: mov     dl, 1
+  0x4986BF: push    eax; Src
+  0x4986C0: lea     eax, [ecx+0Ch]
+  0x4986C3: push    eax; int
+  0x4986C4: push    dword ptr [ecx+8]; int
+  0x4986C7: call    sub_4975D0
+  0x4986CC: add     esp, 0Ch
+  0x4986CF: mov     eax, offset loc_4984D2
+  0x4986D4: retn
+  0x4A6FF0: push    dword ptr [ecx]
+  0x4A6FF2: call    sub_4E1370
+  0x4A6FF7: pop     ecx
+  0x4A6FF8: retn
+  0x561AA0: lea     ecx, [ebp+var_19C]
+  0x561AA6: jmp     sub_4986E0
+  0x561AAB: lea     ecx, [ebp+var_68]
+  0x561AAE: jmp     sub_404AA0
+  0x561AB3: lea     ecx, [ebp+var_80]
+  0x561AB6: jmp     sub_404AA0
+  0x561ABB: lea     ecx, [ebp+var_24]
+  0x561ABE: jmp     sub_495880
+  0x561AC3: lea     ecx, [ebp+var_30]
+  0x561AC6: jmp     sub_4A54A0
+  0x561ACB: lea     ecx, [ebp+var_18]
+  0x561ACE: jmp     loc_4A6FF0
+  0x561AD3: lea     ecx, [ebp+SRWLock+4]
+  0x561AD6: jmp     ??1?$unique_lock@Vmutex@std@@@std@@QAE@XZ; std::unique_lock<std::mutex>::~unique_lock<std::mutex>(void)
+  0x561ADB: lea     ecx, [ebp+var_24]
+  0x561ADE: jmp     sub_495880
+  0x561AE3: lea     ecx, [ebp+var_30]
+  0x561AE6: jmp     sub_4A54A0
+  0x561AEB: lea     ecx, [ebp+var_34]
+  0x561AEE: jmp     loc_4A6FF0
+  0x561AF3: lea     ecx, [ebp+var_30]
+  0x561AF6: jmp     sub_4A52E0
+  0x561AFB: lea     ecx, [ebp+var_4C]
+  0x561AFE: jmp     sub_404AA0
+  0x561B03: lea     ecx, [ebp+SRWLock]
+  0x561B06: jmp     sub_4A51D0
+  0x561B0B: lea     ecx, [ebp+Block]
+  0x561B11: jmp     sub_404AA0
+  0x561B16: lea     ecx, [ebp+var_E4]
+  0x561B1C: jmp     sub_40CE70
+  0x561B21: lea     ecx, [ebp+var_E4]
+  0x561B27: jmp     sub_40C7A0
+  0x561B2C: lea     ecx, [ebp+var_13C]
+  0x561B32: jmp     sub_497190
+  0x561B37: call    j__terminate
+  0x561B3D: lea     ecx, [ebp+var_4C]
+  0x561B40: jmp     sub_404AA0
+  0x561B45: lea     ecx, [ebp+var_4C]
+  0x561B48: jmp     sub_404AA0
+  0x561B4D: lea     ecx, [ebp+var_4C]
+  0x561B50: jmp     sub_404AA0
+  0x561B55: mov     edx, [esp-4+arg_4]
+  0x561B59: lea     eax, [edx+0Ch]
+  0x561B5C: mov     ecx, [edx-1F4h]
+  0x561B62: xor     ecx, eax; StackCookie
+  0x561B64: call    @__security_check_cookie@4; __security_check_cookie(x)
+  0x561B69: mov     ecx, [edx-8]
+  0x561B6C: xor     ecx, eax; StackCookie
+  0x561B6E: call    @__security_check_cookie@4; __security_check_cookie(x)
+  0x561B73: mov     eax, offset stru_5A06F8
+  0x561B78: jmp     ___CxxFrameHandler3
+*/
 // Address: 0x4986E0
 void __thiscall sub_4986E0(char *this)
 {
@@ -250229,6 +250877,23 @@ void __cdecl sub_51A760(void *Block)
   sub_4C17F6(Block);
 }
 
+// Address: 0x51A770 (sub_51A770)
+// DECOMPILATION FAILED (code=-5, errea=0x51A778): positive sp value has been found
+/*
+  0x51A770: mov     eax, [esp+8]
+  0x51A774: lea     ecx, [esp+8]
+  0x51A778: push    dword ptr [esp+0Ch]
+  0x51A77C: mov     eax, [eax]
+  0x51A77E: add     eax, 4
+  0x51A781: push    eax
+  0x51A782: mov     eax, [esp+0Ch]
+  0x51A786: add     eax, 0Ch
+  0x51A789: push    eax
+  0x51A78A: lea     eax, [esp+14h]
+  0x51A78E: push    eax
+  0x51A78F: call    sub_5194A0
+  0x51A794: retn
+*/
 // Address: 0x51A7A0
 bool __thiscall sub_51A7A0(_DWORD *this)
 {

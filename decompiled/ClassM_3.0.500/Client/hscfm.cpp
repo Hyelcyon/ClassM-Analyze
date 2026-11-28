@@ -152227,6 +152227,23 @@ int __cdecl sub_4B9D10(void *Block)
   return sub_4BA3DA(Block);
 }
 
+// Address: 0x4B9D20 (sub_4B9D20)
+// DECOMPILATION FAILED (code=-5, errea=0x4B9D28): positive sp value has been found
+/*
+  0x4B9D20: mov     eax, [esp+8]
+  0x4B9D24: lea     ecx, [esp+8]
+  0x4B9D28: push    dword ptr [esp+0Ch]
+  0x4B9D2C: mov     eax, [eax]
+  0x4B9D2E: add     eax, 4
+  0x4B9D31: push    eax
+  0x4B9D32: mov     eax, [esp+0Ch]
+  0x4B9D36: add     eax, 0Ch
+  0x4B9D39: push    eax
+  0x4B9D3A: lea     eax, [esp+14h]
+  0x4B9D3E: push    eax
+  0x4B9D3F: call    sub_4B88B0
+  0x4B9D44: retn
+*/
 // Address: 0x4B9D50
 bool __thiscall sub_4B9D50(_DWORD *this)
 {

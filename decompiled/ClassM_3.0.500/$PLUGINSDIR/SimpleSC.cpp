@@ -2866,6 +2866,54 @@ LABEL_33:
   sub_402594(v10, a1[3]);
 }
 
+// Address: 0x4031D8 (unknown_libname_45)
+// DECOMPILATION FAILED (code=-12, errea=0x403218): call analysis failed
+/*
+  0x4031D8: mov     eax, [esp+ExceptionInfo.ExceptionRecord]
+  0x4031DC: test    dword ptr [eax+4], 6
+  0x4031E3: jnz     loc_403272
+  0x4031E9: cmp     ds:byte_40D010, 0
+  0x4031F0: ja      short loc_403201
+  0x4031F2: lea     eax, [esp+ExceptionInfo]
+  0x4031F6: push    eax; ExceptionInfo
+  0x4031F7: call    UnhandledExceptionFilter
+  0x4031FC: cmp     eax, 0
+  0x4031FF: jz      short loc_403272
+  0x403201: mov     eax, [esp+ExceptionInfo.ExceptionRecord]
+  0x403205: cld
+  0x403206: call    unknown_libname_33; BDS 2005-2007 and Delphi6-7 Visual Component Library
+  0x40320B: mov     edx, [esp+ExceptionInfo.ContextRecord]
+  0x40320F: push    0
+  0x403211: push    eax
+  0x403212: push    offset loc_40321E
+  0x403217: push    edx
+  0x403218: call    ds:dword_40E018
+  0x40321E: mov     ebx, [esp+ExceptionInfo.ExceptionRecord]
+  0x403222: cmp     dword ptr [ebx], 0EEDFADEh
+  0x403228: mov     edx, [ebx+14h]
+  0x40322B: mov     eax, [ebx+18h]
+  0x40322E: jz      short loc_40324D
+  0x403230: mov     edx, ds:dword_40E010
+  0x403236: test    edx, edx
+  0x403238: jz      unknown_libname_44; BDS 2005-2007 and Delphi6-7 Visual Component Library
+  0x40323E: mov     eax, ebx
+  0x403240: call    edx ; dword_40E010
+  0x403242: test    eax, eax
+  0x403244: jz      unknown_libname_44; BDS 2005-2007 and Delphi6-7 Visual Component Library
+  0x40324A: mov     edx, [ebx+0Ch]
+  0x40324D: call    unknown_libname_42; BDS 2005-2007 and Delphi6-7 Visual Component Library
+  0x403252: mov     ecx, ds:dword_40E004
+  0x403258: test    ecx, ecx
+  0x40325A: jz      short loc_40325E
+  0x40325C: call    ecx ; dword_40E004
+  0x40325E: mov     ecx, [esp+ExceptionInfo.ExceptionRecord]
+  0x403262: mov     eax, 0D9h
+  0x403267: mov     edx, [ecx+14h]
+  0x40326A: mov     [esp+0], edx
+  0x40326D: jmp     sub_403690
+  0x403272: xor     eax, eax
+  0x403274: retn
+*/
 // Address: 0x403278
 // BDS 2005-2007 and Delphi6-7 Visual Component Library
 struct _EXCEPTION_REGISTRATION_RECORD **__usercall unknown_libname_46@<eax>(
@@ -6071,6 +6119,40 @@ void sub_405260()
   --dword_40E73C;
 }
 
+// Address: 0x405C5C (sub_405C5C)
+// DECOMPILATION FAILED (code=-12, errea=0x405C6D): call analysis failed
+/*
+  0x405C5C: push    ebx
+  0x405C5D: mov     ebx, eax
+  0x405C5F: mov     ecx, ebx; int
+  0x405C61: mov     dl, 1; int
+  0x405C63: mov     eax, off_40586C; int
+  0x405C68: call    @Sysutils@Exception@$bctr$qqrp20System@TResStringRec; Sysutils::Exception::Exception(System::TResStringRec *)
+  0x405C6D: call    @System@@RaiseExcept$qqrv; System::__linkproc__ RaiseExcept(void)
+  0x405C72: pop     ebx
+  0x405C73: retn
+*/
+// Address: 0x405C74 (sub_405C74)
+// DECOMPILATION FAILED (code=-12, errea=0x405C8D): call analysis failed
+/*
+  0x405C74: push    ebx
+  0x405C75: push    esi
+  0x405C76: push    edi
+  0x405C77: mov     edi, ecx
+  0x405C79: mov     esi, edx
+  0x405C7B: mov     ebx, eax
+  0x405C7D: push    esi; int
+  0x405C7E: push    edi; int
+  0x405C7F: mov     ecx, ebx; int
+  0x405C81: mov     dl, 1; int
+  0x405C83: mov     eax, off_40586C; int
+  0x405C88: call    @Sysutils@Exception@$bctr$qqrp20System@TResStringRecpx14System@TVarRecxi; Sysutils::Exception::Exception(System::TResStringRec *,System::TVarRec *,int)
+  0x405C8D: call    @System@@RaiseExcept$qqrv; System::__linkproc__ RaiseExcept(void)
+  0x405C92: pop     edi
+  0x405C93: pop     esi
+  0x405C94: pop     ebx
+  0x405C95: retn
+*/
 // Address: 0x405C98
 int *__fastcall Sysutils::AllocMem(int a1)
 {
@@ -8332,6 +8414,16 @@ void __fastcall unknown_libname_91(__int32 a1, int a2, int a3, int a4)
   unknown_libname_90();
 }
 
+// Address: 0x4078F0 (sub_4078F0)
+// DECOMPILATION FAILED (code=-12, errea=0x407902): call analysis failed
+/*
+  0x4078F0: mov     ecx, ds:off_40D334
+  0x4078F6: mov     dl, 1
+  0x4078F8: mov     eax, off_405AF0; "EAbstractError"
+  0x4078FD: call    @Sysutils@Exception@$bctr$qqrp20System@TResStringRec; Sysutils::Exception::Exception(System::TResStringRec *)
+  0x407902: call    @System@@RaiseExcept$qqrv; System::__linkproc__ RaiseExcept(void)
+  0x407907: retn
+*/
 // Address: 0x407908
 // BDS 2005-2007 and Delphi6-7 Visual Component Library
 char __fastcall unknown_libname_92(int *a1)

@@ -273237,6 +273237,11 @@ LRESULT __stdcall SendMessageA(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
   return __imp_SendMessageA(hWnd, Msg, wParam, lParam);
 }
 
+// Address: 0x56AC78 (wsprintfA)
+// DECOMPILATION FAILED (code=-12, errea=0x56AC78): call analysis failed
+/*
+  0x56AC78: jmp     ds:__imp_wsprintfA; USER32
+*/
 // Address: 0x56AC7E
 // attributes: thunk
 int __stdcall GetSystemMetrics(int nIndex)
@@ -386336,6 +386341,11 @@ errno_t __cdecl _sopen_s(int *FileHandle, const char *FileName, int OpenFlag, in
   return common_sopen_dispatch<char>(FileName, OpenFlag, ShareFlag, PermissionMode, FileHandle, 1);
 }
 
+// Address: 0x5CCAC5 (__wopen)
+// DECOMPILATION FAILED (code=-12, errea=0x5CCAC6): call analysis failed
+/*
+  0x5CCAC5: mov     edi, edi
+*/
 // Address: 0x5CCAC7
 int std::char_traits<char>::copy(const wchar_t *FileName, int OpenFlag, int a3, ...)
 {

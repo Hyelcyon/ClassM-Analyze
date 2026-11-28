@@ -24457,6 +24457,16 @@ int __usercall sub_1001EC40@<eax>(int a1@<eax>, int a2@<edx>, int a3@<ecx>, int 
   return result;
 }
 
+// Address: 0x1001ECD0 (sub_1001ECD0)
+// DECOMPILATION FAILED (code=-5, errea=0x1001ECD9): positive sp value has been found
+/*
+  0x1001ECD0: mov     eax, [esp+8]
+  0x1001ECD4: imul    eax, [esp+0Ch]
+  0x1001ECD9: push    eax
+  0x1001ECDA: call    _malloc
+  0x1001ECDF: add     esp, 4
+  0x1001ECE2: retn
+*/
 // Address: 0x1001ECF0
 void __cdecl sub_1001ECF0(int a1, void *Block)
 {

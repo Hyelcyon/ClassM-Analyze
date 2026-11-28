@@ -29056,6 +29056,18 @@ BOOL __thiscall sub_1002141F(
   }
 }
 
+// Address: 0x1002151D (sub_1002151D)
+// DECOMPILATION FAILED (code=-5, errea=0x1002151D): positive sp value has been found
+/*
+  0x1002151D: push    0Ch
+  0x1002151F: call    sub_10017D76
+  0x10021524: test    eax, eax
+  0x10021526: jz      short loc_1002152F
+  0x10021528: mov     dword ptr [eax], offset ??_7_AFX_HTMLHELP_STATE@@6B@; const _AFX_HTMLHELP_STATE::`vftable'
+  0x1002152E: retn
+  0x1002152F: xor     eax, eax
+  0x10021531: retn
+*/
 // Address: 0x10021532
 _DWORD *sub_10021532()
 {

@@ -112710,6 +112710,23 @@ void __cdecl sub_483780(void *Block)
   sub_440A9D(Block);
 }
 
+// Address: 0x483790 (sub_483790)
+// DECOMPILATION FAILED (code=-5, errea=0x483798): positive sp value has been found
+/*
+  0x483790: mov     eax, [esp+8]
+  0x483794: lea     ecx, [esp+8]
+  0x483798: push    dword ptr [esp+0Ch]
+  0x48379C: mov     eax, [eax]
+  0x48379E: add     eax, 4
+  0x4837A1: push    eax
+  0x4837A2: mov     eax, [esp+0Ch]
+  0x4837A6: add     eax, 0Ch
+  0x4837A9: push    eax
+  0x4837AA: lea     eax, [esp+14h]
+  0x4837AE: push    eax
+  0x4837AF: call    sub_482370
+  0x4837B4: retn
+*/
 // Address: 0x4837C0
 bool __thiscall sub_4837C0(_DWORD *this)
 {

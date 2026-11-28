@@ -835,6 +835,79 @@ FILE *__stdcall sub_401F60(int a1, char *FileName, char a3)
     return nullptr;
 }
 
+// Address: 0x401FB0 (sub_401FB0)
+// DECOMPILATION FAILED (code=-5, errea=0x401FBC): positive sp value has been found
+/*
+  0x401FB0: mov     eax, [esp+8]
+  0x401FB4: mov     ecx, [esp+10h]
+  0x401FB8: mov     edx, [esp+0Ch]
+  0x401FBC: push    eax
+  0x401FBD: push    ecx
+  0x401FBE: push    1
+  0x401FC0: push    edx
+  0x401FC1: call    _fread
+  0x401FC6: add     esp, 10h
+  0x401FC9: retn    10h
+*/
+// Address: 0x401FD0 (sub_401FD0)
+// DECOMPILATION FAILED (code=-5, errea=0x401FDC): positive sp value has been found
+/*
+  0x401FD0: mov     eax, [esp+8]
+  0x401FD4: mov     ecx, [esp+10h]
+  0x401FD8: mov     edx, [esp+0Ch]
+  0x401FDC: push    eax
+  0x401FDD: push    ecx
+  0x401FDE: push    1
+  0x401FE0: push    edx
+  0x401FE1: call    _fwrite
+  0x401FE6: add     esp, 10h
+  0x401FE9: retn    10h
+*/
+// Address: 0x401FF0 (sub_401FF0)
+// DECOMPILATION FAILED (code=-5, errea=0x401FF4): positive sp value has been found
+/*
+  0x401FF0: mov     eax, [esp+8]
+  0x401FF4: push    eax
+  0x401FF5: call    _ftell
+  0x401FFA: add     esp, 4
+  0x401FFD: retn    8
+*/
+// Address: 0x402000 (sub_402000)
+// DECOMPILATION FAILED (code=-5, errea=0x402029): positive sp value has been found
+/*
+  0x402000: mov     eax, [esp+10h]
+  0x402004: sub     eax, 0
+  0x402007: jz      short loc_402023
+  0x402009: dec     eax
+  0x40200A: jz      short loc_40201C
+  0x40200C: dec     eax
+  0x40200D: jz      short loc_402015
+  0x40200F: or      eax, 0FFFFFFFFh
+  0x402012: retn    10h
+  0x402015: mov     eax, 2
+  0x40201A: jmp     short loc_402025
+  0x40201C: mov     eax, 1
+  0x402021: jmp     short loc_402025
+  0x402023: xor     eax, eax
+  0x402025: mov     ecx, [esp+8]
+  0x402029: push    eax
+  0x40202A: mov     eax, [esp+10h]
+  0x40202E: push    eax
+  0x40202F: push    ecx
+  0x402030: call    _fseek
+  0x402035: add     esp, 0Ch
+  0x402038: xor     eax, eax
+  0x40203A: retn    10h
+*/
+// Address: 0x402040 (sub_402040)
+// DECOMPILATION FAILED (code=-5, errea=0x402044): positive sp value has been found
+/*
+  0x402040: mov     eax, [esp+8]
+  0x402044: push    eax
+  0x402045: call    _fclose
+  0x40204A: add     esp, 4
+  0x40204D: retn    8
+*/
 // Address: 0x402050
 int __stdcall sub_402050(int a1, int a2)
 {
@@ -206982,6 +207055,23 @@ int __cdecl sub_509E30(void *Block)
   return sub_50A4FA(Block);
 }
 
+// Address: 0x509E40 (sub_509E40)
+// DECOMPILATION FAILED (code=-5, errea=0x509E48): positive sp value has been found
+/*
+  0x509E40: mov     eax, [esp+8]
+  0x509E44: lea     ecx, [esp+8]
+  0x509E48: push    dword ptr [esp+0Ch]
+  0x509E4C: mov     eax, [eax]
+  0x509E4E: add     eax, 4
+  0x509E51: push    eax
+  0x509E52: mov     eax, [esp+0Ch]
+  0x509E56: add     eax, 0Ch
+  0x509E59: push    eax
+  0x509E5A: lea     eax, [esp+14h]
+  0x509E5E: push    eax
+  0x509E5F: call    sub_5089E0
+  0x509E64: retn
+*/
 // Address: 0x509E70
 bool __thiscall sub_509E70(_DWORD *this)
 {

@@ -3266,6 +3266,11 @@ DWORD __stdcall GetFileSize(HANDLE hFile, LPDWORD lpFileSizeHigh)
   return __imp_GetFileSize(hFile, lpFileSizeHigh);
 }
 
+// Address: 0x40AC30 (wsprintfA)
+// DECOMPILATION FAILED (code=-12, errea=0x40AC30): call analysis failed
+/*
+  0x40AC30: jmp     ds:__imp_wsprintfA; USER32
+*/
 // Address: 0x40AC36
 // attributes: thunk
 int __stdcall SetWindowRgn(HWND hWnd, HRGN hRgn, BOOL bRedraw)
@@ -13943,6 +13948,21 @@ char *__cdecl _cropzeros(char *a1)
   return result;
 }
 
+// Address: 0x413F65 (__positive)
+// DECOMPILATION FAILED (code=-5, errea=0x413F76): positive sp value has been found
+/*
+  0x413F65: mov     eax, [esp+4]
+  0x413F69: fld     qword ptr [eax]
+  0x413F6B: fcomp   ds:dbl_425818
+  0x413F71: fnstsw  ax
+  0x413F73: sahf
+  0x413F74: jb      short loc_413F7A
+  0x413F76: push    1
+  0x413F78: pop     eax
+  0x413F79: retn
+  0x413F7A: xor     eax, eax
+  0x413F7C: retn
+*/
 // Address: 0x413F7D
 _QWORD *__cdecl _fassign(int a1, _QWORD *a2, int a3)
 {

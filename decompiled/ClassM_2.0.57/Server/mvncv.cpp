@@ -31628,6 +31628,64 @@ LABEL_32:
   }
 }
 
+// Address: 0x426FA0 (sub_426FA0)
+// DECOMPILATION FAILED (code=-12, errea=0x426FAF): call analysis failed
+/*
+  0x426FA0: push    esi
+  0x426FA1: mov     esi, [esp+8]
+  0x426FA5: cmp     dword ptr [esi+17Ch], 0
+  0x426FAC: jnz     short loc_426FBF
+  0x426FAE: push    esi
+  0x426FAF: call    sub_426A60
+  0x426FB4: add     esp, 4
+  0x426FB7: test    al, al
+  0x426FB9: jnz     short loc_426FBF
+  0x426FBB: xor     al, al
+  0x426FBD: pop     esi
+  0x426FBE: retn
+  0x426FBF: mov     eax, [esi+194h]
+  0x426FC5: mov     eax, [eax+10h]
+  0x426FC8: lea     ecx, [eax+0D0h]
+  0x426FCE: cmp     [esi+17Ch], ecx
+  0x426FD4: jnz     short loc_427018
+  0x426FD6: mov     edx, [esi]
+  0x426FD8: mov     dword ptr [edx+14h], 62h ; 'b'
+  0x426FDF: mov     eax, [esi+194h]
+  0x426FE5: mov     ecx, [esi]
+  0x426FE7: mov     edx, [eax+10h]
+  0x426FEA: mov     [ecx+18h], edx
+  0x426FED: mov     eax, [esi]
+  0x426FEF: mov     ecx, [eax+4]
+  0x426FF2: push    3
+  0x426FF4: push    esi
+  0x426FF5: call    ecx
+  0x426FF7: mov     dword ptr [esi+17Ch], 0
+  0x427001: mov     esi, [esi+194h]
+  0x427007: mov     ecx, [esi+10h]
+  0x42700A: add     esp, 8
+  0x42700D: inc     ecx
+  0x42700E: and     ecx, 7
+  0x427011: mov     [esi+10h], ecx
+  0x427014: mov     al, 1
+  0x427016: pop     esi
+  0x427017: retn
+  0x427018: mov     edx, [esi+18h]
+  0x42701B: push    eax
+  0x42701C: mov     eax, [edx+14h]
+  0x42701F: push    esi
+  0x427020: call    eax
+  0x427022: add     esp, 8
+  0x427025: test    al, al
+  0x427027: jz      short loc_426FBB
+  0x427029: mov     esi, [esi+194h]
+  0x42702F: mov     ecx, [esi+10h]
+  0x427032: inc     ecx
+  0x427033: and     ecx, 7
+  0x427036: mov     [esi+10h], ecx
+  0x427039: mov     al, 1
+  0x42703B: pop     esi
+  0x42703C: retn
+*/
 // Address: 0x427040
 char __cdecl sub_427040(_DWORD *a1, int a2)
 {

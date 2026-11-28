@@ -74728,6 +74728,17 @@ int __cdecl sub_465320(int a1)
   return sub_464C30(a1);
 }
 
+// Address: 0x465400 (sub_465400)
+// DECOMPILATION FAILED (code=-12, errea=0x46540A): call analysis failed
+/*
+  0x465400: push    esi
+  0x465401: mov     esi, [esp+8]
+  0x465405: push    0D9h
+  0x46540A: call    sub_4646E0
+  0x46540F: add     esp, 4
+  0x465412: pop     esi
+  0x465413: retn
+*/
 // Address: 0x465420
 int __cdecl sub_465420(int a1)
 {
@@ -86300,6 +86311,49 @@ int (*__cdecl sub_470E20(int a1, int a2, int a3, int a4, int a5))()
   return result;
 }
 
+// Address: 0x470F00 (sub_470F00)
+// DECOMPILATION FAILED (code=-5, errea=0x470F11): positive sp value has been found
+/*
+  0x470F00: mov     al, byte ptr dword_4EA518
+  0x470F05: test    al, 8
+  0x470F07: jz      short loc_470F37
+  0x470F09: mov     eax, [esp+10h]
+  0x470F0D: mov     ecx, [esp+0Ch]
+  0x470F11: push    eax
+  0x470F12: mov     eax, [esp+0Ch]
+  0x470F16: mov     edx, [eax+1Ch]
+  0x470F19: mov     eax, [eax+0Ch]
+  0x470F1C: push    ecx
+  0x470F1D: push    edx
+  0x470F1E: push    eax
+  0x470F1F: mov     eax, [esp+14h]
+  0x470F23: mov     ecx, [eax+0DCh]
+  0x470F29: mov     edx, [eax+1Ch]
+  0x470F2C: push    ecx
+  0x470F2D: push    edx
+  0x470F2E: call    sub_49B6A0
+  0x470F33: add     esp, 18h
+  0x470F36: retn
+  0x470F37: test    al, 1
+  0x470F39: jz      short locret_470F68
+  0x470F3B: mov     eax, [esp+10h]
+  0x470F3F: mov     ecx, [esp+0Ch]
+  0x470F43: push    eax
+  0x470F44: mov     eax, [esp+0Ch]
+  0x470F48: mov     edx, [eax+1Ch]
+  0x470F4B: mov     eax, [eax+0Ch]
+  0x470F4E: push    ecx
+  0x470F4F: push    edx
+  0x470F50: push    eax
+  0x470F51: mov     eax, [esp+14h]
+  0x470F55: mov     ecx, [eax+0DCh]
+  0x470F5B: mov     edx, [eax+1Ch]
+  0x470F5E: push    ecx
+  0x470F5F: push    edx
+  0x470F60: call    sub_498E40
+  0x470F65: add     esp, 18h
+  0x470F68: retn
+*/
 // Address: 0x470F70
 char __cdecl sub_470F70(int a1, int a2, int a3, int a4)
 {

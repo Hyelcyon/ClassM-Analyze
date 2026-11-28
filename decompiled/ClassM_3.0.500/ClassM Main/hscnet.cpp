@@ -18247,6 +18247,18 @@ BOOL __thiscall sub_10013A49(HWND *this)
   return EnableWindow(*(this + 8), false);
 }
 
+// Address: 0x10013A55 (sub_10013A55)
+// DECOMPILATION FAILED (code=-5, errea=0x10013A55): positive sp value has been found
+/*
+  0x10013A55: push    10h
+  0x10013A57: call    sub_10017132
+  0x10013A5C: test    eax, eax
+  0x10013A5E: jz      short loc_10013A67
+  0x10013A60: mov     dword ptr [eax], offset ??_7_AFX_SOCK_STATE@@6B@; const _AFX_SOCK_STATE::`vftable'
+  0x10013A66: retn
+  0x10013A67: xor     eax, eax
+  0x10013A69: retn
+*/
 // Address: 0x10013A6A
 BOOL __thiscall sub_10013A6A(HWND *this)
 {
@@ -32289,6 +32301,18 @@ BOOL __thiscall sub_10021F47(
   }
 }
 
+// Address: 0x10022045 (sub_10022045)
+// DECOMPILATION FAILED (code=-5, errea=0x10022045): positive sp value has been found
+/*
+  0x10022045: push    0Ch
+  0x10022047: call    sub_10017132
+  0x1002204C: test    eax, eax
+  0x1002204E: jz      short loc_10022057
+  0x10022050: mov     dword ptr [eax], offset ??_7_AFX_HTMLHELP_STATE@@6B@; const _AFX_HTMLHELP_STATE::`vftable'
+  0x10022056: retn
+  0x10022057: xor     eax, eax
+  0x10022059: retn
+*/
 // Address: 0x1002205A
 _DWORD *sub_1002205A()
 {
